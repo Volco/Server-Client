@@ -340,7 +340,7 @@ Storage.initPrefs = function () {
 
 	// Cross-origin
 
-	if (!('postMessage' in window)) {
+	/*if (!('postMessage' in window)) {
 		// browser does not support cross-document messaging
 		return Storage.whenAppLoaded(function (app) {
 			app.trigger('init:unsupported');
@@ -372,7 +372,7 @@ Storage.initPrefs = function () {
 				Storage.whenTeamsLoaded.update();
 			}
 		}, 2000);
-	}
+	}*/
 };
 
 Storage.crossOriginFrame = null;
