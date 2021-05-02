@@ -26,6 +26,8 @@ Config.defaultserver = {
 	registered: true
 };
 
+Config.hostURL = "";
+
 Config.roomsFirstOpenScript = function () {
 };
 

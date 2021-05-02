@@ -1,3 +1,4 @@
+
 /**
  * Pokemon Showdown Dex
  *
@@ -167,6 +168,7 @@ interface TeambuilderSpriteData {
 	spriteDir: string;
 	spriteid: string;
 	shiny?: boolean;
+	isCustom?: boolean;
 }
 
 const Dex = new class implements ModdedDex {
@@ -622,7 +624,6 @@ const Dex = new class implements ModdedDex {
 		if (allowAnim && animationData[facing] && spriteData.gen >= 5) {
 			if (facing.slice(-1) === 'f') name += '-f';
 			dir = baseDir + 'ani' + dir;
-
 			spriteData.w = animationData[facing].w;
 			spriteData.h = animationData[facing].h;
 			spriteData.url += dir + '/' + name + '.gif';
@@ -636,8 +637,8 @@ const Dex = new class implements ModdedDex {
 			if (spriteData.gen >= 4 && miscData['frontf'] && options.gender === 'F') {
 				name += '-f';
 			}
-
-			spriteData.url += dir + '/' + name + '.png';
+			// spriteData.url += dir + '/' + name + '.png';
+			spriteData.url = Config.hostURL + 'sprites/custom/' + name + '.png';
 		}
 
 		if (!options.noScale) {
@@ -707,6 +708,7 @@ const Dex = new class implements ModdedDex {
 		}
 
 		let id = toID(pokemon);
+
 		if (!pokemon || typeof pokemon === 'string') pokemon = null;
 		// @ts-ignore
 		if (pokemon?.speciesForme) id = toID(pokemon.speciesForme);
@@ -722,7 +724,14 @@ const Dex = new class implements ModdedDex {
 		let top = Math.floor(num / 12) * 30;
 		let left = (num % 12) * 40;
 		let fainted = ((pokemon as Pokemon | ServerPokemon)?.fainted ? `;opacity:.3;filter:grayscale(100%) brightness(.5)` : ``);
-		return `background:transparent url(${Dex.resourcePrefix}sprites/pokemonicons-sheet.png?v4) no-repeat scroll -${left}px -${top}px${fainted}`;
+
+		// @ts-ignore
+		if (id && !num) {
+			// @ts-ignore
+			return `background:transparent url(${Config.hostURL}sprites/custom/${id}-icon.png) no-repeat scroll ${fainted}; background-size: 30px 30px;`;
+		} else {
+			return `background:transparent url(${Dex.resourcePrefix}sprites/pokemonicons-sheet.png?v4) no-repeat scroll -${left}px -${top}px${fainted}`;
+		}
 	}
 
 	getTeambuilderSpriteData(pokemon: any, gen: number = 0): TeambuilderSpriteData {
@@ -732,13 +741,16 @@ const Dex = new class implements ModdedDex {
 		if (pokemon.species && !spriteid) {
 			spriteid = species.spriteid || toID(pokemon.species);
 		}
-		if (species.exists === false) return { spriteDir: 'sprites/gen5', spriteid: '0', x: 10, y: 5 };
+
+		// if it doesn't exist then add it so you don't get a broken image lol it's a custom client you can easily add the image
+		if (species.exists === false) return {spriteDir: 'sprites/custom', spriteid, x: 0, y: 5, isCustom: true}; // return { spriteDir: 'sprites/gen5', spriteid: '0', x: 10, y: 5 };
 		const spriteData: TeambuilderSpriteData = {
 			spriteid,
 			spriteDir: 'sprites/dex',
 			x: -2,
 			y: -3,
 		};
+
 		if (pokemon.shiny) spriteData.shiny = true;
 		if (Dex.prefs('nopastgens')) gen = 6;
 		let xydexExists = (!species.isNonstandard || species.isNonstandard === 'Past') || [
@@ -775,7 +787,7 @@ const Dex = new class implements ModdedDex {
 		if (!pokemon) return '';
 		const data = this.getTeambuilderSpriteData(pokemon, gen);
 		const shiny = (data.shiny ? '-shiny' : '');
-		return 'background-image:url(' + Dex.resourcePrefix + data.spriteDir + shiny + '/' + data.spriteid + '.png);background-position:' + data.x + 'px ' + data.y + 'px;background-repeat:no-repeat';
+		return 'background-image:url(' + (data.isCustom ? Config.hostURL : Dex.resourcePrefix) + data.spriteDir + shiny + '/' + data.spriteid + '.png);background-position:' + data.x + 'px ' + data.y + 'px;background-repeat:no-repeat';
 	}
 
 	getItemIcon(item: any) {
