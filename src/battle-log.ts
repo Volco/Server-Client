@@ -705,6 +705,7 @@ class BattleLog {
 			username: 0,
 			spotify: 0,
 			youtube: 0,
+			twitch: 0,
 		});
 
 		// By default, Caja will ban any attributes it doesn't recognize.
@@ -727,8 +728,10 @@ class BattleLog {
 			'psicon::type': 0,
 			'psicon::category': 0,
 			'username::name': 0,
-			'form::data-send': 0,
+			'form::data-submitsend': 0,
 			'button::data-send': 0,
+			'form::data-delimiter': 0,
+			'button::data-delimiter': 0,
 			'*::aria-label': 0,
 			'*::aria-hidden': 0,
 		});
@@ -800,6 +803,17 @@ class BattleLog {
 						setAttrib('src', 'https:' + src);
 					}
 				}
+			} else if (tagName === 'twitch') {
+				// <iframe src="https://player.twitch.tv/?channel=ninja&parent=www.example.com" allowfullscreen="true" height="378" width="620"></iframe>
+				const src = getAttrib('src') || "";
+				const channelId = /(https?:\/\/)?twitch.tv\/([A-Za-z0-9]+)/i.exec(src)?.[2];
+				return {
+					tagName: 'iframe',
+					attribs: [
+						'src', `https://player.twitch.tv/?channel=${channelId}&parent=${location.hostname}`,
+						'allowfullscreen', 'true', 'height', "400", 'width', "340",
+					],
+				};
 			} else if (tagName === 'username') {
 				// <username> is a custom element that handles namecolors
 				tagName = 'strong';
@@ -829,9 +843,15 @@ class BattleLog {
 				const videoId = /(?:\?v=|\/embed\/)([A-Za-z0-9_\-]+)/.exec(src)?.[1];
 				if (!videoId) return {tagName: 'img', attribs: ['alt', `invalid src for <youtube>`]};
 
+				const time = /(?:\?|&)(?:t|start)=([0-9]+)/.exec(src)?.[1];
+
 				return {
 					tagName: 'iframe',
-					attribs: ['width', width, 'height', height, 'src', `https://www.youtube.com/embed/${videoId}`, 'frameborder', '0', 'allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture', 'allowfullscreen', 'allowfullscreen'],
+					attribs: [
+						'width', width, 'height', height,
+						'src', `https://www.youtube.com/embed/${videoId}${time ? `?start=${time}` : ''}`,
+						'frameborder', '0', 'allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture', 'allowfullscreen', 'allowfullscreen',
+					],
 				};
 			} else if (tagName === 'psicon') {
 				// <psicon> is a custom element which supports a set of mutually incompatible attributes:
@@ -872,7 +892,7 @@ class BattleLog {
 			if (dataUri && tagName === 'img') {
 				setAttrib('src', dataUri);
 			}
-			if (tagName === 'a' || tagName === 'form') {
+			if (tagName === 'a' || (tagName === 'form' && !getAttrib('data-submitsend'))) {
 				if (targetReplace) {
 					setAttrib('data-target', 'replace');
 					deleteAttrib('target');

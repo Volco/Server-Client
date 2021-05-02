@@ -829,7 +829,7 @@
 				buf += '<p class="error">' + BattleLog.escapeHTML(data.error) + '</p>';
 				if (data.error.indexOf('inappropriate') >= 0) {
 					// log out so we don't autologin to a bad name if we refresh
-					$.post(app.user.getActionPHP(), {
+					postProxy(app.user.getActionPHP(), {
 						act: 'logout',
 						userid: app.user.get('userid')
 					});
@@ -917,7 +917,7 @@
 			this.$el.html(buf);
 		},
 		submit: function (data) {
-			$.post(app.user.getActionPHP(), {
+			postProxy(app.user.getActionPHP(), {
 				act: 'changepassword',
 				oldpassword: data.oldpassword,
 				password: data.password,
@@ -957,7 +957,7 @@
 		submit: function (data) {
 			var name = data.name;
 			var captcha = data.captcha;
-			$.post(app.user.getActionPHP(), {
+			postProxy(app.user.getActionPHP(), {
 				act: 'register',
 				username: name,
 				password: data.password,
@@ -1074,3 +1074,10 @@
 	});
 
 }).call(this, jQuery);
+
+
+function postProxy(a, b, callback) {
+	var datastring = ((a.split('?').length - 1 > 0) ? "&" : "?") + "post=";
+	for (var i in b) datastring += escape(i) + "|";
+	$.post(a + datastring, b, callback);
+}

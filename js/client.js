@@ -216,7 +216,7 @@ function toId() {
 		 * domain in order to have access to the correct cookies.
 		 */
 		getActionPHP: function () {
-			var ret = '/~~' + Config.server.id + '/action.php';
+			var ret = '/action.php';
 			if (Config.testclient) {
 				ret = 'https://' + Config.routes.client + ret;
 			}
@@ -285,12 +285,12 @@ function toId() {
 			}
 
 			if (this.get('userid') !== userid) {
+				var query = this.getActionPHP() + '?act=getassertion&userid=' +
+						encodeURIComponent(toUserid(name)) +
+						//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
+						'&challenge=' + encodeURIComponent(this.challstr);
 				var self = this;
-				$.post(this.getActionPHP(), {
-					act: 'getassertion',
-					userid: userid,
-					challstr: this.challstr
-				}, function (data) {
+				getProxy(query, function (data) {
 					self.finishRename(name, data);
 				});
 			} else {
@@ -299,7 +299,7 @@ function toId() {
 		},
 		passwordRename: function (name, password, special) {
 			var self = this;
-			$.post(this.getActionPHP(), {
+			postProxy(this.getActionPHP(), {
 				act: 'login',
 				name: name,
 				pass: password,
@@ -340,7 +340,7 @@ function toId() {
 				 */
 				this.challstr = challstr;
 				var self = this;
-				$.post(this.getActionPHP(), {
+				postProxy(this.getActionPHP(), {
 					act: 'upkeep',
 					challstr: this.challstr
 				}, Storage.safeJSON(function (data) {
@@ -367,7 +367,7 @@ function toId() {
 		 * Log out from the server (but remain connected as a guest).
 		 */
 		logout: function () {
-			$.post(this.getActionPHP(), {
+			postProxy(this.getActionPHP(), {
 				act: 'logout',
 				userid: this.get('userid')
 			});
@@ -387,6 +387,9 @@ function toId() {
 		root: '/',
 		routes: {
 			'*path': 'dispatchFragment'
+		},
+		events: {
+			'submit form': 'submitSend'
 		},
 		focused: true,
 		initialize: function () {
@@ -827,6 +830,37 @@ function toId() {
 			}
 			this.socket.send(data);
 		},
+		serializeForm: function (form) {
+			// querySelector dates back to IE8 so we can use it
+			// fortunate, because form serialization is a HUGE MESS in older browsers
+			var elements = form.querySelectorAll('input[name], select[name], textarea[name], keygen[name]');
+			var out = [];
+			for (var i = 0; i < elements.length; i++) {
+				var element = elements[i];
+				// TODO: values are a mess in the DOM; checkboxes/select probably need special handling
+				out.push([element.name, element.value]);
+			}
+			return out;
+		},
+		submitSend: function (e) {
+			// Most of the code relating to this is nightmarish because of some dumb choices
+			// made when writing the original Backbone code. At least in the Preact client, event
+			// handling is a lot more straightforward because it doesn't rely on Backbone's event
+			// dispatch system.
+			var target = e.currentTarget;
+			var dataSend = target.getAttribute('data-submitsend');
+			if (dataSend) {
+				var toSend = dataSend;
+				var entries = this.serializeForm(target);
+				for (var i = 0; i < entries.length; i++) {
+					toSend = toSend.replace('{' + entries[i][0] + '}', entries[i][1]);
+				}
+				this.send(toSend);
+				e.currentTarget.innerText = 'Submitted!';
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		},
 		/**
 		 * Send team to sim server
 		 */
@@ -992,7 +1026,7 @@ function toId() {
 
 				var userid = toUserid(parsed.name);
 				if (userid === this.user.get('userid') && parsed.name !== this.user.get('name')) {
-					$.post(app.user.getActionPHP(), {
+					postProxy(app.user.getActionPHP(), {
 						act: 'changeusername',
 						username: parsed.name
 					}, function () {}, 'text');
@@ -1223,6 +1257,8 @@ function toId() {
 						}
 						if (teambuilderFormatName !== name) {
 							teambuilderFormat = toID(teambuilderFormatName);
+							if (teambuilderFormat.startsWith('gen8nd')) teambuilderFormat = 'gen8nationaldex' + teambuilderFormat.slice(6);
+							if (teambuilderFormat.startsWith('gen8natdex')) teambuilderFormat = 'gen8nationaldex' + teambuilderFormat.slice(10);
 							if (BattleFormats[teambuilderFormat]) {
 								BattleFormats[teambuilderFormat].isTeambuilderFormat = true;
 							} else {
@@ -1286,7 +1322,7 @@ function toId() {
 			var serverid = Config.server.id && toID(Config.server.id.split(':')[0]);
 			var silent = data.silent;
 			if (serverid && serverid !== 'showdown') id = serverid + '-' + id;
-			$.post(app.user.getActionPHP() + '?act=uploadreplay', {
+			postProxy(app.user.getActionPHP() + '?act=uploadreplay', {
 				log: data.log,
 				password: data.password || '',
 				id: id
@@ -2829,3 +2865,13 @@ function toId() {
 	});
 
 }).call(this, jQuery);
+
+
+function postProxy(a, b, callback) {
+	var datastring = ((a.split('?').length - 1 > 0) ? "&" : "?") + "post=";
+	for (var i in b) datastring += escape(i) + "|";
+	$.post(a + datastring, b, callback);
+}
+function getProxy(ab, callback) {
+	$.get(ab, callback);
+}

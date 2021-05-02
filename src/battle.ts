@@ -329,7 +329,7 @@ class Pokemon implements PokemonDetails, PokemonHealth {
 	}
 	rememberMove(moveName: string, pp = 1, recursionSource?: string) {
 		if (recursionSource === this.ident) return;
-		moveName = Dex.getMove(moveName).name;
+		moveName = Dex.moves.get(moveName).name;
 		if (moveName.charAt(0) === '*') return;
 		if (moveName === 'Struggle') return;
 		if (this.volatiles.transform) {
@@ -348,7 +348,7 @@ class Pokemon implements PokemonDetails, PokemonHealth {
 		this.moveTrack.push([moveName, pp]);
 	}
 	rememberAbility(ability: string, isNotBase?: boolean) {
-		ability = Dex.getAbility(ability).name;
+		ability = Dex.abilities.get(ability).name;
 		this.ability = ability;
 		if (!this.baseAbility && !isNotBase) {
 			this.baseAbility = ability;
@@ -521,10 +521,10 @@ class Pokemon implements PokemonDetails, PokemonHealth {
 			(serverPokemon ? serverPokemon.speciesForme : this.speciesForme);
 	}
 	getSpecies(serverPokemon?: ServerPokemon) {
-		return this.side.battle.dex.getSpecies(this.getSpeciesForme(serverPokemon));
+		return this.side.battle.dex.species.get(this.getSpeciesForme(serverPokemon));
 	}
 	getBaseSpecies() {
-		return this.side.battle.dex.getSpecies(this.speciesForme);
+		return this.side.battle.dex.species.get(this.speciesForme);
 	}
 	reset() {
 		this.clearVolatile();
@@ -577,9 +577,11 @@ class Side {
 	battle: Battle;
 	name = '';
 	id = '';
+	sideid: SideID;
 	n: number;
 	isFar: boolean;
 	foe: Side = null!;
+	ally: Side | null = null;
 	avatar: string = 'unknown';
 	rating: string = '';
 	totalPokemon = 6;
@@ -597,11 +599,11 @@ class Side {
 	/** [effectName, levels, minDuration, maxDuration] */
 	sideConditions: {[id: string]: [string, number, number, number]} = {};
 
-	constructor(battle: Battle, n: number, isOpp?: boolean) {
+	constructor(battle: Battle, n: number) {
 		this.battle = battle;
 		this.n = n;
-		this.isFar = isOpp || !!n;
-		this.updateSprites();
+		this.sideid = ['p1', 'p2', 'p3', 'p4'][n] as SideID;
+		this.isFar = !!(n % 2);
 	}
 
 	rollTrainerSprites() {
@@ -630,12 +632,7 @@ class Side {
 	}
 	reset() {
 		this.clearPokemon();
-		this.updateSprites();
 		this.sideConditions = {};
-	}
-	updateSprites() {
-		this.z = (this.isFar ? 200 : 0);
-		this.battle.scene.updateSpritesForSide(this);
 	}
 	setAvatar(avatar: string) {
 		this.avatar = avatar;
@@ -1026,13 +1023,22 @@ class Battle {
 	pseudoWeather = [] as WeatherState[];
 	weatherTimeLeft = 0;
 	weatherMinTimeLeft = 0;
+	/**
+	 * The side from which perspective we're viewing. Should be identical to
+	 * `nearSide` except in multi battles, where `nearSide` is always the first
+	 * near side, and `mySide` is the active player.
+	 */
 	mySide: Side = null!;
 	nearSide: Side = null!;
 	farSide: Side = null!;
 	p1: Side = null!;
 	p2: Side = null!;
+	p3?: Side = null!;
+	p4?: Side = null!;
+	pokemonControlled = 0;
+	sides: Side[] = null!;
 	myPokemon: ServerPokemon[] | null = null;
-	sides: [Side, Side] = [null!, null!];
+	myAllyPokemon: ServerPokemon[] | null = null;
 	lastMove = '';
 
 	gen = 8;
@@ -1040,7 +1046,7 @@ class Battle {
 	teamPreviewCount = 0;
 	speciesClause = false;
 	tier = '';
-	gameType: 'singles' | 'doubles' | 'triples' = 'singles';
+	gameType: 'singles' | 'doubles' | 'triples' | 'multi' | 'freeforall' = 'singles';
 	rated: string | boolean = false;
 	isBlitz = false;
 	endLastTurnPending = false;
@@ -1154,6 +1160,7 @@ class Battle {
 			if (side) side.reset();
 		}
 		this.myPokemon = null;
+		this.myAllyPokemon = null;
 
 		// DOM state
 		this.scene.reset();
@@ -1176,6 +1183,8 @@ class Battle {
 		this.farSide = null!;
 		this.p1 = null!;
 		this.p2 = null!;
+		this.p3 = null!;
+		this.p4 = null!;
 	}
 
 	log(args: Args, kwArgs?: KWArgs, preempt?: boolean) {
@@ -1186,22 +1195,32 @@ class Battle {
 		this.seekTurn(this.ended ? Infinity : this.turn, true);
 	}
 	switchSides() {
-		this.setSidesSwitched(!this.sidesSwitched);
-		this.resetToCurrentTurn();
+		this.setPerspective(this.sidesSwitched ? 'p1' : 'p2');
 	}
-	setSidesSwitched(sidesSwitched: boolean) {
-		this.sidesSwitched = sidesSwitched;
-		if (this.sidesSwitched) {
-			this.nearSide = this.mySide = this.p2;
-			this.farSide = this.p1;
-		} else {
-			this.nearSide = this.mySide = this.p1;
+	setPerspective(sideid: SideID) {
+		if (this.mySide.sideid === sideid) return;
+		if (sideid.length !== 2 || !sideid.startsWith('p')) return;
+		const side = this[sideid];
+		if (!side) return;
+		this.mySide = side;
+
+		if ((side.n % 2) === this.p1.n) {
+			this.sidesSwitched = false;
+			this.nearSide = this.p1;
 			this.farSide = this.p2;
+		} else {
+			this.sidesSwitched = true;
+			this.nearSide = this.p2;
+			this.farSide = this.p1;
 		}
 		this.nearSide.isFar = false;
 		this.farSide.isFar = true;
+		if (this.sides.length > 2) {
+			this.sides[this.nearSide.n + 2].isFar = false;
+			this.sides[this.farSide.n + 2].isFar = true;
+		}
 
-		// nothing else should need updating - don't call this function after sending out pokemon
+		this.resetToCurrentTurn();
 	}
 
 	//
@@ -1324,11 +1343,11 @@ class Battle {
 			let moveName = move.name;
 			if (move.isZ) {
 				pokemon.item = move.isZ;
-				let item = Dex.getItem(move.isZ);
+				let item = Dex.items.get(move.isZ);
 				if (item.zMoveFrom) moveName = item.zMoveFrom;
 			} else if (move.name.slice(0, 2) === 'Z-') {
 				moveName = moveName.slice(2);
-				move = Dex.getMove(moveName);
+				move = Dex.moves.get(moveName);
 				if (window.BattleItems) {
 					for (let item in BattleItems) {
 						if (BattleItems[item].zMoveType === move.type) pokemon.item = item;
@@ -1371,7 +1390,7 @@ class Battle {
 			return;
 		}
 
-		let usedMove = kwArgs.anim ? Dex.getMove(kwArgs.anim) : move;
+		let usedMove = kwArgs.anim ? Dex.moves.get(kwArgs.anim) : move;
 		if (!kwArgs.spread) {
 			this.scene.runMoveAnim(usedMove.id, [pokemon, target]);
 			return;
@@ -2015,7 +2034,7 @@ class Battle {
 		}
 		case '-item': {
 			let poke = this.getPokemon(args[1])!;
-			let item = Dex.getItem(args[2]);
+			let item = Dex.items.get(args[2]);
 			let effect = Dex.getEffect(kwArgs.from);
 			let ofpoke = this.getPokemon(kwArgs.of);
 			poke.item = item.name;
@@ -2083,7 +2102,7 @@ class Battle {
 		}
 		case '-enditem': {
 			let poke = this.getPokemon(args[1])!;
-			let item = Dex.getItem(args[2]);
+			let item = Dex.items.get(args[2]);
 			let effect = Dex.getEffect(kwArgs.from);
 			poke.item = '';
 			poke.itemEffect = '';
@@ -2145,7 +2164,7 @@ class Battle {
 		}
 		case '-ability': {
 			let poke = this.getPokemon(args[1])!;
-			let ability = Dex.getAbility(args[2]);
+			let ability = Dex.abilities.get(args[2]);
 			let effect = Dex.getEffect(kwArgs.from);
 			let ofpoke = this.getPokemon(kwArgs.of);
 			poke.rememberAbility(ability.name, effect.id && !kwArgs.fail);
@@ -2192,7 +2211,7 @@ class Battle {
 			// deprecated; use |-start| for Gastro Acid
 			// and the third arg of |-ability| for Entrainment et al
 			let poke = this.getPokemon(args[1])!;
-			let ability = Dex.getAbility(args[2]);
+			let ability = Dex.abilities.get(args[2]);
 			poke.ability = '(suppressed)';
 
 			if (ability.id) {
@@ -2216,7 +2235,7 @@ class Battle {
 				}
 				newSpeciesForme = args[2].substr(0, commaIndex);
 			}
-			let species = this.dex.getSpecies(newSpeciesForme);
+			let species = this.dex.species.get(newSpeciesForme);
 
 			poke.speciesForme = newSpeciesForme;
 			poke.ability = poke.baseAbility = (species.abilities ? species.abilities['0'] : '');
@@ -2257,7 +2276,7 @@ class Battle {
 		}
 		case '-formechange': {
 			let poke = this.getPokemon(args[1])!;
-			let species = Dex.getSpecies(args[2]);
+			let species = Dex.species.get(args[2]);
 			let fromeffect = Dex.getEffect(kwArgs.from);
 			let isCustomAnim = false;
 			poke.removeVolatile('typeadd' as ID);
@@ -2274,7 +2293,7 @@ class Battle {
 		}
 		case '-mega': {
 			let poke = this.getPokemon(args[1])!;
-			let item = Dex.getItem(args[3]);
+			let item = Dex.items.get(args[3]);
 			if (args[3]) {
 				poke.item = item.name;
 			}
@@ -2654,7 +2673,7 @@ class Battle {
 			case 'eeriespell':
 			case 'gmaxdepletion':
 			case 'spite':
-				let move = Dex.getMove(kwArgs.move).name;
+				let move = Dex.moves.get(kwArgs.move).name;
 				let pp = Number(kwArgs.number);
 				if (isNaN(pp)) pp = 4;
 				poke.rememberMove(move, pp);
@@ -2698,7 +2717,7 @@ class Battle {
 				break;
 			case 'mummy':
 				if (!kwArgs.ability) break; // if Mummy activated but failed, no ability will have been sent
-				let ability = Dex.getAbility(kwArgs.ability);
+				let ability = Dex.abilities.get(kwArgs.ability);
 				this.activateAbility(target, ability.name);
 				this.activateAbility(poke, "Mummy");
 				this.scene.wait(700);
@@ -2816,7 +2835,7 @@ class Battle {
 		}
 		case '-anim': {
 			let poke = this.getPokemon(args[1])!;
-			let move = Dex.getMove(args[2]);
+			let move = Dex.moves.get(args[2]);
 			if (this.checkActive(poke)) return;
 			let poke2 = this.getPokemon(args[3]);
 			this.scene.beforeMove(poke);
@@ -2824,7 +2843,7 @@ class Battle {
 			this.scene.afterMove(poke);
 			break;
 		}
-		case '-hint': case '-message': {
+		case '-hint': case '-message': case '-candynamax': {
 			this.log(args, kwArgs);
 			break;
 		}
@@ -2860,7 +2879,7 @@ class Battle {
 		}
 		if (foe) siden = (siden ? 0 : 1);
 
-		let data = Dex.getSpecies(name);
+		let data = Dex.species.get(name);
 		return data.spriteData[siden];
 	}
 	*/
@@ -2940,23 +2959,15 @@ class Battle {
 
 		let siden = -1;
 		let slot = -1; // if there is an explicit slot for this pokemon
-		let slotChart: {[k: string]: number} = {a: 0, b: 1, c: 2, d: 3, e: 4, f: 5};
-		if (name.substr(0, 4) === 'p2: ' || name === 'p2') {
-			siden = this.p2.n;
-			name = name.substr(4);
-		} else if (name.substr(0, 4) === 'p1: ' || name === 'p1') {
-			siden = this.p1.n;
-			name = name.substr(4);
-		} else if (name.substr(0, 2) === 'p2' && name.substr(3, 2) === ': ') {
-			slot = slotChart[name.substr(2, 1)];
-			siden = this.p2.n;
-			name = name.substr(5);
-			pokemonid = 'p2: ' + name;
-		} else if (name.substr(0, 2) === 'p1' && name.substr(3, 2) === ': ') {
-			slot = slotChart[name.substr(2, 1)];
-			siden = this.p1.n;
-			name = name.substr(5);
-			pokemonid = 'p1: ' + name;
+		if (/^p[1-9]($|: )/.test(name)) {
+			siden = parseInt(name.charAt(1), 10) - 1;
+			name = name.slice(4);
+		} else if (/^p[1-9][a-f]: /.test(name)) {
+			const slotChart: {[k: string]: number} = {a: 0, b: 1, c: 2, d: 3, e: 4, f: 5};
+			siden = parseInt(name.charAt(1), 10) - 1;
+			slot = slotChart[name.charAt(2)];
+			name = name.slice(5);
+			pokemonid = `p${siden + 1}: ${name}`;
 		}
 		return {name, siden, slot, pokemonid};
 	}
@@ -3035,8 +3046,10 @@ class Battle {
 		return null;
 	}
 	getSide(sidename: string): Side {
-		if (sidename === 'p1' || sidename.substr(0, 3) === 'p1:') return this.p1;
-		if (sidename === 'p2' || sidename.substr(0, 3) === 'p2:') return this.p2;
+		if (sidename === 'p1' || sidename.startsWith('p1:')) return this.p1;
+		if (sidename === 'p2' || sidename.startsWith('p2:')) return this.p2;
+		if ((sidename === 'p3' || sidename.startsWith('p3:')) && this.p3) return this.p3;
+		if ((sidename === 'p4' || sidename.startsWith('p4:')) && this.p4) return this.p4;
 		if (this.nearSide.id === sidename) return this.nearSide;
 		if (this.farSide.id === sidename) return this.farSide;
 		if (this.nearSide.name === sidename) return this.nearSide;
@@ -3071,9 +3084,9 @@ class Battle {
 	runMajor(args: Args, kwArgs: KWArgs, preempt?: boolean) {
 		switch (args[0]) {
 		case 'start': {
-			this.scene.teamPreviewEnd();
 			this.nearSide.active[0] = null;
 			this.farSide.active[0] = null;
+			this.scene.resetSides();
 			this.start();
 			break;
 		}
@@ -3102,9 +3115,27 @@ class Battle {
 		case 'gametype': {
 			this.gameType = args[1] as any;
 			switch (args[1]) {
-			default:
-				this.nearSide.active = [null];
-				this.farSide.active = [null];
+			case 'multi':
+			case 'freeforall':
+				this.pokemonControlled = 1;
+				if (!this.p3) this.p3 = new Side(this, 2);
+				if (!this.p4) this.p4 = new Side(this, 3);
+				this.p3.foe = this.p2;
+				this.p4.foe = this.p1;
+
+				if (args[1] === 'multi') {
+					this.p4.ally = this.p2;
+					this.p3.ally = this.p1;
+					this.p1.ally = this.p3;
+					this.p2.ally = this.p4;
+				}
+
+				this.p3.isFar = this.p1.isFar;
+				this.p4.isFar = this.p2.isFar;
+				this.sides = [this.p1, this.p2, this.p3, this.p4];
+				// intentionally sync p1/p3 and p2/p4's active arrays
+				this.p1.active = this.p3.active = [null, null];
+				this.p2.active = this.p4.active = [null, null];
 				break;
 			case 'doubles':
 				this.nearSide.active = [null, null];
@@ -3115,8 +3146,13 @@ class Battle {
 				this.nearSide.active = [null, null, null];
 				this.farSide.active = [null, null, null];
 				break;
+			default:
+				for (const side of this.sides) side.active = [null];
+				break;
 			}
+			if (!this.pokemonControlled) this.pokemonControlled = this.nearSide.active.length;
 			this.scene.updateGen();
+			this.scene.resetSides();
 			break;
 		}
 		case 'rule': {
@@ -3221,9 +3257,9 @@ class Battle {
 			side.setName(args[2]);
 			if (args[3]) side.setAvatar(args[3]);
 			if (args[4]) side.rating = args[4];
-			this.scene.updateSidebar(side);
 			if (this.joinButtons) this.scene.hideJoinButtons();
 			this.log(args);
+			this.scene.updateSidebar(side);
 			break;
 		}
 		case 'teamsize': {
@@ -3302,7 +3338,7 @@ class Battle {
 			this.endLastTurn();
 			this.resetTurnsSinceMoved();
 			let poke = this.getPokemon(args[1])!;
-			let move = Dex.getMove(args[2]);
+			let move = Dex.moves.get(args[2]);
 			if (this.checkActive(poke)) return;
 			let poke2 = this.getPokemon(args[3]);
 			this.scene.beforeMove(poke);
@@ -3317,7 +3353,7 @@ class Battle {
 			this.resetTurnsSinceMoved();
 			let poke = this.getPokemon(args[1])!;
 			let effect = Dex.getEffect(args[2]);
-			let move = Dex.getMove(args[3]);
+			let move = Dex.moves.get(args[3]);
 			this.cantUseMove(poke, effect, move, kwArgs);
 			this.log(args, kwArgs);
 			break;

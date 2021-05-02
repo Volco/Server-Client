@@ -129,7 +129,7 @@
 		update: function () {
 			teams = Storage.teams;
 			if (this.curTeam) {
-				this.ignoreEVLimits = (this.curTeam.gen < 3 || this.curTeam.format.includes('hackmons') || this.curTeam.format === 'gen8metronomebattle');
+				this.ignoreEVLimits = (this.curTeam.gen < 3 || (this.curTeam.format.includes('hackmons') && this.curTeam.gen !== 6) || this.curTeam.format === 'gen8metronomebattle');
 				if (this.curSet) {
 					return this.updateSetView();
 				}
@@ -1146,7 +1146,7 @@
 			if ($(window).width() < 640) this.show();
 		},
 		renderSet: function (set, i) {
-			var species = Dex.getSpecies(set.species);
+			var species = Dex.species.get(set.species);
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isNatDex = this.curTeam.format.includes('nationaldex');
 			var buf = '<li value="' + i + '">';
@@ -1212,7 +1212,7 @@
 			buf += '<div class="setcell">';
 			var itemicon = '<span class="itemicon"></span>';
 			if (set.item) {
-				var item = Dex.getItem(set.item);
+				var item = Dex.items.get(set.item);
 				itemicon = '<span class="itemicon" style="' + Dex.getItemIcon(item) + '"></span>';
 			}
 			buf += itemicon;
@@ -1436,7 +1436,7 @@
 			var buf = '';
 			for (var i = 0; i < this.clipboardCount(); i++) {
 				var res = this.clipboard[i];
-				var species = Dex.getSpecies(res.species);
+				var species = Dex.species.get(res.species);
 
 				buf += '<div class="result" data-id="' + i + '">';
 				buf += '<div class="section"><span class="icon" style="' + Dex.getPokemonIcon(species.name) + '"></span>';
@@ -1734,9 +1734,9 @@
 					buf += '<button disabled="disabled" class="addpokemon" aria-label="Add Pok&eacute;mon"><i class="fa fa-plus"></i></button> ';
 					isAdd = true;
 				} else if (i == this.curSetLoc) {
-					buf += '<button disabled="disabled" class="pokemon">' + pokemonicon + BattleLog.escapeHTML(set.name || Dex.getSpecies(set.species).baseSpecies || '<i class="fa fa-plus"></i>') + '</button> ';
+					buf += '<button disabled="disabled" class="pokemon">' + pokemonicon + BattleLog.escapeHTML(set.name || Dex.species.get(set.species).baseSpecies || '<i class="fa fa-plus"></i>') + '</button> ';
 				} else {
-					buf += '<button name="selectPokemon" value="' + i + '" class="pokemon">' + pokemonicon + BattleLog.escapeHTML(set.name || Dex.getSpecies(set.species).baseSpecies) + '</button> ';
+					buf += '<button name="selectPokemon" value="' + i + '" class="pokemon">' + pokemonicon + BattleLog.escapeHTML(set.name || Dex.species.get(set.species).baseSpecies) + '</button> ';
 				}
 			}
 			if (this.curSetList.length < this.curTeam.capacity && !isAdd) {
@@ -1752,7 +1752,7 @@
 
 			this.$('.pokemonicon-' + this.curSetLoc).css('background', Dex.getPokemonIcon(set).substr(11));
 
-			var item = Dex.getItem(set.item);
+			var item = Dex.items.get(set.item);
 			if (item.id) {
 				this.$('.setcol-details .itemicon').css('background', Dex.getItemIcon(item).substr(11));
 			} else {
@@ -1921,7 +1921,7 @@
 		plus: '',
 		minus: '',
 		smogdexLink: function (s) {
-			var species = Dex.getSpecies(s);
+			var species = Dex.species.get(s);
 			var format = this.curTeam && this.curTeam.format;
 			var smogdexid = toID(species.baseSpecies);
 
@@ -1982,7 +1982,7 @@
 		updateStatForm: function (setGuessed) {
 			var buf = '';
 			var set = this.curSet;
-			var species = Dex.forGen(this.curTeam.gen).getSpecies(this.curSet.species);
+			var species = Dex.forGen(this.curTeam.gen).species.get(this.curSet.species);
 
 			var baseStats = species.baseStats;
 
@@ -2505,7 +2505,7 @@
 			var set = this.curSet;
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isNatDex = this.curTeam.gen === 8 && this.curTeam.format.includes('nationaldex');
-			var species = Dex.getSpecies(set.species);
+			var species = Dex.species.get(set.species);
 			if (!set) return;
 			buf += '<div class="resultheader"><h3>Details</h3></div>';
 			buf += '<form class="detailsform">';
@@ -2566,9 +2566,10 @@
 			if (!isLetsGo && (this.curTeam.gen === 7 || isNatDex)) {
 				buf += '<div class="formrow"><label class="formlabel" title="Hidden Power Type">Hidden Power:</label><div><select name="hptype">';
 				buf += '<option value=""' + (!set.hpType ? ' selected="selected"' : '') + '>(automatic type)</option>'; // unset
-				for (var type in exports.BattleTypeChart) {
-					if (exports.BattleTypeChart[type].HPivs) {
-						buf += '<option value="' + type + '"' + (set.hpType === type ? ' selected="selected"' : '') + '>' + type + '</option>';
+				var types = Dex.types.all();
+				for (var i = 0; i < types.length; i++) {
+					if (types[i].HPivs) {
+						buf += '<option value="' + types[i].name + '"' + (set.hpType === types[i].name ? ' selected="selected"' : '') + '>' + types[i].name + '</option>';
 					}
 				}
 				buf += '</select></div></div>';
@@ -2586,7 +2587,7 @@
 			e.stopPropagation();
 			var set = this.curSet;
 			if (!set) return;
-			var species = Dex.getSpecies(set.species);
+			var species = Dex.species.get(set.species);
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isNatDex = this.curTeam.format.includes('nationaldex');
 
@@ -2629,7 +2630,7 @@
 
 			// pokeball
 			var pokeball = this.$chart.find('select[name=pokeball]').val();
-			if (pokeball && Dex.forGen(this.curTeam.gen).getItem(pokeball).isPokeball) {
+			if (pokeball && Dex.forGen(this.curTeam.gen).items.get(pokeball).isPokeball) {
 				set.pokeball = pokeball;
 			} else {
 				delete set.pokeball;
@@ -2637,7 +2638,7 @@
 
 			// HP type
 			var hpType = this.$chart.find('select[name=hptype]').val();
-			if (hpType && exports.BattleTypeChart[hpType]) {
+			if (Dex.types.isName(hpType)) {
 				set.hpType = hpType;
 			} else {
 				delete set.hpType;
@@ -2834,7 +2835,7 @@
 			var val = '';
 			switch (name) {
 			case 'pokemon':
-				val = (id in BattlePokedex ? Dex.getSpecies(e.currentTarget.value).name : '');
+				val = (id in BattlePokedex ? Dex.species.get(e.currentTarget.value).name : '');
 				break;
 			case 'ability':
 				if (id in BattleItems && this.curTeam.format == "gen8dualwielding") {
@@ -3019,12 +3020,14 @@
 
 					set.ivs = {hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31};
 					if (this.curTeam.gen > 2) {
-						for (var i in exports.BattleTypeChart[hpType].HPivs) {
-							set.ivs[i] = exports.BattleTypeChart[hpType].HPivs[i];
+						var HPivs = Dex.types.get(hpType).HPivs;
+						for (var i in HPivs) {
+							set.ivs[i] = HPivs[i];
 						}
 					} else {
-						for (var i in exports.BattleTypeChart[hpType].HPdvs) {
-							set.ivs[i] = exports.BattleTypeChart[hpType].HPdvs[i] * 2;
+						var HPdvs = Dex.types.get(hpType).HPdvs;
+						for (var i in HPdvs) {
+							set.ivs[i] = HPdvs[i] * 2;
 						}
 						var atkDV = Math.floor(set.ivs.atk / 2);
 						var defDV = Math.floor(set.ivs.def / 2);
@@ -3053,7 +3056,7 @@
 			for (var i = 0; i < moves.length; ++i) {
 				if (!moves[i]) continue;
 				if (moves[i].substr(0, 13) === 'Hidden Power ') hasHiddenPower = true;
-				var move = Dex.forGen(this.curTeam.gen).getMove(moves[i]);
+				var move = Dex.forGen(this.curTeam.gen).moves.get(moves[i]);
 				if (move.id === 'transform') {
 					hasHiddenPower = true; // A Pokemon with Transform can copy another Pokemon that knows Hidden Power
 
@@ -3100,7 +3103,7 @@
 		},
 		setPokemon: function (val, selectNext) {
 			var set = this.curSet;
-			var species = Dex.forGen(this.curTeam.gen).getSpecies(val);
+			var species = Dex.forGen(this.curTeam.gen).species.get(val);
 			if (!species.exists || set.species === species.name) {
 				if (selectNext) this.$('input[name=item]').select();
 				return;
@@ -3167,7 +3170,7 @@
 
 			// do this after setting set.evs because it's assumed to exist
 			// after getStat is run
-			var species = Dex.forGen(this.curTeam.gen).getSpecies(set.species);
+			var species = Dex.forGen(this.curTeam.gen).species.get(set.species);
 			if (!species.exists) return 0;
 
 			if (!set.level) set.level = 100;
@@ -3271,7 +3274,7 @@
 			this.room = data.room;
 			this.curSet = data.curSet;
 			this.chartIndex = data.index;
-			var species = Dex.getSpecies(this.curSet.species);
+			var species = Dex.species.get(this.curSet.species);
 			var baseid = toID(species.baseSpecies);
 			var forms = [baseid].concat(species.cosmeticFormes.map(toID));
 			var spriteDir = Dex.resourcePrefix + 'sprites/';
@@ -3307,9 +3310,9 @@
 			this.$el.html(buf).css({'max-width': (4 + spriteSize) * width, 'height': 42 + (4 + spriteSize) * height});
 		},
 		setForm: function (form) {
-			var species = Dex.getSpecies(this.curSet.species);
+			var species = Dex.species.get(this.curSet.species);
 			if (form && form !== species.form) {
-				this.curSet.species = Dex.getSpecies(species.baseSpecies + form).name;
+				this.curSet.species = Dex.species.get(species.baseSpecies + form).name;
 			} else if (!form) {
 				this.curSet.species = species.baseSpecies;
 			}
