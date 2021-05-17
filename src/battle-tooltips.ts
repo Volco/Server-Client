@@ -25,11 +25,11 @@ class ModifiableValue {
 		this.pokemon = pokemon;
 		this.serverPokemon = serverPokemon;
 
-		this.itemName = Dex.items.get(serverPokemon.item).name;
+		this.itemName = this.battle.dex.items.get(serverPokemon.item).name;
 		const ability = serverPokemon.ability || pokemon?.ability || serverPokemon.baseAbility;
-		this.abilityName = Dex.abilities.get(ability).name;
-		this.weatherName = Dex.moves.get(battle.weather).exists ?
-			Dex.moves.get(battle.weather).name : Dex.abilities.get(battle.weather).name;
+		this.abilityName = this.battle.dex.abilities.get(ability).name;
+		this.weatherName = this.battle.dex.moves.get(battle.weather).exists ?
+			this.battle.dex.moves.get(battle.weather).name : this.battle.dex.abilities.get(battle.weather).name;
 	}
 	reset(value = 0, isAccuracy?: boolean) {
 		this.value = value;
@@ -834,10 +834,10 @@ class BattleTooltips {
 			let itemEffect = '';
 			if (clientPokemon?.prevItem) {
 				item = 'None';
-				let prevItem = Dex.items.get(clientPokemon.prevItem).name;
+				let prevItem = this.battle.dex.items.get(clientPokemon.prevItem).name;
 				itemEffect += clientPokemon.prevItemEffect ? prevItem + ' was ' + clientPokemon.prevItemEffect : 'was ' + prevItem;
 			}
-			if (serverPokemon.item) item = Dex.items.get(serverPokemon.item).name;
+			if (serverPokemon.item) item = this.battle.dex.items.get(serverPokemon.item).name;
 			if (itemEffect) itemEffect = ' (' + itemEffect + ')';
 			if (item) itemText = '<small>Item:</small> ' + item + itemEffect;
 		} else if (clientPokemon) {
@@ -846,10 +846,10 @@ class BattleTooltips {
 			if (clientPokemon.prevItem) {
 				item = 'None';
 				if (itemEffect) itemEffect += '; ';
-				let prevItem = Dex.items.get(clientPokemon.prevItem).name;
+				let prevItem = this.battle.dex.items.get(clientPokemon.prevItem).name;
 				itemEffect += clientPokemon.prevItemEffect ? prevItem + ' was ' + clientPokemon.prevItemEffect : 'was ' + prevItem;
 			}
-			if (pokemon.item) item = Dex.items.get(pokemon.item).name;
+			if (pokemon.item) item = this.battle.dex.items.get(pokemon.item).name;
 			if (itemEffect) itemEffect = ' (' + itemEffect + ')';
 			if (item) itemText = '<small>Item:</small> ' + item + itemEffect;
 		}
@@ -870,7 +870,7 @@ class BattleTooltips {
 			text += `<p class="section">`;
 			const battlePokemon = clientPokemon || this.battle.findCorrespondingPokemon(pokemon);
 			for (const moveid of serverPokemon.moves) {
-				const move = Dex.moves.get(moveid);
+				const move = this.battle.dex.moves.get(moveid);
 				let moveName = `&#8226; ${move.name}`;
 				if (battlePokemon?.moveTrack) {
 					for (const row of battlePokemon.moveTrack) {
@@ -1008,7 +1008,7 @@ class BattleTooltips {
 		let speedHalvingEVItems = ['machobrace', 'poweranklet', 'powerband', 'powerbelt', 'powerbracer', 'powerlens', 'powerweight'];
 		if (ability === 'klutz' && !speedHalvingEVItems.includes(item)) item = '' as ID;
 		const speciesForme = clientPokemon ? clientPokemon.getSpeciesForme() : serverPokemon.speciesForme;
-		let species = Dex.species.get(speciesForme).baseSpecies;
+		let species = this.battle.dex.species.get(speciesForme).baseSpecies;
 
 		let speedModifiers = [];
 
@@ -1118,7 +1118,7 @@ class BattleTooltips {
 		if (ability === 'marvelscale' && pokemon.status) {
 			stats.def = Math.floor(stats.def * 1.5);
 		}
-		if (item === 'eviolite' && Dex.species.get(pokemon.speciesForme).evos) {
+		if (item === 'eviolite' && this.battle.dex.species.get(pokemon.speciesForme).evos) {
 			stats.def = Math.floor(stats.def * 1.5);
 			stats.spd = Math.floor(stats.spd * 1.5);
 		}
@@ -1318,7 +1318,7 @@ class BattleTooltips {
 			moveType = pokemonTypes[0];
 		}
 		// Moves that require an item to change their type.
-		let item = Dex.items.get(value.itemName);
+		let item = this.battle.dex.items.get(value.itemName);
 		if (move.id === 'multiattack' && item.onMemory) {
 			if (value.itemModify(0)) moveType = item.onMemory;
 		}
@@ -1610,7 +1610,7 @@ class BattleTooltips {
 		}
 		// Moves which have base power changed due to items
 		if (serverPokemon.item) {
-			let item = Dex.items.get(serverPokemon.item);
+			let item = this.battle.dex.items.get(serverPokemon.item);
 			if (move.id === 'fling' && item.fling) {
 				value.itemModify(item.fling.basePower);
 			}
@@ -1865,7 +1865,7 @@ class BattleTooltips {
 
 		// Pokemon-specific items
 		if (item.name === 'Soul Dew' && this.battle.gen < 7) return value;
-		if (BattleTooltips.orbUsers[Dex.species.get(value.serverPokemon.speciesForme).baseSpecies] === item.name &&
+		if (BattleTooltips.orbUsers[this.battle.dex.species.get(value.serverPokemon.speciesForme).baseSpecies] === item.name &&
 			[BattleTooltips.orbTypes[item.name], 'Dragon'].includes(moveType)) {
 			value.itemModify(1.2);
 			return value;
@@ -1896,7 +1896,7 @@ class BattleTooltips {
 	}
 	getAllyAbility(ally: Pokemon) {
 		// this will only be available if the ability announced itself in some way
-		let allyAbility = Dex.abilities.get(ally.ability).name;
+		let allyAbility = this.battle.dex.abilities.get(ally.ability).name;
 		// otherwise fall back on the original set data sent from the server
 		if (!allyAbility) {
 			if (this.battle.myAllyPokemon) { // multi battle ally
@@ -1947,12 +1947,12 @@ class BattleTooltips {
 		if (!isActive) {
 			// for switch tooltips, only show the original ability
 			const ability = abilityData.baseAbility || abilityData.ability;
-			if (ability) text = '<small>Ability:</small> ' + Dex.abilities.get(ability).name;
+			if (ability) text = '<small>Ability:</small> ' + this.battle.dex.abilities.get(ability).name;
 		} else {
 			if (abilityData.ability) {
-				const abilityName = Dex.abilities.get(abilityData.ability).name;
+				const abilityName = this.battle.dex.abilities.get(abilityData.ability).name;
 				text = '<small>Ability:</small> ' + abilityName;
-				const baseAbilityName = Dex.abilities.get(abilityData.baseAbility).name;
+				const baseAbilityName = this.battle.dex.abilities.get(abilityData.baseAbility).name;
 				if (baseAbilityName && baseAbilityName !== abilityName) text += ' (base: ' + baseAbilityName + ')';
 			}
 		}
