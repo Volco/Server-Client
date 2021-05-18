@@ -172,8 +172,8 @@ interface TeambuilderSpriteData {
 }
 
 const Dex = new class Dexes implements ModdedDex {
-	readonly gen = 8;
-	readonly modid = 'gen8' as ID;
+	gen = 8;
+	modid = 'gen8' as ID;
 	readonly cache = null!;
 
 	readonly statNames: ReadonlyArray<StatName> = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
