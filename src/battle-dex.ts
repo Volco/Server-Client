@@ -171,13 +171,15 @@ interface TeambuilderSpriteData {
 	isCustom?: boolean;
 }
 
-const Dex = new class implements ModdedDex {
-	readonly gen = 8;
-	readonly modid = 'gen8' as ID;
+const Dex = new class Dexes implements ModdedDex {
+	gen = 8;
+	modid = 'gen8' as ID;
 	readonly cache = null!;
 
 	readonly statNames: ReadonlyArray<StatName> = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 	readonly statNamesExceptHP: ReadonlyArray<StatNameExceptHP> = ['atk', 'def', 'spa', 'spd', 'spe'];
+
+	modData?: any;
 
 	pokeballs: string[] | null = null;
 
@@ -197,6 +199,7 @@ const Dex = new class implements ModdedDex {
 
 	loadedSpriteData = {xy: 1, bw: 0};
 	moddedDexes: {[mod: string]: ModdedDex} = {};
+	serverDexes: {[mod: string]: Dexes} = {};
 
 	mod(modid: ID): ModdedDex {
 		if (modid === 'gen8') return this;
@@ -207,6 +210,30 @@ const Dex = new class implements ModdedDex {
 		this.moddedDexes[modid] = new ModdedDex(modid);
 		return this.moddedDexes[modid];
 	}
+
+	serverMod(modid: ID): Dexes {
+		if (!window.BattleTeambuilderTable) return this;
+		if (modid in Dex.serverDexes) return Dex.serverDexes[modid];
+		if (modid in window.BattleTeambuilderTable && window.BattleTeambuilderTable[modid].data) {
+			const moddedDex = new Dexes();
+			moddedDex.modid = modid;
+			moddedDex.modData = window.BattleTeambuilderTable[modid].data;
+			for (const id in moddedDex.modData.Pokedex) {
+				const entry = moddedDex.modData.Pokedex[id];
+				if (moddedDex.modData.FormatsData[id]) {
+					const formatsEntry = moddedDex.modData.FormatsData[id];
+					if (formatsEntry.tier) entry.tier = formatsEntry.tier;
+					if (formatsEntry.isNonstandard) entry.isNonstandard = formatsEntry.isNonstandard;
+					if (formatsEntry.unreleasedHidden) entry.unreleasedHidden = formatsEntry.unreleasedHidden;
+				}
+			}
+			moddedDex.gen = moddedDex.modData.gen || 8;
+			Dex.serverDexes[modid] = moddedDex;
+			return moddedDex;
+		}
+		return Dex;
+	}
+
 	forGen(gen: number) {
 		if (!gen) return this;
 		return this.mod(`gen${gen}` as ID);
@@ -262,11 +289,11 @@ const Dex = new class implements ModdedDex {
 	getEffect(name: string | null | undefined): PureEffect | Item | Ability | Move {
 		name = (name || '').trim();
 		if (name.substr(0, 5) === 'item:') {
-			return Dex.items.get(name.substr(5).trim());
+			return this.items.get(name.substr(5).trim());
 		} else if (name.substr(0, 8) === 'ability:') {
-			return Dex.abilities.get(name.substr(8).trim());
+			return this.abilities.get(name.substr(8).trim());
 		} else if (name.substr(0, 5) === 'move:') {
-			return Dex.moves.get(name.substr(5).trim());
+			return this.moves.get(name.substr(5).trim());
 		}
 		let id = toID(name);
 		return new PureEffect(id, name);
@@ -280,12 +307,15 @@ const Dex = new class implements ModdedDex {
 			}
 			let name = nameOrMove || '';
 			let id = toID(nameOrMove);
-			if (window.BattleAliases && id in BattleAliases) {
+			if (this.modData?.Aliases?.[id]) {
+				name = this.modData.Aliases[id];
+				id = toID(name);
+			} else if (window.BattleAliases && id in BattleAliases) {
 				name = BattleAliases[id];
 				id = toID(name);
 			}
 			if (!window.BattleMovedex) window.BattleMovedex = {};
-			let data = window.BattleMovedex[id];
+			let data = this.modData ? this.modData.Moves[id] : window.BattleMovedex[id];
 			if (data && typeof data.exists === 'boolean') return data;
 
 			if (!data && id.substr(0, 11) === 'hiddenpower' && id.length > 11) {
@@ -310,6 +340,9 @@ const Dex = new class implements ModdedDex {
 
 			if (!data) data = {exists: false};
 			let move = new Move(id, name, data);
+			if (this.modData) {
+				return move;
+			}
 			window.BattleMovedex[id] = move;
 			return move;
 		},
@@ -329,15 +362,21 @@ const Dex = new class implements ModdedDex {
 			}
 			let name = nameOrItem || '';
 			let id = toID(nameOrItem);
-			if (window.BattleAliases && id in BattleAliases) {
+			if (this.modData?.Aliases?.[id]) {
+				name = this.modData.Aliases[id];
+				id = toID(name);
+			} else if (window.BattleAliases && id in BattleAliases) {
 				name = BattleAliases[id];
 				id = toID(name);
 			}
 			if (!window.BattleItems) window.BattleItems = {};
-			let data = window.BattleItems[id];
+			let data = this.modData ? this.modData.Items[id] : window.BattleItems[id];
 			if (data && typeof data.exists === 'boolean') return data;
 			if (!data) data = {exists: false};
 			let item = new Item(id, name, data);
+			if (this.modData) {
+				return item;
+			}
 			window.BattleItems[id] = item;
 			return item;
 		},
@@ -355,11 +394,17 @@ const Dex = new class implements ModdedDex {
 				name = BattleAliases[id];
 				id = toID(name);
 			}
-			if (!window.BattleAbilities) window.BattleAbilities = {};
-			let data = window.BattleAbilities[id];
+			if (this.modData?.Aliases?.[id]) {
+				name = this.modData.Aliases[id];
+				id = toID(name);
+			} else if (!window.BattleAbilities) window.BattleAbilities = {};
+			let data = this.modData ? this.modData.Abilities[id] : window.BattleAbilities[id];
 			if (data && typeof data.exists === 'boolean') return data;
 			if (!data) data = {exists: false};
 			let ability = new Ability(id, name, data);
+			if (this.modData) {
+				return ability;
+			}
 			window.BattleAbilities[id] = ability;
 			return ability;
 		},
@@ -376,7 +421,10 @@ const Dex = new class implements ModdedDex {
 			let formid = id;
 			if (!window.BattlePokedexAltForms) window.BattlePokedexAltForms = {};
 			if (formid in window.BattlePokedexAltForms) return window.BattlePokedexAltForms[formid];
-			if (window.BattleAliases && id in BattleAliases) {
+			if (this.modData?.Aliases?.[id]) {
+				name = this.modData.Aliases[id];
+				id = toID(name);
+			} else if (window.BattleAliases && id in BattleAliases) {
 				name = BattleAliases[id];
 				id = toID(name);
 			} else if (window.BattlePokedex && !(id in BattlePokedex) && window.BattleBaseSpeciesChart) {
@@ -388,7 +436,15 @@ const Dex = new class implements ModdedDex {
 				}
 			}
 			if (!window.BattlePokedex) window.BattlePokedex = {};
-			let data = window.BattlePokedex[id];
+			let data = this.modData ? this.modData.Pokedex[id] : window.BattlePokedex[id];
+			if (this.modData?.Pokedex[formid]?.inherit && !window.BattlePokedex[formid]) {
+				delete this.modData.Pokedex[formid].inherit;
+				for (const key in this.modData.Pokedex[id]) {
+					if (key in this.modData.Pokedex[formid]) continue;
+					this.modData.Pokedex[formid][key] = this.modData.Pokedex[id][key];
+				}
+			}
+			id = data ? toID(data.name) : id;
 
 			let species: Species;
 			if (data && typeof data.exists === 'boolean') {
@@ -402,10 +458,12 @@ const Dex = new class implements ModdedDex {
 					data.tier = this.species.get(data.baseSpecies).tier;
 				}
 				species = new Species(id, name, data);
-				window.BattlePokedex[id] = species;
+				if (!this.modData) {
+					window.BattlePokedex[id] = species;
+				}
 			}
 
-			if (species.cosmeticFormes) {
+			if (species.cosmeticFormes && !this.modData) {
 				for (const forme of species.cosmeticFormes) {
 					if (toID(forme) === formid) {
 						species = new Species(formid, name, {
@@ -432,7 +490,7 @@ const Dex = new class implements ModdedDex {
 			if (!type || typeof type === 'string') {
 				const id = toID(type) as string;
 				const name = id.substr(0, 1).toUpperCase() + id.substr(1);
-				type = (window.BattleTypeChart && window.BattleTypeChart[id]) || {};
+				type = this.modData?.TypeChart[id] || window.BattleTypeChart?.[id] || {};
 				if (type.damageTaken) type.exists = true;
 				if (!type.id) type.id = id;
 				if (!type.name) type.name = name;
@@ -845,6 +903,7 @@ class ModdedDex {
 		Species: {} as any as {[k: string]: Species},
 		Types: {} as any as {[k: string]: Effect},
 	};
+	modData?: any;
 	pokeballs: string[] | null = null;
 	constructor(modid: ID) {
 		this.modid = modid;
