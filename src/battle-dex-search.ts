@@ -1083,10 +1083,10 @@ class BattleAbilitySearch extends BattleTypedSearch<'ability'> {
 
 class BattleItemSearch extends BattleTypedSearch<'item'> {
 	getTable() {
-		return this.dex.modData ? this.dex.modData.Items : BattleItems;
+		return BattleItems;
 	}
 	getDefaultResults(): SearchRow[] {
-		let table = this.getTable();
+		let table = BattleTeambuilderTable;
 		if (this.dex.gen < 8) {
 			table = table['gen' + this.dex.gen];
 		} else if (this.formatType === 'natdex') {
