@@ -550,8 +550,8 @@ License: GPLv2
 	color: #661155;
 }
 
-.cavefieldweather {
-	background: #DDAAEE url(../fx/field-cavefield.png) no-repeat scroll left top;
+.caveweather {
+	background: #DDAAEE url(../fx/field-cave.png) no-repeat scroll left top;
 	color: #661155;
 }
 
@@ -580,8 +580,8 @@ License: GPLv2
 	color: #661155;
 }
 
-.mountainweather {
-	background: #DDAAEE url(../fx/field-mountain.png) no-repeat scroll left top;
+.mountainfieldweather {
+	background: #DDAAEE url(../fx/field-mountainfield.png) no-repeat scroll left top;
 	color: #661155;
 }
 
