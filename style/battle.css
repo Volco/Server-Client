@@ -474,121 +474,113 @@ License: GPLv2
 	color: #661155;
 }
 
+.wonderroomweather {
+	background: #DDAAEE url(../fx/weather-wonderroom.png) no-repeat scroll left top;
+	color: #661155;
+}
 
-.junglefield {
+.junglefieldweather {
 	background: #DDAAEE url(../fx/field-junglefield.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-.dragonsden {
+.dragonsdenweather {
 	background: #DDAAEE url(../fx/field-dragonsden.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-.starlightarena {
+.starlightarenaweather {
 	background: #CCAAEE url(../fx/field-starlightarena.png) no-repeat scroll left top;
 }
 
-
-.desertfield {
+.desertfieldweather {
 	background: #CCAAEE url(../fx/field-desertfield.png) no-repeat scroll left top;
 }
 
 
-.flowergarden {
+.flowergardenweather {
 	background: #CCAAEE url(../fx/field-flowergarden.png) no-repeat scroll left top;
 }
 
-.serenefield {
+.serenefieldweather {
 	background: #CCAAEE url(../fx/field-serenefield.png) no-repeat scroll left top;
 }
 
-.eclipsefield {
+.eclipsefieldweather {
 	background: #CCAAEE url(../fx/field-eclipsefield.png) no-repeat scroll left top;
 }
 
-.ashenbeach {
+.ashenbeachweather {
 	background: #CCAAEE url(../fx/field-ashenbeach.png) no-repeat scroll left top;
 }
 
-.corrosivemist {
+.corrosivemistweather {
 	background: #CCAAEE url(../fx/field-corrosivemist.png) no-repeat scroll left top;
 }
 
-.thunderstormfield {
+.thunderstormfieldweather {
 	background: #CCAAEE url(../fx/field-thunderstormfield.png) no-repeat scroll left top;
 }
 
-.volcanictop {
+.volcanictopweather {
 	background: #CCAAEE url(../fx/field-volcanictop.png) no-repeat scroll left top;
 }
 
-.ringarena {
+.ringarenaweather {
 	background: #CCAAEE url(../fx/field-ringarena.png) no-repeat scroll left top;
 }
 
-
-.skyfield {
+.skyfieldweather {
 	background: #DDAAEE url(../fx/field-skyfield.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-
-.hauntedhouse {
+.hauntedhouseweather {
 	background: #DDAAEE url(../fx/field-hauntedhouse.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-
-.snowymountain {
+.snowymountainweather {
 	background: #DDAAEE url(../fx/field-snowymountain.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-
-.ancientruins {
+.ancientruinsweather {
 	background: #DDAAEE url(../fx/field-ancientruins.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-
-.cavefield {
+.cavefieldweather {
 	background: #DDAAEE url(../fx/field-cavefield.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-
-.factoryfield {
+.factoryfieldweather {
 	background: #DDAAEE url(../fx/field-factoryfield.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-
-.waterssurface {
+.waterssurfaceweather {
 	background: #DDAAEE url(../fx/field-waterssurface.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-
-.underwater {
+.underwaterweather {
 	background: #DDAAEE url(../fx/field-underwater.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-
-.rainbowfield {
+.rainbowfieldweather {
 	background: #DDAAEE url(../fx/field-rainbowfield.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-
-.bewitchedwoods {
+.bewitchedwoodsweather {
 	background: #DDAAEE url(../fx/field-bewitchedwoods.png) no-repeat scroll left top;
 	color: #661155;
 }
 
-
-.mountain {
+.mountainweather {
 	background: #DDAAEE url(../fx/field-mountain.png) no-repeat scroll left top;
 	color: #661155;
 }
