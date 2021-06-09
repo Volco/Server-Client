@@ -518,6 +518,10 @@ License: GPLv2
 	background: #CCAAEE url(../fx/field-corrosivemist.png) no-repeat scroll left top;
 }
 
+.corrosivefieldweather {
+	background: #CCAAEE url(../fx/field-corrosivefield.png) no-repeat scroll left top;
+}
+
 .thunderstormfieldweather {
 	background: #CCAAEE url(../fx/field-thunderstormfield.png) no-repeat scroll left top;
 }
@@ -535,7 +539,7 @@ License: GPLv2
 	color: #661155;
 }
 
-.hauntedhouseweather {
+.hauntedgraveyardweather {
 	background: #DDAAEE url(../fx/field-hauntedhouse.png) no-repeat scroll left top;
 	color: #661155;
 }
