@@ -473,7 +473,6 @@ License: GPLv2
 	background: #DDAAEE url(../fx/weather-trickroom.png) no-repeat scroll left top;
 	color: #661155;
 }
-
 .wonderroomweather {
 	background: #DDAAEE url(../fx/weather-wonderroom.png) no-repeat scroll left top;
 	color: #661155;
@@ -540,7 +539,7 @@ License: GPLv2
 }
 
 .hauntedgraveyardweather {
-	background: #DDAAEE url(../fx/field-hauntedhouse.png) no-repeat scroll left top;
+	background: #DDAAEE url(../fx/field-hauntedgraveyard.png) no-repeat scroll left top;
 	color: #661155;
 }
 
