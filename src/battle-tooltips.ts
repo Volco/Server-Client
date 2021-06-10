@@ -1931,7 +1931,7 @@ class BattleTooltips {
 
 		// Pokemon-specific items
 		if (item.name === 'Soul Dew' && this.battle.gen < 7) return value;
-		if (BattleTooltips.orbUsers[this.battle.dex.species.get(value.serverPokemon.speciesForme).baseSpecies] === item.name &&
+		if (BattleTooltips.orbUsers[Dex.species.get(value.serverPokemon.speciesForme).baseSpecies] === item.name &&
 			[BattleTooltips.orbTypes[item.name], 'Dragon'].includes(moveType)) {
 			value.itemModify(1.2);
 			return value;

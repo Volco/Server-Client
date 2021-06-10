@@ -1523,7 +1523,8 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 				fissure: 1500, horndrill: 1500, guillotine: 1500,
 			};
 			return results.sort(([rowType1, id1], [rowType2, id2]) => {
-				let move1, move2;
+				let move1;
+				let move2;
 				if (this.dex.modData) {
 					move1 = Moves[id1];
 					move2 = Moves[id2];
@@ -1537,7 +1538,8 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 			});
 		case 'accuracy':
 			return results.sort(([rowType1, id1], [rowType2, id2]) => {
-				let accuracy1, accuracy2;
+				let accuracy1;
+				let accuracy2;
 				if (this.dex.modData) {
 					accuracy1 = Moves[id1].accuracy || 0;
 					accuracy2 = Moves[id2].accuracy || 0;
@@ -1551,7 +1553,8 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 			});
 		case 'pp':
 			return results.sort(([rowType1, id1], [rowType2, id2]) => {
-				let pp1, pp2;
+				let pp1;
+				let pp2;
 				if (this.dex.modData) {
 					pp1 = Moves[id1].pp || 0;
 					pp2 = Moves[id2].pp || 0;

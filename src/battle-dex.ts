@@ -801,7 +801,12 @@ const Dex = new class Dexes implements ModdedDex {
 		}
 
 		// if it doesn't exist then add it so you don't get a broken image lol it's a custom client you can easily add the image
-		if (species.exists === false) return {spriteDir: 'sprites/custom', spriteid, x: 0, y: 5, isCustom: true}; // return { spriteDir: 'sprites/gen5', spriteid: '0', x: 10, y: 5 };
+		if (species.exists === false) {
+			return {
+				spriteDir: 'sprites/custom', spriteid, x: 0, y: 5, isCustom: true,
+			};
+		}
+		// return { spriteDir: 'sprites/gen5', spriteid: '0', x: 10, y: 5 };
 		const spriteData: TeambuilderSpriteData = {
 			spriteid,
 			spriteDir: 'sprites/dex',
