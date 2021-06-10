@@ -678,8 +678,7 @@
 			this.curTeam = teams[i];
 			this.curTeam.iconCache = '!';
 			this.curTeam.gen = this.getGen(this.curTeam.format);
-<<<<<<< HEAD
-			this.curTeam.dex = Dex;
+			this.curTeam.dex = Dex.forGen(this.curTeam.gen);
 			var format = this.curTeam.format;
 			if (window.BattleFormats[format] && window.BattleFormats[format].name in window.Formats) {
 				var mod = window.Formats[window.BattleFormats[format].name].mod;
@@ -687,9 +686,6 @@
 					this.curTeam.dex = Dex.serverMod(mod);
 				}
 			}
-=======
-			this.curTeam.dex = Dex.forGen(this.curTeam.gen);
->>>>>>> upstream/master
 			Storage.activeSetList = this.curSetList = Storage.unpackTeam(this.curTeam.team);
 			this.curTeamIndex = i;
 			this.update();
@@ -1226,11 +1222,7 @@
 			var itemicon = '<span class="itemicon"></span>';
 			if (set.item) {
 				var item = this.curTeam.dex.items.get(set.item);
-<<<<<<< HEAD
-				itemicon = '<span class="itemicon" style="' + this.curTeam.dex.getItemIcon(item) + '"></span>';
-=======
 				itemicon = '<span class="itemicon" style="' + Dex.getItemIcon(item) + '"></span>';
->>>>>>> upstream/master
 			}
 			buf += itemicon;
 			buf += '</div>';
@@ -1442,17 +1434,13 @@
 		changeFormat: function (format) {
 			this.curTeam.format = format;
 			this.curTeam.gen = this.getGen(this.curTeam.format);
-<<<<<<< HEAD
-			this.curTeam.dex = Dex;
+			this.curTeam.dex = Dex.forGen(this.curTeam.gen);
 			if (window.BattleFormats[format] && window.BattleFormats[format].name in window.Formats) {
 				var mod = window.Formats[window.BattleFormats[format].name].mod;
 				if (mod in window.BattleTeambuilderTable && window.BattleTeambuilderTable[mod].data) {
 					this.curTeam.dex = Dex.serverMod(mod);
 				}
 			}
-=======
-			this.curTeam.dex = Dex.forGen(this.curTeam.gen);
->>>>>>> upstream/master
 			this.save();
 			if (this.curTeam.gen === 5 && !this.curTeam.dex.loadedSpriteData['bw']) this.curTeam.dex.loadSpriteData('bw');
 			this.update();
@@ -2043,11 +2031,8 @@
 		updateStatForm: function (setGuessed) {
 			var buf = '';
 			var set = this.curSet;
-<<<<<<< HEAD
-			var species = this.curTeam.dex.forGen(this.curTeam.gen).species.get(this.curSet.species);
-=======
 			var species = this.curTeam.dex.species.get(this.curSet.species);
->>>>>>> upstream/master
+
 
 			var baseStats = species.baseStats;
 
@@ -2695,11 +2680,7 @@
 
 			// pokeball
 			var pokeball = this.$chart.find('select[name=pokeball]').val();
-<<<<<<< HEAD
-			if (pokeball && this.curTeam.dex.forGen(this.curTeam.gen).items.get(pokeball).isPokeball) {
-=======
 			if (pokeball && this.curTeam.dex.items.get(pokeball).isPokeball) {
->>>>>>> upstream/master
 				set.pokeball = pokeball;
 			} else {
 				delete set.pokeball;
@@ -3125,11 +3106,7 @@
 			for (var i = 0; i < moves.length; ++i) {
 				if (!moves[i]) continue;
 				if (moves[i].substr(0, 13) === 'Hidden Power ') hasHiddenPower = true;
-<<<<<<< HEAD
-				var move = this.curTeam.dex.forGen(this.curTeam.gen).moves.get(moves[i]);
-=======
 				var move = this.curTeam.dex.moves.get(moves[i]);
->>>>>>> upstream/master
 				if (move.id === 'transform') {
 					hasHiddenPower = true; // A Pokemon with Transform can copy another Pokemon that knows Hidden Power
 
@@ -3176,11 +3153,7 @@
 		},
 		setPokemon: function (val, selectNext) {
 			var set = this.curSet;
-<<<<<<< HEAD
-			var species = this.curTeam.dex.forGen(this.curTeam.gen).species.get(val);
-=======
 			var species = this.curTeam.dex.species.get(val);
->>>>>>> upstream/master
 			if (!species.exists || set.species === species.name) {
 				if (selectNext) this.$('input[name=item]').select();
 				return;
@@ -3247,11 +3220,7 @@
 
 			// do this after setting set.evs because it's assumed to exist
 			// after getStat is run
-<<<<<<< HEAD
-			var species = this.curTeam.dex.forGen(this.curTeam.gen).species.get(set.species);
-=======
 			var species = this.curTeam.dex.species.get(set.species);
->>>>>>> upstream/master
 			if (!species.exists) return 0;
 
 			if (!set.level) set.level = 100;
@@ -3355,11 +3324,7 @@
 			this.room = data.room;
 			this.curSet = data.curSet;
 			this.chartIndex = data.index;
-<<<<<<< HEAD
-			var species = this.curTeam.dex.species.get(this.curSet.species);
-=======
 			var species = this.room.curTeam.dex.species.get(this.curSet.species);
->>>>>>> upstream/master
 			var baseid = toID(species.baseSpecies);
 			var forms = [baseid].concat(species.cosmeticFormes.map(toID));
 			var spriteDir = Dex.resourcePrefix + 'sprites/';
@@ -3395,15 +3360,9 @@
 			this.$el.html(buf).css({'max-width': (4 + spriteSize) * width, 'height': 42 + (4 + spriteSize) * height});
 		},
 		setForm: function (form) {
-<<<<<<< HEAD
-			var species = this.curTeam.dex.species.get(this.curSet.species);
-			if (form && form !== species.form) {
-				this.curSet.species = this.curTeam.dex.species.get(species.baseSpecies + form).name;
-=======
 			var species = this.room.curTeam.dex.species.get(this.curSet.species);
 			if (form && form !== species.form) {
 				this.curSet.species = this.room.curTeam.dex.species.get(species.baseSpecies + form).name;
->>>>>>> upstream/master
 			} else if (!form) {
 				this.curSet.species = species.baseSpecies;
 			}
