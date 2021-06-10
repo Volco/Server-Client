@@ -794,6 +794,9 @@ class BattleScene {
 			let lombreCount = 0;
 			for (let i = 0; i < side.pokemon.length; i++) {
 				let pokemon = side.pokemon[i];
+				if (pokemon.speciesForme === 'Xerneas-*') {
+					pokemon.speciesForme = 'Xerneas-Neutral';
+				}
 				if (pokemon.speciesForme === 'Ludicolo') ludicoloCount++;
 				if (pokemon.speciesForme === 'Lombre') lombreCount++;
 
@@ -918,6 +921,8 @@ class BattleScene {
 			} else if (this.battle.weatherTimeLeft !== 0) {
 				weatherhtml += ` <small>(${this.battle.weatherTimeLeft} turn${this.battle.weatherTimeLeft === 1 ? '' : 's'})</small>`;
 			}
+			const nullifyWeather = this.battle.abilityActive(['Air Lock', 'Cloud Nine']);
+			weatherhtml = `${nullifyWeather ? '<s>' : ''}${weatherhtml}${nullifyWeather ? '</s>' : ''}`;
 		}
 
 		for (const pseudoWeather of this.battle.pseudoWeather) {
@@ -945,6 +950,9 @@ class BattleScene {
 		if (!this.animating) return;
 		let isIntense = false;
 		let weather = this.battle.weather;
+		if (this.battle.abilityActive(['Air Lock', 'Cloud Nine'])) {
+			weather = '' as ID;
+		}
 		let terrain = '' as ID;
 		for (const pseudoWeatherData of this.battle.pseudoWeather) {
 			/*let pwid = toID(pseudoWeatherData[0]);
@@ -1406,6 +1414,7 @@ class BattleScene {
 			callback = () => { $hp.addClass('hp-yellow hp-red'); };
 		}
 
+		if (damage === '100%' && pokemon.hp > 0) damage = '99%';
 		this.resultAnim(pokemon, this.battle.hardcoreMode ? 'Damage' : '&minus;' + damage, 'bad');
 
 		$hp.animate({
@@ -1590,6 +1599,8 @@ class BattleScene {
 			this.bgm = BattleSound.loadBgm('audio/sm-rival.mp3', 11389, 62158, this.bgm);
 			break;
 		}
+
+		this.updateBgm();
 	}
 	updateBgm() {
 		/**
@@ -2495,8 +2506,8 @@ class PokemonSprite extends Sprite {
 		});
 		this.scene.wait(500);
 
+		this.scene.updateSidebar(pokemon.side);
 		if (isPermanent) {
-			this.scene.updateSidebar(pokemon.side);
 			this.resetStatbar(pokemon);
 		} else {
 			this.updateStatbar(pokemon);
@@ -2631,11 +2642,11 @@ class PokemonSprite extends Sprite {
 	resetStatbar(pokemon: Pokemon, startHidden?: boolean) {
 		if (this.$statbar) {
 			this.$statbar.remove();
-			this.$statbar = null;
+			this.$statbar = null as any; // workaround for TS thinking $statbar is still null after `updateStatbar`
 		}
 		this.updateStatbar(pokemon, true);
 		if (!startHidden && this.$statbar) {
-			this.$statbar!.css({
+			this.$statbar.css({
 				display: 'block',
 				left: this.statbarLeft,
 				top: this.statbarTop,
@@ -2697,10 +2708,9 @@ class PokemonSprite extends Sprite {
 			status += '<span class="frz">FRZ</span> ';
 		}
 		if (pokemon.volatiles.typechange && pokemon.volatiles.typechange[1]) {
-			let types = pokemon.volatiles.typechange[1].split('/');
-			status += '<img src="' + Dex.resourcePrefix + 'sprites/types/' + encodeURIComponent(types[0]) + '.png" alt="' + types[0] + '" class="pixelated" /> ';
-			if (types[1]) {
-				status += '<img src="' + Dex.resourcePrefix + 'sprites/types/' + encodeURIComponent(types[1]) + '.png" alt="' + types[1] + '" class="pixelated" /> ';
+			const types = pokemon.volatiles.typechange[1].split('/');
+			for (const type of types) {
+				status += '<img src="' + Dex.resourcePrefix + 'sprites/types/' + encodeURIComponent(type) + '.png" alt="' + type + '" class="pixelated" /> ';
 			}
 		}
 		if (pokemon.volatiles.typeadd) {

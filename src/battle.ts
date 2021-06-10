@@ -31,7 +31,6 @@
 type EffectState = any[] & {0: ID};
 /** [name, minTimeLeft, maxTimeLeft] */
 type WeatherState = [string, number, number];
-type EffectTable = {[effectid: string]: EffectState};
 type HPColor = 'r' | 'y' | 'g';
 
 class Pokemon implements PokemonDetails, PokemonHealth {
@@ -91,9 +90,9 @@ class Pokemon implements PokemonDetails, PokemonHealth {
 	boosts: {[stat: string]: number} = {};
 	status: StatusName | 'tox' | '' | '???' = '';
 	statusStage = 0;
-	volatiles: EffectTable = {};
-	turnstatuses: EffectTable = {};
-	movestatuses: EffectTable = {};
+	volatiles: {[effectid: string]: EffectState} = {};
+	turnstatuses: {[effectid: string]: EffectState} = {};
+	movestatuses: {[effectid: string]: EffectState} = {};
 	lastMove = '';
 
 	/** [[moveName, ppUsed]] */
@@ -437,6 +436,7 @@ class Pokemon implements PokemonDetails, PokemonHealth {
 			delete this.volatiles['disable'];
 			delete this.volatiles['encore'];
 			delete this.volatiles['foresight'];
+			delete this.volatiles['gmaxchistrike'];
 			delete this.volatiles['imprison'];
 			delete this.volatiles['laserfocus'];
 			delete this.volatiles['mimic'];
@@ -493,7 +493,7 @@ class Pokemon implements PokemonDetails, PokemonHealth {
 		}
 
 		let item = toID(serverPokemon ? serverPokemon.item : this.item);
-		let ability = toID(this.ability || serverPokemon?.ability);
+		let ability = toID(this.effectiveAbility(serverPokemon));
 		if (battle.hasPseudoWeather('Magic Room') || this.volatiles['embargo'] || ability === 'klutz') {
 			item = '' as ID;
 		}
@@ -511,6 +511,16 @@ class Pokemon implements PokemonDetails, PokemonHealth {
 			return false;
 		}
 		return !this.getTypeList(serverPokemon).includes('Flying');
+	}
+	effectiveAbility(serverPokemon?: ServerPokemon) {
+		if (this.fainted || this.volatiles['gastroacid']) return '';
+		const ability = this.side.battle.dex.abilities.get(
+			serverPokemon?.ability || this.ability || serverPokemon?.baseAbility || ''
+		);
+		if (this.side.battle.ngasActive() && !ability.isPermanent) {
+			return '';
+		}
+		return ability.name;
 	}
 	getTypeList(serverPokemon?: ServerPokemon) {
 		const [types, addedType] = this.getTypes(serverPokemon);
@@ -1138,6 +1148,30 @@ class Battle {
 		}
 		return false;
 	}
+	ngasActive() {
+		for (const side of this.sides) {
+			for (const active of side.active) {
+				if (active && !active.fainted && active.ability === 'Neutralizing Gas' && !active.volatiles['gastroacid']) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	abilityActive(abilities: string[]) {
+		if (this.ngasActive()) {
+			abilities = abilities.filter(a => this.dex.abilities.get(a).isPermanent);
+			if (!abilities.length) return false;
+		}
+		for (const side of this.sides) {
+			for (const active of side.active) {
+				if (active && !active.fainted && abilities.includes(active.ability) && !active.volatiles['gastroacid']) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	reset() {
 		this.paused = true;
 		this.scene.pause();
@@ -1309,6 +1343,35 @@ class Battle {
 		this.weather = weather;
 		this.scene.updateWeather();
 	}
+	swapSideConditions() {
+		const sideConditions = [
+			'mist', 'lightscreen', 'reflect', 'spikes', 'safeguard', 'tailwind', 'toxicspikes', 'stealthrock', 'waterpledge', 'firepledge', 'grasspledge', 'stickyweb', 'auroraveil', 'gmaxsteelsurge', 'gmaxcannonade', 'gmaxvinelash', 'gmaxwildfire',
+		];
+		if (this.gameType === 'freeforall') {
+			// TODO: Add FFA support
+			return;
+		} else {
+			let side1 = this.sides[0];
+			let side2 = this.sides[1];
+			for (const id of sideConditions) {
+				if (side1.sideConditions[id] && side2.sideConditions[id]) {
+					[side1.sideConditions[id], side2.sideConditions[id]] = [
+						side2.sideConditions[id], side1.sideConditions[id],
+					];
+					this.scene.addSideCondition(side1.n, id as ID);
+					this.scene.addSideCondition(side2.n, id as ID);
+				} else if (side1.sideConditions[id] && !side2.sideConditions[id]) {
+					side2.sideConditions[id] = side1.sideConditions[id];
+					this.scene.addSideCondition(side2.n, id as ID);
+					side1.removeSideCondition(id);
+				} else if (side2.sideConditions[id] && !side1.sideConditions[id]) {
+					side1.sideConditions[id] = side2.sideConditions[id];
+					this.scene.addSideCondition(side1.n, id as ID);
+					side2.removeSideCondition(id);
+				}
+			}
+		}
+	}
 	updateTurnCounters() {
 		for (const pWeather of this.pseudoWeather) {
 			if (pWeather[1]) pWeather[1]--;
@@ -1320,11 +1383,11 @@ class Battle {
 				if (cond[2]) cond[2]--;
 				if (cond[3]) cond[3]--;
 			}
-			for (const poke of side.active) {
-				if (poke) {
-					if (poke.status === 'tox') poke.statusData.toxicTurns++;
-					poke.clearTurnstatuses();
-				}
+		}
+		for (const poke of [...this.nearSide.active, ...this.farSide.active]) {
+			if (poke) {
+				if (poke.status === 'tox') poke.statusData.toxicTurns++;
+				poke.clearTurnstatuses();
 			}
 		}
 		this.scene.updateWeather();
@@ -1355,14 +1418,33 @@ class Battle {
 				}
 			}
 			let pp = 1;
-			if (move.target === "all") {
-				for (const active of pokemon.side.foe.active) {
-					if (active && toID(active.ability) === 'pressure') {
+			// Sticky Web is never affected by pressure
+			if (this.abilityActive(['Pressure']) && move.id !== 'stickyweb') {
+				const foeTargets = [];
+
+				if (
+					!target && this.gameType === 'singles' &&
+					!['self', 'allies', 'allySide', 'adjacentAlly', 'adjacentAllyOrSelf'].includes(move.target)
+				) {
+					// Hardcode for moves without a target in singles
+					foeTargets.push(pokemon.side.foe.active[0]);
+				} else if (['all', 'allAdjacent', 'allAdjacentFoes', 'foeSide'].includes(move.target)) {
+					// We loop through all sides here for FFA
+					for (const side of this.sides) {
+						if (side === pokemon.side || side === pokemon.side.ally) continue;
+						for (const active of side.active) {
+							foeTargets.push(active);
+						}
+					}
+				} else if (target && target.side !== pokemon.side) {
+					foeTargets.push(target);
+				}
+
+				for (const foe of foeTargets) {
+					if (foe && !foe.fainted && foe.effectiveAbility() === 'Pressure') {
 						pp += 1;
 					}
 				}
-			} else if (target && target.side !== pokemon.side && toID(target.ability) === 'pressure') {
-				pp += 1;
 			}
 			pokemon.rememberMove(moveName, pp);
 		}
@@ -1934,7 +2016,6 @@ class Battle {
 			let effect = Dex.getEffect(kwArgs.from);
 			let ofpoke = this.getPokemon(kwArgs.of) || poke;
 			poke.status = args[2] as StatusName;
-			poke.removeVolatile('yawn' as ID);
 			this.activateAbility(ofpoke || poke, effect);
 			if (effect.effectType === 'Item') {
 				ofpoke.item = effect.name;
@@ -2204,6 +2285,7 @@ class Battle {
 			} else {
 				this.activateAbility(poke, ability.name);
 			}
+			this.scene.updateWeather();
 			this.log(args, kwArgs);
 			break;
 		}
@@ -2260,7 +2342,8 @@ class Battle {
 			poke.boosts = {...tpoke.boosts};
 			poke.copyTypesFrom(tpoke);
 			poke.ability = tpoke.ability;
-			const speciesForme = (tpoke.volatiles.formechange ? tpoke.volatiles.formechange[1] : tpoke.speciesForme);
+			const targetForme = tpoke.volatiles.formechange;
+			const speciesForme = (targetForme && !targetForme[1].endsWith('-Gmax')) ? targetForme[1] : tpoke.speciesForme;
 			const pokemon = tpoke;
 			const shiny = tpoke.shiny;
 			const gender = tpoke.gender;
@@ -2732,6 +2815,9 @@ class Battle {
 			case 'focusband':
 				poke.item = 'Focus Band';
 				break;
+			case 'quickclaw':
+				poke.item = 'Quick Claw';
+				break;
 			default:
 				if (kwArgs.broken) { // for custom moves that break protection
 					this.scene.resultAnim(poke, 'Protection broken', 'bad');
@@ -2771,6 +2857,12 @@ class Battle {
 			// let from = Dex.getEffect(kwArgs.from);
 			// let ofpoke = this.getPokemon(kwArgs.of);
 			side.removeSideCondition(effect.name);
+			this.log(args, kwArgs);
+			break;
+		}
+		case '-swapsideconditions': {
+			this.swapSideConditions();
+			this.scene.updateWeather();
 			this.log(args, kwArgs);
 			break;
 		}
@@ -3291,6 +3383,18 @@ class Battle {
 			}
 			break;
 		}
+		case 'updatepoke': {
+			const {siden} = this.parsePokemonId(args[1]);
+			const side = this.sides[siden];
+			for (let i = 0; i < side.pokemon.length; i++) {
+				const pokemon = side.pokemon[i];
+				if (pokemon.details !== args[2] && pokemon.checkDetails(args[2])) {
+					side.addPokemon('', '', args[2], i);
+					break;
+				}
+			}
+			break;
+		}
 		case 'teampreview': {
 			this.teamPreviewCount = parseInt(args[1], 10);
 			this.scene.teamPreview();
@@ -3312,6 +3416,7 @@ class Battle {
 			} else {
 				poke.side.dragIn(poke);
 			}
+			this.scene.updateWeather();
 			this.log(args, kwArgs);
 			break;
 		}

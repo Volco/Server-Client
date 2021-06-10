@@ -589,6 +589,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		}
 		if (format === 'vgc2020') this.formatType = 'dlc1doubles';
 		if (format.includes('doubles') && this.dex.gen > 4 && !this.formatType) this.formatType = 'doubles';
+		if (format.startsWith('ffa') || format === 'freeforall') this.formatType = 'doubles';
 		if (format.includes('letsgo')) this.formatType = 'letsgo';
 		if (format.includes('nationaldex') || format.startsWith('nd') || format.includes('natdex')) {
 			format = (format.startsWith('nd') ? format.slice(2) :
@@ -848,7 +849,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		} else if (table['gen' + dex.gen + 'doubles'] && dex.gen > 4 && this.formatType !== 'letsgo' && this.formatType !== 'dlc1doubles' &&
 			(
 			format.includes('doubles') || format.includes('vgc') || format.includes('triples') ||
-			format.endsWith('lc') || format.endsWith('lcuu')
+			format.endsWith('lc') || format.endsWith('lcuu') || format === 'freeforall' || format.startsWith('ffa')
 		)) {
 			table = table['gen' + dex.gen + 'doubles'];
 			isDoublesOrBS = true;
@@ -937,6 +938,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		// Filter out Gmax Pokemon from standard tier selection
 		if (!/^(battlestadium|vgc|doublesubers)/g.test(format)) {
 			tierSet = tierSet.filter(([type, id]) => {
+				if (type === 'header' && id === 'DUber by technicality') return false;
 				if (type === 'pokemon') return !id.endsWith('gmax');
 				return true;
 			});
@@ -971,14 +973,14 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 	sort(results: SearchRow[], sortCol: string) {
 		if (['hp', 'atk', 'def', 'spa', 'spd', 'spe'].includes(sortCol)) {
 			return results.sort(([rowType1, id1], [rowType2, id2]) => {
-				const stat1 = BattlePokedex[id1].baseStats[sortCol as StatName];
-				const stat2 = BattlePokedex[id2].baseStats[sortCol as StatName];
+				const stat1 = this.dex.species.get(id1).baseStats[sortCol as StatName];
+				const stat2 = this.dex.species.get(id2).baseStats[sortCol as StatName];
 				return stat2 - stat1;
 			});
 		} else if (sortCol === 'bst') {
 			return results.sort(([rowType1, id1], [rowType2, id2]) => {
-				const base1 = BattlePokedex[id1].baseStats;
-				const base2 = BattlePokedex[id2].baseStats;
+				const base1 = this.dex.species.get(id1).baseStats;
+				const base2 = this.dex.species.get(id2).baseStats;
 				const bst1 = base1.hp + base1.atk + base1.def + base1.spa + base1.spd + base1.spe;
 				const bst2 = base2.hp + base2.atk + base2.def + base2.spa + base2.spd + base2.spe;
 				return bst2 - bst1;
@@ -1417,7 +1419,9 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 				const move = dex.moves.get(id);
 				if (move.gen > dex.gen) continue;
 				if (sketch) {
-					if (move.isMax || move.isZ || move.isNonstandard) continue;
+					if (move.isMax || move.isZ) continue;
+					if (move.isNonstandard && move.isNonstandard !== 'Past') continue;
+					if (move.isNonstandard === 'Past' && this.formatType !== 'natdex' && dex.gen === 8) continue;
 					sketchMoves.push(move.id);
 				} else {
 					if (!(dex.gen < 8 || this.formatType === 'natdex') && move.isZ) continue;
@@ -1507,7 +1511,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		return true;
 	}
 	sort(results: SearchRow[], sortCol: string): SearchRow[] {
-		const Moves = this.getTable();
+		const Moves = this.dex.modData ? this.dex.modData.Moves : BattleMovedex;
 		switch (sortCol) {
 		case 'power':
 			let powerTable: {[id: string]: number | undefined} = {
@@ -1519,24 +1523,42 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 				fissure: 1500, horndrill: 1500, guillotine: 1500,
 			};
 			return results.sort(([rowType1, id1], [rowType2, id2]) => {
-				let move1 = Moves[id1];
-				let move2 = Moves[id2];
+				let move1, move2;
+				if (this.dex.modData) {
+					move1 = Moves[id1];
+					move2 = Moves[id2];
+				} else {
+					move1 = this.dex.moves.get(id1);
+					move2 = this.dex.moves.get(id2);
+				}
 				let pow1 = move1.basePower || powerTable[id1] || (move1.category === 'Status' ? -1 : 1400);
 				let pow2 = move2.basePower || powerTable[id2] || (move2.category === 'Status' ? -1 : 1400);
 				return pow2 - pow1;
 			});
 		case 'accuracy':
 			return results.sort(([rowType1, id1], [rowType2, id2]) => {
-				let accuracy1 = Moves[id1].accuracy || 0;
-				let accuracy2 = Moves[id2].accuracy || 0;
+				let accuracy1, accuracy2;
+				if (this.dex.modData) {
+					accuracy1 = Moves[id1].accuracy || 0;
+					accuracy2 = Moves[id2].accuracy || 0;
+				} else {
+					accuracy1 = this.dex.moves.get(id1).accuracy || 0;
+					accuracy2 = this.dex.moves.get(id2).accuracy || 0;
+				}
 				if (accuracy1 === true) accuracy1 = 101;
 				if (accuracy2 === true) accuracy2 = 101;
 				return accuracy2 - accuracy1;
 			});
 		case 'pp':
 			return results.sort(([rowType1, id1], [rowType2, id2]) => {
-				let pp1 = Moves[id1].pp || 0;
-				let pp2 = Moves[id2].pp || 0;
+				let pp1, pp2;
+				if (this.dex.modData) {
+					pp1 = Moves[id1].pp || 0;
+					pp2 = Moves[id2].pp || 0;
+				} else {
+					pp1 = this.dex.moves.get(id1).pp || 0;
+					pp2 = this.dex.moves.get(id2).pp || 0;
+				}
 				return pp2 - pp1;
 			});
 		}
