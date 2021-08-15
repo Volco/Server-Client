@@ -184,7 +184,9 @@ const Dex = new class Dexes implements ModdedDex {
 	pokeballs: string[] | null = null;
 
 	resourcePrefix = (() => {
-		return 'https://play.pokemonshowdown.com/';
+		let prefix = '';
+		if (window.document?.location?.protocol !== 'http:') prefix = 'https:';
+		return `${prefix}//${window.Config ? Config.routes.client : 'play.pokemonshowdown.com'}/`;
 	})();
 
 	fxPrefix = (() => {
