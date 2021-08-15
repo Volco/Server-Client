@@ -696,7 +696,7 @@ const Dex = new class Dexes implements ModdedDex {
 				name += '-f';
 			}
 			spriteData.url += dir + '/' + name + '.png';
-			//spriteData.url = Config.hostURL + 'sprites/custom/' + name + '.png';
+			// spriteData.url = Config.hostURL + 'sprites/custom/' + name + '.png';
 		}
 
 		if (!options.noScale) {
