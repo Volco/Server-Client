@@ -52,7 +52,8 @@ if (isset($_REQUEST['json'])) {
 	header('Access-Control-Allow-Origin: *');
 	if (!$formatid) die('null');
 	$ladder = new NTBBLadder($formatid);
-	$toplist = $ladder->getTop();
+	$prefix = $_REQUEST['prefix'] ?? null;
+	$toplist = $ladder->getTop($prefix);
 	foreach ($toplist as &$row) {
 		unset($row['formatid']);
 		unset($row['entryid']);
@@ -149,7 +150,7 @@ if (!$formatid) {
 	// we previously allowed all TLs to reset suspect ladders:
 	//   substr($formatid, -11) === 'suspecttest' || substr($formatid, -7) === 'current'
 	// but that functionality got lost somewhere along the way
-	if (in_array($curuser['userid'], $psconfig['sysops'], true)) {
+	if ($users->isSysop()) {
 		$success = false;
 		if (@$_POST['act'] === 'resetladder' && $users->csrfCheck()) {
 			if ($_POST['confirm'] === "Permanently reset this ladder.") {

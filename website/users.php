@@ -266,22 +266,30 @@ if (!$user) {
 		} else if ($csrfOk && isset($_POST['googlelogin'])) {
 			$email = $_POST['googlelogin'];
 			$remove = ($email === 'remove');
-			$psdb->query(
-				"UPDATE {$psdb->prefix}users SET email = ? WHERE userid = ?",
-				[$remove ? '' : $email . '@', $user['userid']]
-			);
+			if (!$remove && strpos($email, '@') === false || strpos($email, '.') === false) {
+?>
+				<div style="border: 1px solid #AADD88; padding: 0 1em; margin-bottom: 1em">
+					<p>Invalid e-mail address "<?= htmlspecialchars($email) ?>"</p>
+				</div>
+<?php
+			} else {
+				$psdb->query(
+					"UPDATE {$psdb->prefix}users SET email = ? WHERE userid = ?",
+					[$remove ? '' : $email . '@', $user['userid']]
+				);
 
-			$modlogentry = $remove ? "Login method set to password" : "Login method set to Google " . $email;
-			$psdb->query(
-				"INSERT INTO `{$psdb->prefix}usermodlog` (`userid`,`actorid`,`date`,`ip`,`entry`) VALUES (?, ?, ?, ?, ?)",
-				[$user['userid'], $curuser['userid'], time(), $users->getIp(), $modlogentry]
-			);
+				$modlogentry = $remove ? "Login method set to password" : "Login method set to Google " . $email;
+				$psdb->query(
+					"INSERT INTO `{$psdb->prefix}usermodlog` (`userid`,`actorid`,`date`,`ip`,`entry`) VALUES (?, ?, ?, ?, ?)",
+					[$user['userid'], $curuser['userid'], time(), $users->getIp(), $modlogentry]
+				);
 ?>
 		<div style="border: 1px solid #DDAA88; padding: 0 1em; margin-bottom: 1em">
 			<p>Login method updated</p>
 		</div>
 <?php
-		} else if ($csrfOk && $authLevel >= 5 && @$_POST['passreset']) {
+			}
+		} else if ($csrfOk && $authLevel >= 6 && @$_POST['passreset']) {
 			$token = $users->createPasswordResetToken($user['userid']);
 ?>
 		<div style="border: 1px solid #DDAA88; padding: 0 1em; margin-bottom: 1em">
@@ -352,7 +360,7 @@ if (!$user) {
 			</p></form>
 <?php
 		}
-		if ($authLevel >= 5) {
+		if ($authLevel >= 6) {
 ?>
 			<form action="" method="post" data-target="replace"><p>
 				<?php $users->csrfData(); ?>
@@ -364,7 +372,7 @@ if (!$user) {
 ?>
 		</div>
 <?php
-	} else if (!$user['group'] && ($curuser['group'] == 2 || $curuser['group'] == 6)) {
+	} else if (!$user['group'] && $users->isLeader()) {
 		$csrfOk = false;
 		if ($users->csrfCheck()) {
 			$csrfOk = true;
