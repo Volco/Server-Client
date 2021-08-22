@@ -695,9 +695,11 @@ const Dex = new class Dexes implements ModdedDex {
 			if (spriteData.gen >= 4 && miscData['frontf'] && options.gender === 'F') {
 				name += '-f';
 			}
-			// spriteData.url += dir + '/' + name + '.png';
+
 			if (species.exists === false) {
 				spriteData.url = Config.hostURL + 'sprites/custom' + (!isFront ? '-back' : '') + '/' + name + '.png';
+			} else {
+				spriteData.url += dir + '/' + name + '.png';
 			}
 		}
 
