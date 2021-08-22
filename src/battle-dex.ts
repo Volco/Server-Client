@@ -525,10 +525,6 @@ const Dex = new class Dexes implements ModdedDex {
 	}
 
 	loadSpriteData(gen: 'xy' | 'bw') {
-		let el2 = document.createElement('script');
-		el2.src = 'data/digidex-mini.js';
-		document.getElementsByTagName('body')[0].appendChild(el2);
-		
 		if (this.loadedSpriteData[gen]) return;
 		this.loadedSpriteData[gen] = 1;
 
