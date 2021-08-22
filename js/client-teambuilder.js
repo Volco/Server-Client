@@ -1788,7 +1788,7 @@
 			}
 			for (var i = start; i < end; i++) {
 				var set = this.curSetList[i];
-				if (!this.curTeam.dex) this.curTeam.dex = Dex.forGen(this.curTeam.gen);
+				if (!this.curTeam.dex) this.curTeam.dex = Dex.forGen('7');
 				var pokemonicon = '<span class="picon pokemonicon-' + i + '" style="' + this.curTeam.dex.getPokemonIcon(set) + '"></span>';
 				if (!set.species) {
 					buf += '<button disabled="disabled" class="addpokemon" aria-label="Add Pok&eacute;mon"><i class="fa fa-plus"></i></button> ';
