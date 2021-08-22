@@ -1454,7 +1454,8 @@
 				}
 			} */
 			this.save();
-			if (this.curTeam.gen === 5 && !this.curTeam.dex.loadedSpriteData['bw']) this.curTeam.dex.loadSpriteData('bw');
+			// if (this.curTeam.gen === 5 && !this.curTeam.dex.loadedSpriteData['bw']) this.curTeam.dex.loadSpriteData('bw');
+			if (this.curTeam.gen === 5 && !Dex.loadedSpriteData['bw']) Dex.loadSpriteData('bw');
 			this.update();
 		},
 		nicknameChange: function (e) {
@@ -1812,7 +1813,8 @@
 
 			//this.$('.setchart').attr('style', this.curTeam.dex.getTeambuilderSprite(set, this.curTeam.gen));
 			this.$('.setchart').attr('style', Dex.getTeambuilderSprite(set, this.curTeam.gen));
-			this.$('.pokemonicon-' + this.curSetLoc).css('background', this.curTeam.dex.getPokemonIcon(set).substr(11));
+			//this.$('.pokemonicon-' + this.curSetLoc).css('background', this.curTeam.dex.getPokemonIcon(set).substr(11));
+			this.$('.pokemonicon-' + this.curSetLoc).css('background', Dex.getPokemonIcon(set).substr(11));
 
 			var item = this.curTeam.dex.items.get(set.item);
 			if (item.id) {
