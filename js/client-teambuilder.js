@@ -1790,7 +1790,8 @@
 			}
 			for (var i = start; i < end; i++) {
 				var set = this.curSetList[i];
-				var pokemonicon = '<span class="picon pokemonicon-' + i + '" style="' + this.curTeam.dex.getPokemonIcon(set) + '"></span>';
+				//var pokemonicon = '<span class="picon pokemonicon-' + i + '" style="' + this.curTeam.dex.getPokemonIcon(set) + '"></span>';
+				var pokemonicon = '<span class="picon pokemonicon-' + i + '" style="' + Dex.getPokemonIcon(set) + '"></span>';
 				if (!set.species) {
 					buf += '<button disabled="disabled" class="addpokemon" aria-label="Add Pok&eacute;mon"><i class="fa fa-plus"></i></button> ';
 					isAdd = true;
@@ -1809,8 +1810,8 @@
 			var set = this.curSet;
 			if (!set) return;
 
-			this.$('.setchart').attr('style', this.curTeam.dex.getTeambuilderSprite(set, this.curTeam.gen));
-
+			//this.$('.setchart').attr('style', this.curTeam.dex.getTeambuilderSprite(set, this.curTeam.gen));
+			this.$('.setchart').attr('style', Dex.getTeambuilderSprite(set, this.curTeam.gen));
 			this.$('.pokemonicon-' + this.curSetLoc).css('background', this.curTeam.dex.getPokemonIcon(set).substr(11));
 
 			var item = this.curTeam.dex.items.get(set.item);
