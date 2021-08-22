@@ -1818,7 +1818,8 @@
 
 			var item = this.curTeam.dex.items.get(set.item);
 			if (item.id) {
-				this.$('.setcol-details .itemicon').css('background', this.curTeam.dex.getItemIcon(item).substr(11));
+				// this.$('.setcol-details .itemicon').css('background', this.curTeam.dex.getItemIcon(item).substr(11));
+				this.$('.setcol-details .itemicon').css('background', Dex.getItemIcon(item).substr(11));
 			} else {
 				this.$('.setcol-details .itemicon').css('background', 'none');
 			}
@@ -2049,7 +2050,6 @@
 			var buf = '';
 			var set = this.curSet;
 			var species = this.curTeam.dex.species.get(this.curSet.species);
-
 
 			var baseStats = species.baseStats;
 
