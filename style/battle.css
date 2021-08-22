@@ -482,111 +482,135 @@ License: GPLv2
 .junglefieldweather {
 	background: #DDAAEE url(../fx/field-junglefield.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .dragonsdenweather {
 	background: #DDAAEE url(../fx/field-dragonsden.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .starlightarenaweather {
 	background: #CCAAEE url(../fx/field-starlightarena.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 .desertfieldweather {
 	background: #CCAAEE url(../fx/field-desertfield.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 
 .flowergardenweather {
 	background: #CCAAEE url(../fx/field-flowergarden.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 .serenefieldweather {
 	background: #CCAAEE url(../fx/field-serenefield.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 .eclipsefieldweather {
 	background: #CCAAEE url(../fx/field-eclipsefield.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 .ashenbeachweather {
 	background: #CCAAEE url(../fx/field-ashenbeach.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 .corrosivemistweather {
 	background: #CCAAEE url(../fx/field-corrosivemist.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 .corrosivefieldweather {
 	background: #CCAAEE url(../fx/field-corrosivefield.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 .thunderstormfieldweather {
 	background: #CCAAEE url(../fx/field-thunderstormfield.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 .volcanictopweather {
 	background: #CCAAEE url(../fx/field-volcanictop.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 .ringarenaweather {
 	background: #CCAAEE url(../fx/field-ringarena.png) no-repeat scroll left top;
+	background-size: cover;
 }
 
 .skyfieldweather {
 	background: #DDAAEE url(../fx/field-skyfield.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .hauntedgraveyardweather {
 	background: #DDAAEE url(../fx/field-hauntedgraveyard.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .snowymountainweather {
 	background: #DDAAEE url(../fx/field-snowymountain.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .ancientruinsweather {
 	background: #DDAAEE url(../fx/field-ancientruins.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .caveweather {
 	background: #DDAAEE url(../fx/field-cave.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .factoryfieldweather {
 	background: #DDAAEE url(../fx/field-factoryfield.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .waterssurfaceweather {
 	background: #DDAAEE url(../fx/field-waterssurface.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .underwaterweather {
 	background: #DDAAEE url(../fx/field-underwater.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .rainbowfieldweather {
 	background: #DDAAEE url(../fx/field-rainbowfield.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .bewitchedwoodsweather {
 	background: #DDAAEE url(../fx/field-bewitchedwoods.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .mountainfieldweather {
 	background: #DDAAEE url(../fx/field-mountainfield.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
 }
 
 .battle .result {
