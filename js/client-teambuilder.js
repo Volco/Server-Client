@@ -678,14 +678,14 @@
 			this.curTeam = teams[i];
 			this.curTeam.iconCache = '!';
 			this.curTeam.gen = this.getGen(this.curTeam.format);
-			this.curTeam.dex = Dex;
-			var format = this.curTeam.format;
+			this.curTeam.dex = Dex.forGen(this.curTeam.gen);
+			/* var format = this.curTeam.format;
 			if (window.BattleFormats[format] && window.BattleFormats[format].name in window.Formats) {
 				var mod = window.Formats[window.BattleFormats[format].name].mod;
 				if (mod in window.BattleTeambuilderTable && window.BattleTeambuilderTable[mod].data) {
 					this.curTeam.dex = Dex.serverMod(mod);
 				}
-			}
+			} */
 			Storage.activeSetList = this.curSetList = Storage.unpackTeam(this.curTeam.team);
 			this.curTeamIndex = i;
 			this.update();
@@ -1444,13 +1444,13 @@
 		changeFormat: function (format) {
 			this.curTeam.format = format;
 			this.curTeam.gen = this.getGen(this.curTeam.format);
-			this.curTeam.dex = Dex.forGen(this.curTeam.gen);
+			/* this.curTeam.dex = Dex.forGen(this.curTeam.gen);
 			if (window.BattleFormats[format] && window.BattleFormats[format].name in window.Formats) {
 				var mod = window.Formats[window.BattleFormats[format].name].mod;
 				if (mod in window.BattleTeambuilderTable && window.BattleTeambuilderTable[mod].data) {
 					this.curTeam.dex = Dex.serverMod(mod);
 				}
-			}
+			} */
 			this.save();
 			if (this.curTeam.gen === 5 && !this.curTeam.dex.loadedSpriteData['bw']) this.curTeam.dex.loadSpriteData('bw');
 			this.update();
