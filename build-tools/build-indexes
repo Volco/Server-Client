@@ -1006,7 +1006,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	//
 
 	// prevent the teambuilder-tables.js file from becoming too large
-	const allowedMods = ['omnifield'];
+	const allowedMods = ['omnifield', 'gen8dlc1', 'gen7letsgo', 'gen7', 'gen6', 'gen5', 'gen4', 'gen3', 'gen2stadium2', 'gen2', 'gen1jpn', 'gen1stadium', 'gen1', 'gennext'];
 
 	for (const mod of MODS) {
 		if (!allowedMods.includes(mod)) continue;
