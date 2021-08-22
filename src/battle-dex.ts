@@ -537,7 +537,7 @@ const Dex = new class Dexes implements ModdedDex {
 		document.getElementsByTagName('body')[0].appendChild(el);
 
 		let el2 = document.createElement('script');
-		el2.src = path + 'data/digidex-mini.js' + qs;
+		el2.src = 'data/digidex-mini.js';
 		document.getElementsByTagName('body')[0].appendChild(el2);
 	}
 	getSpriteData(pokemon: Pokemon | Species | string, isFront: boolean, options: {
