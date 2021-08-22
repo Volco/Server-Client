@@ -525,6 +525,10 @@ const Dex = new class Dexes implements ModdedDex {
 	}
 
 	loadSpriteData(gen: 'xy' | 'bw') {
+		let el2 = document.createElement('script');
+		el2.src = 'data/digidex-mini.js';
+		document.getElementsByTagName('body')[0].appendChild(el2);
+		
 		if (this.loadedSpriteData[gen]) return;
 		this.loadedSpriteData[gen] = 1;
 
@@ -535,10 +539,6 @@ const Dex = new class Dexes implements ModdedDex {
 		let el = document.createElement('script');
 		el.src = path + 'data/pokedex-mini-bw.js' + qs;
 		document.getElementsByTagName('body')[0].appendChild(el);
-
-		let el2 = document.createElement('script');
-		el2.src = 'data/digidex-mini.js';
-		document.getElementsByTagName('body')[0].appendChild(el2);
 	}
 	getSpriteData(pokemon: Pokemon | Species | string, isFront: boolean, options: {
 		gen?: number,
