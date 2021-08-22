@@ -1444,8 +1444,8 @@
 		changeFormat: function (format) {
 			this.curTeam.format = format;
 			this.curTeam.gen = this.getGen(this.curTeam.format);
-			/* this.curTeam.dex = Dex.forGen(this.curTeam.gen);
-			if (window.BattleFormats[format] && window.BattleFormats[format].name in window.Formats) {
+			this.curTeam.dex = Dex.forGen(this.curTeam.gen);
+			/* if (window.BattleFormats[format] && window.BattleFormats[format].name in window.Formats) {
 				var mod = window.Formats[window.BattleFormats[format].name].mod;
 				if (mod in window.BattleTeambuilderTable && window.BattleTeambuilderTable[mod].data) {
 					this.curTeam.dex = Dex.serverMod(mod);
