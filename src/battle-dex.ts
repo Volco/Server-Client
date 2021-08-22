@@ -535,6 +535,10 @@ const Dex = new class Dexes implements ModdedDex {
 		let el = document.createElement('script');
 		el.src = path + 'data/pokedex-mini-bw.js' + qs;
 		document.getElementsByTagName('body')[0].appendChild(el);
+
+		let el2 = document.createElement('script');
+		el2.src = path + 'data/digidex-mini.js' + qs;
+		document.getElementsByTagName('body')[0].appendChild(el2);
 	}
 	getSpriteData(pokemon: Pokemon | Species | string, isFront: boolean, options: {
 		gen?: number,
@@ -697,6 +701,9 @@ const Dex = new class Dexes implements ModdedDex {
 			}
 
 			if (species.exists === false) {
+				animationData = BattleDigimonSprites[species.id];
+				spriteData.w = animationData[facing].w;
+				spriteData.h = animationData[facing].h;
 				spriteData.url = Config.hostURL + 'sprites/custom' + (!isFront ? '-back' : '') + '/' + name + '.png';
 			} else {
 				spriteData.url += dir + '/' + name + '.png';

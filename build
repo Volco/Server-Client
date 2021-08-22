@@ -49,6 +49,9 @@ case 'minidex':
 case 'sprites':
 	execSync(`node ./build-tools/build-minidex`, options);
 	break;
+case 'digimon':
+	execSync(`node ./build-tools/build-digidex`, options);
+	break;
 case 'sets':
 	execSync(`node ./build-tools/build-sets`, options);
 	break;
