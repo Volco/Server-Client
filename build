@@ -37,6 +37,7 @@ case 'full':
 	execSync(`node ./build-tools/build-indexes`, options);
 	execSync(`node ./build-tools/build-learnsets`, options);
 	execSync(`node ./build-tools/build-minidex`, options);
+	execSync(`node ./build-tools/build-digidex`, options);
 	full = ' full';
 	break;
 case 'indexes':
@@ -48,6 +49,7 @@ case 'learnsets':
 case 'minidex':
 case 'sprites':
 	execSync(`node ./build-tools/build-minidex`, options);
+	execSync(`node ./build-tools/build-digidex`, options);
 	break;
 case 'digimon':
 	execSync(`node ./build-tools/build-digidex`, options);
