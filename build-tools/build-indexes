@@ -1006,10 +1006,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	//
 
 	// prevent the teambuilder-tables.js file from becoming too large
-	const disallowedMods = ['assb_iii', 'azuremons', 'cuntladder', 'digimon', 'dssb', 'franticfusions', 'franticfusions7', 'fusionevolutionuu', 'hiddentype2', 'metronome', 'monocolor', 'nohaxmons', 'sharedpower', 'ssb', 'tao', 'test', 'weatherwars'];
+	const allowedMods = ['omnifield'];
 
 	for (const mod of MODS) {
-		if (disallowedMods.includes(mod)) continue;
+		if (!allowedMods.includes(mod)) continue;
 		if (mod in BattleTeambuilderTable) continue;
 		let modData = Dex.mod(mod);
 		BattleTeambuilderTable[mod] = {
