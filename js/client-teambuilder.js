@@ -1230,7 +1230,8 @@
 			buf += '<div class="setcell setcell-typeicons">';
 			var types = species.types;
 			if (types) {
-				for (var i = 0; i < types.length; i++) buf += this.curTeam.dex.getTypeIcon(types[i]);
+				//for (var i = 0; i < types.length; i++) buf += this.curTeam.dex.getTypeIcon(types[i]);
+				for (var i = 0; i < types.length; i++) buf += Dex.getTypeIcon(types[i]);
 			}
 			buf += '</div></div>';
 
