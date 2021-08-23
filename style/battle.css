@@ -565,6 +565,12 @@ License: GPLv2
 	background-size: cover;
 }
 
+.snowypeaksweather {
+	background: #DDAAEE url(../fx/field-snowymountain.png) no-repeat scroll left top;
+	color: #661155;
+	background-size: cover;
+}
+
 .ancientruinsweather {
 	background: #DDAAEE url(../fx/field-ancientruins.png) no-repeat scroll left top;
 	color: #661155;
@@ -609,6 +615,12 @@ License: GPLv2
 
 .mountainfieldweather {
 	background: #DDAAEE url(../fx/field-mountainfield.png) no-repeat scroll left top;
+	color: #661155;
+	background-size: cover;
+}
+
+.inversefieldweather {
+	background: #DDAAEE url(../fx/field-inversefield.png) no-repeat scroll left top;
 	color: #661155;
 	background-size: cover;
 }
