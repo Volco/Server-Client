@@ -2898,8 +2898,10 @@ function toId() {
 
 
 function postProxy(a, b, callback) {
-	var datastring = ((a.split('?').length - 1 > 0) ? "&" : "?") + "post=";
-	for (var i in b) datastring += escape(i) + "|";
+	if (!a.includes('uploadreplay')) {
+		var datastring = ((a.split('?').length - 1 > 0) ? "&" : "?") + "post=";
+		for (var i in b) datastring += escape(i) + "|";
+	}
 	$.post(a + datastring, b, callback);
 }
 function getProxy(ab, callback) {
