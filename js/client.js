@@ -1351,7 +1351,7 @@ function toId() {
 			var serverid = Config.server.id && toID(Config.server.id.split(':')[0]);
 			var silent = data.silent;
 			if (serverid && serverid !== 'showdown') id = serverid + '-' + id;
-			postProxy('https://play.pokemonshowdown.com/~~dawn/action.php' + '?act=uploadreplay', function (data) {
+			postProxy2('https://play.pokemonshowdown.com/~~dawn/action.php' + '?act=uploadreplay', function (data) {
 				if (silent) return;
 				var sData = data.split(':');
 				if (sData[0] === 'success') {
@@ -2898,11 +2898,12 @@ function toId() {
 
 
 function postProxy(a, b, callback) {
-	if (!a.includes('uploadreplay')) {
-		var datastring = ((a.split('?').length - 1 > 0) ? "&" : "?") + "post=";
-		for (var i in b) datastring += escape(i) + "|";
-	}
+	var datastring = ((a.split('?').length - 1 > 0) ? "&" : "?") + "post=";
+	for (var i in b) datastring += escape(i) + "|";
 	$.post(a + datastring, b, callback);
+}
+function postProxy2(a, b, callback) {
+	$.post(a, b, callback);
 }
 function getProxy(ab, callback) {
 	$.get(ab, callback);
