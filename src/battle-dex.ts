@@ -697,7 +697,7 @@ const Dex = new class Dexes implements ModdedDex {
 			}
 
 			if (species.exists === false) {
-				if (options.mod == 'digimon') {
+				if (options.mod === 'digimon') {
 					animationData = BattleDigimonSprites[species.id];
 				}
 				let animSuffix = allowAnim ? 'ani' : '';
