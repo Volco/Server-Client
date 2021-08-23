@@ -704,7 +704,14 @@ const Dex = new class Dexes implements ModdedDex {
 				let animExtension = allowAnim ? '.gif' : '.png';
 				spriteData.w = animationData[facing].w;
 				spriteData.h = animationData[facing].h;
-				spriteData.url = Config.hostURL + 'sprites/' + options.mod + animSuffix + (!isFront ? '-back' : '') + '/' + name + animExtension;
+				spriteData.url = Config.hostURL +
+					'sprites/' +
+					options.mod +
+					animSuffix +
+					(!isFront ? '-back' : '') +
+					'/' +
+					name +
+					animExtension;
 			} else {
 				spriteData.url += dir + '/' + name + '.png';
 			}
