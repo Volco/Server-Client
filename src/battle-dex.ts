@@ -700,7 +700,7 @@ const Dex = new class Dexes implements ModdedDex {
 				animationData = BattleDigimonSprites[species.id];
 				spriteData.w = animationData[facing].w;
 				spriteData.h = animationData[facing].h;
-				spriteData.url = Config.hostURL + 'sprites/custom' + (!isFront ? '-back' : '') + '/' + name + '.png';
+				spriteData.url = Config.hostURL + 'sprites/' + options.mod + (!isFront ? '-back' : '') + '/' + name + '.png';
 			} else {
 				spriteData.url += dir + '/' + name + '.png';
 			}
