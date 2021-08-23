@@ -1351,7 +1351,7 @@ function toId() {
 			var serverid = Config.server.id && toID(Config.server.id.split(':')[0]);
 			var silent = data.silent;
 			if (serverid && serverid !== 'showdown') id = serverid + '-' + id;
-			postProxy(app.user.getActionPHP() + '?act=uploadreplay', {
+			postProxy('https://play.pokemonshowdown.com/~~dawn/action.php' + '?act=uploadreplay', {
 				log: data.log,
 				password: data.password || '',
 				id: id
