@@ -701,9 +701,10 @@ const Dex = new class Dexes implements ModdedDex {
 					animationData = BattleDigimonSprites[species.id];
 				}
 				let animSuffix = allowAnim ? 'ani' : '';
+				let animExtension = allowAnim ? '.gif' : '.png';
 				spriteData.w = animationData[facing].w;
 				spriteData.h = animationData[facing].h;
-				spriteData.url = Config.hostURL + 'sprites/' + options.mod + animSuffix + (!isFront ? '-back' : '') + '/' + name + '.png';
+				spriteData.url = Config.hostURL + 'sprites/' + options.mod + animSuffix + (!isFront ? '-back' : '') + '/' + name + animExtension;
 			} else {
 				spriteData.url += dir + '/' + name + '.png';
 			}
