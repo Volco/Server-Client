@@ -543,7 +543,8 @@ abstract class BattleTypedSearch<T extends SearchType> {
 	 */
 	set: PokemonSet | null = null;
 	learnsets = BattleTeambuilderTable.learnsets;
-	protected formatType: 'doubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' | 'dlc1' | 'dlc1doubles' | 'digimon' | null = null;
+	protected formatType: 'doubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' | 'dlc1' | 'dlc1doubles' |
+	'digimon' | null = null;
 
 	/**
 	 * Cached copy of what the results list would be with only base filters
