@@ -543,7 +543,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 	 */
 	set: PokemonSet | null = null;
 	learnsets = BattleTeambuilderTable.learnsets;
-	protected formatType: 'doubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' | 'dlc1' | 'dlc1doubles' | null = null;
+	protected formatType: 'doubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' | 'dlc1' | 'dlc1doubles' | 'digimon' | null = null;
 
 	/**
 	 * Cached copy of what the results list would be with only base filters
@@ -596,6 +596,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 				format.includes('natdex') ? format.slice(6) : format.slice(11)) as ID;
 			this.formatType = 'natdex';
 			if (!format) format = 'ou' as ID;
+		}
+		if (format.includes('digimon')) {
+			this.formatType = 'digimon';
 		}
 		if (this.formatType === 'letsgo') format = format.slice(6) as ID;
 		if (format.includes('metronome')) {
@@ -752,7 +755,8 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			return pokemon.num >= 0 ? String(pokemon.num) : pokemon.tier;
 		}
 		let table = window.BattleTeambuilderTable;
-		const tableKey = this.formatType === 'doubles' ? `gen${this.dex.gen}doubles` :
+		const tableKey = this.formatType === 'digimon' ? 'digimon' :
+		  this.formatType === 'doubles' ? `gen${this.dex.gen}doubles` :
 			this.formatType === 'letsgo' ? 'letsgo' :
 			this.formatType === 'nfe' ? `gen${this.dex.gen}nfe` :
 			this.formatType === 'dlc1' ? 'gen8dlc1' :
@@ -774,7 +778,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (id in table.overrideTier) {
 			return table.overrideTier[id];
 		}
-
 		return pokemon.tier;
 	}
 	abstract getTable(): {[id: string]: any};
@@ -869,6 +872,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			} else {
 				table = table['gen8dlc1'];
 			}
+		} else if (this.formatType === 'digimon') {
+			table = table['digimon'];
 		}
 
 		if (!table.tierSet) {
@@ -1089,12 +1094,15 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 	}
 	getDefaultResults(): SearchRow[] {
 		let table = BattleTeambuilderTable;
+
 		if (this.dex.gen < 8) {
 			table = table['gen' + this.dex.gen];
 		} else if (this.formatType === 'natdex') {
 			table = table['natdex'];
 		} else if (this.formatType === 'metronome') {
 			table = table['metronome'];
+		} else if (this.formatType === 'digimon') {
+			table = table['digimon'];
 		}
 		if (!table.itemSet) {
 			table.itemSet = table.items.map((r: any) => {
@@ -1593,11 +1601,11 @@ class BattleCategorySearch extends BattleTypedSearch<'category'> {
 
 class BattleTypeSearch extends BattleTypedSearch<'type'> {
 	getTable() {
-		return this.dex.modData ? this.dex.modData.TypeChart : window.BattleTypeChart;
+		return window.BattleTypeChart;
 	}
 	getDefaultResults(): SearchRow[] {
 		const results: SearchRow[] = [];
-		for (let id in this.getTable()) {
+		for (let id in window.BattleTypeChart) {
 			results.push(['type', id as ID]);
 		}
 		return results;
