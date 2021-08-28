@@ -517,7 +517,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 
 		if (isDigimon) {
 			BattleTeambuilderTable['digimon'] = {};
-			BattleTeambuilderTable['digimon'].overrideTier = overrideTier;
+			BattleTeambuilderTable['digimon'].overrideTier = {};
 			BattleTeambuilderTable['digimon'].tiers = tiers;
 			BattleTeambuilderTable['digimon'].items = items;
 			BattleTeambuilderTable['digimon'].formatSlices = formatSlices;
