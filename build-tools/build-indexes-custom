@@ -520,7 +520,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			for (let digimon in overrideTier) {
 				overrideTier[digimon] = "OU";
 			}
-			BattleTeambuilderTable['digimon'].overrideTier = {};
+			BattleTeambuilderTable['digimon'].overrideTier = overrideTier;
 			BattleTeambuilderTable['digimon'].tiers = tiers;
 			BattleTeambuilderTable['digimon'].items = items;
 			BattleTeambuilderTable['digimon'].formatSlices = formatSlices;
