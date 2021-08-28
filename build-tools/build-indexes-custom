@@ -1098,7 +1098,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 {
 	let Dex = requireNoCache('../data/pokemon-showdown/.data-dist/pokedex.js').Pokedex;
 	const Digidex = requireNoCache(dawnPath + '.data-dist/mods/digimon/pokedex.js').Pokedex;
-	const DigiFormatsData = requireNoCache('../data/digimon-formats-data.js').FormatsData;
+	const DigiFormatsData = requireNoCache('../format-datas/digimon-formats-data.js').FormatsData;
 	DawnDex.data.FormatsData = Object.assign(DigiFormatsData, DawnDex.data.FormatsData);
 	Dex = Object.assign(Digidex, Dex);
 	for (const id in Dex) {
