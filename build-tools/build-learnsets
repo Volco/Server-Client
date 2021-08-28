@@ -18,7 +18,15 @@ const thisFile = __filename;
 const thisDir = __dirname;
 const rootDir = path.resolve(thisDir, '..');
 
-const Dex = require('../data/pokemon-showdown/.sim-dist/dex').Dex;
+// Make sure this is true when committing
+const isVPS = false;
+
+const vpsDawnPath = '/home/dawn/Dawn/';
+const localDawnPath = '../data/Dawn/';
+
+const dawnPath = isVPS ? vpsDawnPath : localDawnPath;
+
+const Dex = require(dawnPath + '.sim-dist/dex').Dex;
 const toID = Dex.toID;
 
 function updateLearnsets(callback) {
@@ -35,8 +43,12 @@ function updateLearnsets(callback) {
 		return firstFragment + levelFragment.padStart(3, '0') + sortFragment;
 	};
 
-	const Pokedex = Dex.data.Pokedex;
-	const Learnsets = Dex.data.Learnsets;
+	let Pokedex = Dex.data.Pokedex;
+	let Learnsets = Dex.data.Learnsets;
+	let Digidex = Dex.mod('digimon').data.Pokedex;
+	let DigiLearnsets = Dex.mod('digimon').data.Learnsets;
+	Pokedex = Object.assign(Digidex, Pokedex);
+	Learnsets = Object.assign(DigiLearnsets, Learnsets);
 	const newLearnsetsG6 = {};
 
 	for (const speciesid in Learnsets) {

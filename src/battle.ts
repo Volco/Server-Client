@@ -691,7 +691,6 @@ export class Side {
 			this.sideConditions[condition] = [effect.name, 1, 5, 0];
 			break;
 		case 'tailwind':
-			console.log('updated bb');
 			let isSkyField = this.battle.pseudoWeather.length > 0 && this.battle.pseudoWeather[0][0] === 'Sky Field';
 			this.sideConditions[condition] = [effect.name, 1,  isSkyField ? 5 : this.battle.gen >= 5 ? 4 : 3, 0];
 			break;

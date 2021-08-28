@@ -756,7 +756,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		}
 		let table = window.BattleTeambuilderTable;
 		const tableKey = this.formatType === 'digimon' ? 'digimon' :
-		  this.formatType === 'doubles' ? `gen${this.dex.gen}doubles` :
+			this.formatType === 'doubles' ? `gen${this.dex.gen}doubles` :
 			this.formatType === 'letsgo' ? 'letsgo' :
 			this.formatType === 'nfe' ? `gen${this.dex.gen}nfe` :
 			this.formatType === 'dlc1' ? 'gen8dlc1' :
