@@ -696,7 +696,7 @@ const Dex = new class Dexes implements ModdedDex {
 				name += '-f';
 			}
 
-			if (species.exists === false) {
+			if (species.num < 0) {
 				if (options.mod === 'digimon') {
 					animationData = BattleDigimonSprites[species.id];
 				}
@@ -706,7 +706,7 @@ const Dex = new class Dexes implements ModdedDex {
 				spriteData.h = animationData[facing].h;
 				spriteData.url = Config.hostURL +
 					'sprites/' +
-					options.mod +
+					'custom' +
 					animSuffix +
 					(!isFront ? '-back' : '') +
 					'/' +
@@ -801,10 +801,12 @@ const Dex = new class Dexes implements ModdedDex {
 		let left = (num % 12) * 40;
 		let fainted = ((pokemon as Pokemon | ServerPokemon)?.fainted ? `;opacity:.3;filter:grayscale(100%) brightness(.5)` : ``);
 
+		// removed the -icon extension of the first return because digimon doesn't have those files
+		// might make seperate folder with icons so we don't break compatibility with digimon (or figure out the scroll thingy)
 		// @ts-ignore
 		if (id && !num) {
 			// @ts-ignore
-			return `background:transparent url(${Config.hostURL}sprites/custom/${id}-icon.png) no-repeat scroll ${fainted}; background-size: 30px 30px;`;
+			return `background:transparent url(${Config.hostURL}sprites/custom/${id}.png) no-repeat scroll ${fainted}; background-size: 30px 30px;`;
 		} else {
 			return `background:transparent url(${Dex.resourcePrefix}sprites/pokemonicons-sheet.png?v5) no-repeat scroll -${left}px -${top}px${fainted}`;
 		}
@@ -817,9 +819,8 @@ const Dex = new class Dexes implements ModdedDex {
 		if (pokemon.species && !spriteid) {
 			spriteid = species.spriteid || toID(pokemon.species);
 		}
-
 		// if it doesn't exist then add it so you don't get a broken image lol it's a custom client you can easily add the image
-		if (species.exists === false) {
+		if (species.num < 0) {
 			return {
 				spriteDir: 'sprites/custom', spriteid, x: 0, y: 5, isCustom: true,
 			};
@@ -1021,7 +1022,6 @@ class ModdedDex {
 			if (this.cache.Species.hasOwnProperty(id)) return this.cache.Species[id];
 
 			let data = {...Dex.species.get(name)};
-
 			for (let i = Dex.gen - 1; i >= this.gen; i--) {
 				const table = window.BattleTeambuilderTable[`gen${i}`];
 				if (id in table.overrideSpeciesData) {
