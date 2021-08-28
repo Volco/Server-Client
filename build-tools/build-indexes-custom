@@ -1198,7 +1198,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 
 {
 	let FormatsData = requireNoCache('../data/pokemon-showdown/.data-dist/formats-data.js').FormatsData;
-	const DigiFormatsData = requireNoCache(dawnPath + '.data-dist/mods/digimon/formats-data.js').FormatsData;
+	const DigiFormatsData = requireNoCache('../format-datas/digimon-formats-data.js').FormatsData;
 	FormatsData = Object.assign(DigiFormatsData, FormatsData);
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('data/formats-data.js', buf);
