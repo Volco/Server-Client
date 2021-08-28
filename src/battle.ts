@@ -3539,7 +3539,9 @@ export class Battle {
 				}
 			} catch (err) {
 				this.log(['majorerror', 'Error parsing: ' + str + ' (' + err + ')']);
+				// @ts-ignore
 				if (err.stack) {
+					// @ts-ignore
 					let stack = ('' + err.stack).split('\n');
 					for (const line of stack) {
 						if (/\brun\b/.test(line)) {
