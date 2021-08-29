@@ -466,9 +466,9 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				}
 				return species.tier;
 			})();
-			/*	if (isDigimon) {
+			if (isDigimon) {
 				 tier = 'OU';
-			} */
+			}
 			overrideTier[species.id] = tier;
 			if (species.forme) {
 				if (
@@ -517,9 +517,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 
 		if (isDigimon) {
 			BattleTeambuilderTable['digimon'] = {};
-			for (let digimon in overrideTier) {
-				overrideTier[digimon] = "OU";
-			}
 			BattleTeambuilderTable['digimon'].overrideTier = overrideTier;
 			BattleTeambuilderTable['digimon'].tiers = tiers;
 			BattleTeambuilderTable['digimon'].items = items;
@@ -576,10 +573,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		const tierOrder = (() => {
-			if (isNatDex || isDigimon) {
+			if (isNatDex) {
 				return ["CAP", "CAP NFE", "CAP LC", "AG", "Uber", "OU", "UUBL", "(OU)", "UU", "(UU)", "NFE", "LC"];
 			}
-			if (isLetsGo) {
+			if (isLetsGo || isDigimon) {
 				return ["Uber", "OU", "UU", "NFE", "LC"];
 			}
 			if (isVGC) {
@@ -612,6 +609,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				if (usedTier === "(DUU)") usedTier = "DNU";
 				formatSlices[usedTier] = tiers.length;
 			}
+
 			if (!tierTable[tier]) continue;
 			if (tier === "(UU)") {
 				tiers.push(['header', "Below UU"]);
