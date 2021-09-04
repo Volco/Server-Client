@@ -8,7 +8,7 @@ process.chdir(path.resolve(__dirname, '..'));
 const imageSize = require('image-size');
 
 // Make sure this is true when committing
-const isVPS = false;
+const isVPS = true;;
 
 const vpsDawnPath = '/home/dawn/Dawn/';
 const localDawnPath = '../data/Dawn/';
