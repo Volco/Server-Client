@@ -560,11 +560,9 @@ const Dex = new class Dexes implements ModdedDex {
 		}
 
 		// temp fix
-		console.log(pokemon);
-		if (pokemon === 'hkabuterimonx') pokemon = 'Herculeskabuterimon-X';
-		if (pokemon === 'hkabuterimon') pokemon = 'Herculeskabuterimon';
+		if (pokemon === 'H-Kabuterimon-X') pokemon = 'Herculeskabuterimon-X';
+		if (pokemon === 'H-Kabuterimon') pokemon = 'Herculeskabuterimon';
 		const species = Dex.species.get(pokemon);
-		console.log(species);
 		// Gmax sprites are already extremely large, so we don't need to double.
 		if (species.name.endsWith('-Gmax')) isDynamax = false;
 		let spriteData = {
