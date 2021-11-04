@@ -507,8 +507,8 @@ License: GPLv2
 	background-size: cover;
 }
 
-.serenefieldweather {
-	background: #CCAAEE url(../fx/field-serenefield.png) no-repeat scroll left top;
+.blessedsanctumweather {
+	background: #CCAAEE url(../fx/field-blessedsanctum.png) no-repeat scroll left top;
 	background-size: cover;
 }
 
@@ -522,8 +522,8 @@ License: GPLv2
 	background-size: cover;
 }
 
-.corrosivemistweather {
-	background: #CCAAEE url(../fx/field-corrosivemist.png) no-repeat scroll left top;
+.acidicwastelandweather {
+	background: #CCAAEE url(../fx/field-acidicwasteland.png) no-repeat scroll left top;
 	background-size: cover;
 }
 
