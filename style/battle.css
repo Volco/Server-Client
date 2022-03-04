@@ -442,10 +442,6 @@ License: GPLv2
 	background: #AADDEE url(../fx/weather-hail.png) no-repeat scroll left top;
 	color: #114455;
 }
-.shadowstorm {
-	background: #AADDEE url(../fx/weather-shadowstorm.png) no-repeat scroll left top;
-	color: #114455;
-}
 .deltastreamweather {
 	background: #AAAAAA url(../fx/weather-strongwind.png) no-repeat scroll left top;
 	color: #666666;
@@ -476,10 +472,6 @@ License: GPLv2
 }
 .trickroomweather {
 	background: #DDAAEE url(../fx/weather-trickroom.png) no-repeat scroll left top;
-	color: #661155;
-}
-.shadowmistweather {
-	background: #DDAAEE url(../fx/weather-shadowhaze.png) no-repeat scroll left top;
 	color: #661155;
 }
 .wonderroomweather {
