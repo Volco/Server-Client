@@ -577,6 +577,7 @@ class BattleTooltips {
 						zMove = this.battle.dex.moves.get(BattleTooltips.zMoveTable['Ice']);
 						break;
 					default:
+						zMove = this.battle.dex.moves.get(BattleTooltips.zMoveTable['Normal']);
 						break;
 					}
 				}
