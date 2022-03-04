@@ -632,6 +632,9 @@ export const BattleMoveAnims: AnimTable = {
 	hail: {
 		anim: BattleOtherAnims.dance.anim,
 	},
+	shadowstorm: {
+		anim: BattleOtherAnims.dance.anim,
+	},
 	sandstorm: {
 		anim: BattleOtherAnims.dance.anim,
 	},
@@ -643,6 +646,9 @@ export const BattleMoveAnims: AnimTable = {
 		},
 	},
 	trickroom: {
+		anim: BattleOtherAnims.dance.anim,
+	},
+	shadowmist: {
 		anim: BattleOtherAnims.dance.anim,
 	},
 	magicroom: {

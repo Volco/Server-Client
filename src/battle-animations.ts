@@ -924,6 +924,7 @@ export class BattleScene implements BattleSceneStub {
 				primordialsea: 'Heavy Rain',
 				sandstorm: 'Sandstorm',
 				hail: 'Hail',
+				shadowstorm: 'Shadow Storm',
 				deltastream: 'Strong Winds',
 			};
 			weatherhtml = `${weatherNameTable[this.battle.weather] || this.battle.weather}`;
