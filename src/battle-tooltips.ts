@@ -1368,7 +1368,7 @@ class BattleTooltips {
 				moveType = 'Ice';
 				break;
 			case 'shadowstorm':
-				moveType = '???'
+				moveType = '???';
 				break;
 			}
 		}
