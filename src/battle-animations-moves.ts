@@ -632,6 +632,9 @@ export const BattleMoveAnims: AnimTable = {
 	hail: {
 		anim: BattleOtherAnims.dance.anim,
 	},
+	shadowstorm: {
+		anim: BattleOtherAnims.dance.anim,
+	},
 	sandstorm: {
 		anim: BattleOtherAnims.dance.anim,
 	},
@@ -643,6 +646,9 @@ export const BattleMoveAnims: AnimTable = {
 		},
 	},
 	trickroom: {
+		anim: BattleOtherAnims.dance.anim,
+	},
+	shadowmist: {
 		anim: BattleOtherAnims.dance.anim,
 	},
 	magicroom: {
@@ -17601,6 +17607,65 @@ export const BattleMoveAnims: AnimTable = {
 			}, {
 				x: +30,
 				y: defender.y - 45,
+				z: defender.z,
+				scale: 0.3,
+				opacity: 1,
+			}, 'ballistic');
+		},
+	},
+	voltaicneedle: {
+		anim(scene, [attacker, defender]) {
+			scene.showEffect('electricspike', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.1,
+				opacity: 0.5,
+			}, {
+				x: defender.leftof(-40),
+				y: defender.y - 45,
+				z: defender.z,
+				scale: 0.3,
+				opacity: 1,
+			}, 'ballistic');
+			scene.showEffect('electricspike', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.1,
+				opacity: 0.5,
+				time: 125,
+			}, {
+				x: defender.leftof(-15),
+				y: defender.y - 15,
+				z: defender.z,
+				scale: 0.3,
+				opacity: 1,
+			}, 'ballistic');
+			scene.showEffect('electricspike', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.1,
+				opacity: 0.5,
+				time: 250,
+			}, {
+				x: defender.leftof(20),
+				y: defender.y - 5,
+				z: defender.z,
+				scale: 0.3,
+				opacity: 1,
+			}, 'ballistic');
+			scene.showEffect('electricspike', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.1,
+				opacity: 0.5,
+				time: 250,
+			}, {
+				x: defender.leftof(55),
+				y: defender.y - 30,
 				z: defender.z,
 				scale: 0.3,
 				opacity: 1,

@@ -924,6 +924,7 @@ export class BattleScene implements BattleSceneStub {
 				primordialsea: 'Heavy Rain',
 				sandstorm: 'Sandstorm',
 				hail: 'Hail',
+				shadowstorm: 'Shadow Storm',
 				deltastream: 'Strong Winds',
 			};
 			weatherhtml = `${weatherNameTable[this.battle.weather] || this.battle.weather}`;
@@ -1300,6 +1301,58 @@ export class BattleScene implements BattleSceneStub {
 				}, this);
 				this.$spritesFront[spriteIndex].append(spike3.$el!);
 				spikeArray.push(spike3);
+			}
+			break;
+		case 'voltaicneedle':
+			let vspikeArray = this.sideConditions[siden]['voltaicneedle'];
+			if (!vspikeArray) {
+				vspikeArray = [];
+				this.sideConditions[siden]['voltaicneedle'] = vspikeArray;
+			}
+			let vlevels = this.battle.sides[siden].sideConditions['voltaicneedle'][1];
+			if (vspikeArray.length < 1 && vlevels >= 1) {
+				const spike1 = new Sprite(BattleEffects.electricspike, {
+					display: 'block',
+					x: side.leftof(-40),
+					y: side.y - 45,
+					z: side.z,
+					scale: 0.3,
+				}, this);
+				this.$spritesFront[spriteIndex].append(spike1.$el!);
+				vspikeArray.push(spike1);
+			}
+			if (vspikeArray.length < 2 && vlevels >= 2) {
+				const spike2 = new Sprite(BattleEffects.electricspike, {
+					display: 'block',
+					x: side.leftof(-15),
+					y: side.y - 15,
+					z: side.z,
+					scale: .3,
+				}, this);
+				this.$spritesFront[spriteIndex].append(spike2.$el!);
+				vspikeArray.push(spike2);
+			}
+			if (vspikeArray.length < 3 && vlevels >= 3) {
+				const spike3 = new Sprite(BattleEffects.electricspike, {
+					display: 'block',
+					x: side.leftof(20),
+					y: side.y - 5,
+					z: side.z,
+					scale: .3,
+				}, this);
+				this.$spritesFront[spriteIndex].append(spike3.$el!);
+				vspikeArray.push(spike3);
+			}
+			if (vspikeArray.length < 3 && vlevels >= 4) {
+				const spike3 = new Sprite(BattleEffects.electricspike, {
+					display: 'block',
+					x: side.leftof(55),
+					y: side.y - 30,
+					z: side.z,
+					scale: .3,
+				}, this);
+				this.$spritesFront[spriteIndex].append(spike3.$el!);
+				vspikeArray.push(spike3);
 			}
 			break;
 		case 'toxicspikes':
@@ -2878,6 +2931,10 @@ const BattleEffects: {[k: string]: SpriteData} = {
 	},
 	caltrop: {
 		url: 'caltrop.png', // by Pokemon Showdown user SailorCosmos
+		w: 80, h: 80,
+	},
+	electricspike: {
+		url: 'electricspike.png', // by the folks who make rejuvination
 		w: 80, h: 80,
 	},
 	greenmetal1: {
