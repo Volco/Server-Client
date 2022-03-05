@@ -576,6 +576,9 @@ class BattleTooltips {
 					case 'hail':
 						zMove = this.battle.dex.moves.get(BattleTooltips.zMoveTable['Ice']);
 						break;
+					default:
+						zMove = this.battle.dex.moves.get(BattleTooltips.zMoveTable['Normal']);
+						break;
 					}
 				}
 				move = new Move(zMove.id, zMove.name, {
@@ -1364,6 +1367,9 @@ class BattleTooltips {
 				break;
 			case 'hail':
 				moveType = 'Ice';
+				break;
+			case 'shadowstorm':
+				moveType = '???';
 				break;
 			}
 		}

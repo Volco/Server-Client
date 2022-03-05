@@ -667,7 +667,7 @@ export class Side {
 	addSideCondition(effect: Effect) {
 		let condition = effect.id;
 		if (this.sideConditions[condition]) {
-			if (condition === 'spikes' || condition === 'toxicspikes') {
+			if (condition === 'spikes' || condition === 'toxicspikes' || condition === 'voltaicneedle') {
 				this.sideConditions[condition][1]++;
 			}
 			this.battle.scene.addSideCondition(this.n, condition);
@@ -698,6 +698,7 @@ export class Side {
 			this.sideConditions[condition] = [effect.name, 1, 5, 0];
 			break;
 		case 'stealthrock':
+		case 'voltaicneedle':
 		case 'spikes':
 		case 'toxicspikes':
 		case 'stickyweb':
@@ -1353,7 +1354,7 @@ export class Battle {
 	}
 	swapSideConditions() {
 		const sideConditions = [
-			'mist', 'lightscreen', 'reflect', 'spikes', 'safeguard', 'tailwind', 'toxicspikes', 'stealthrock', 'waterpledge', 'firepledge', 'grasspledge', 'stickyweb', 'auroraveil', 'gmaxsteelsurge', 'gmaxcannonade', 'gmaxvinelash', 'gmaxwildfire',
+			'mist', 'lightscreen', 'reflect', 'spikes', 'safeguard', 'tailwind', 'toxicspikes', 'voltaicneedle', 'stealthrock', 'waterpledge', 'firepledge', 'grasspledge', 'stickyweb', 'auroraveil', 'gmaxsteelsurge', 'gmaxcannonade', 'gmaxvinelash', 'gmaxwildfire',
 		];
 		if (this.gameType === 'freeforall') {
 			// TODO: Add FFA support
