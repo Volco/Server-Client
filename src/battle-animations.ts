@@ -1324,7 +1324,7 @@ export class BattleScene implements BattleSceneStub {
 			if (vspikeArray.length < 2 && vlevels >= 2) {
 				const spike2 = new Sprite(BattleEffects.electricspike, {
 					display: 'block',
-					x: side.leftof(-15),
+					x: side.leftof(-5),
 					y: side.y - 15,
 					z: side.z,
 					scale: .3,
@@ -1343,7 +1343,7 @@ export class BattleScene implements BattleSceneStub {
 				this.$spritesFront[spriteIndex].append(spike3.$el!);
 				vspikeArray.push(spike3);
 			}
-			if (vspikeArray.length < 3 && vlevels >= 4) {
+			if (vspikeArray.length < 4 && vlevels >= 4) {
 				const spike3 = new Sprite(BattleEffects.electricspike, {
 					display: 'block',
 					x: side.leftof(55),
