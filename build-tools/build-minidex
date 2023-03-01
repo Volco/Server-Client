@@ -6,7 +6,7 @@ const path = require("path");
 process.chdir(path.resolve(__dirname, '..'));
 const imageSize = require('image-size');
 
-const Dex = require('./../data/pokemon-showdown/.sim-dist/dex').Dex;
+const Dex = require('./../data/pokemon-showdown/dist/sim/dex').Dex;
 const toID = Dex.toID;
 
 process.stdout.write("Updating animated sprite dimensions... ");
@@ -92,9 +92,13 @@ function updateSizes() {
 	fs.writeFileSync('data/pokedex-mini-bw.js', g5buf);
 }
 
-if (fs.existsSync('sprites/')) {
+if (fs.existsSync('sprites/ani/')) {
 	updateSizes();
 	console.log('DONE');
 } else {
+	try {
+		fs.unlinkSync('data/pokedex-mini.js');
+		fs.unlinkSync('data/pokedex-mini-bw.js');
+	} catch (e) {}
 	console.log('SKIPPED');
 }

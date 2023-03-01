@@ -79,7 +79,7 @@ Teams are saved using your cookies. If you clear your cookies, you clear your te
 
 ### How do I add my friend?
 
-Currently PS! does not have a friends system; however, one is planned.
+Type `/friend add (name)` to add friends. You can view your list of friends with the command `/friends`.
 
 ### Why did the server restart?
 
@@ -91,7 +91,7 @@ If you want to join a tournament, click the "join" button or type `/tour join` i
 
 ### What are groupchats and how can I make one?
 
-Groupchats on PS! are user-created chatrooms that can be used to talk with friends on any topic allowed by global rules. Tournaments can also be conducted within groupchats. To create your own groupchat, use the command `/makegroupchat [name]`. Unlike typical rooms, the creator of a groupchat attains the rank of Host (★) which grants less privileges than Room Owner (#).
+Groupchats on PS! are user-created chatrooms that can be used to talk with friends on any topic allowed by global rules. Tournaments can also be conducted within groupchats. To create your own groupchat, use the command `/makegroupchat [name]`. Unlike typical rooms, the creator of a groupchat attains the rank of Host (★) which grants less privileges than Room Owner (#). Groupchats are only available to trusted users (public room staff / global voice or up).
 
 ### How do I change the look / background of PS?
 
@@ -165,10 +165,9 @@ Certain rare Pokemon are "shiny-locked", meaning that their shiny forms have nev
 
 Often a Pokemon can legally fulfill multiple conditions individually, such as a learned move and shininess, but certain combinations are incompatible (impossible to have at the same time).
 
-For example, Surf Pikachu is legal, and so is Extreme Speed Pikachu, but one Pikachu can't legally have both moves. Pikachu only gets each move by event, and by different events, so no event Pikachu knows both moves. You can use `/learn Pokemon, move` to see how a Pokemon learns a move, and `/learn Pokemon, move1, move2` to see if multiple moves are compatible on it.
+For example, Fly Pikachu is legal, and so is Extreme Speed Pikachu, but one Pikachu can't legally have both moves. Pikachu only gets each move by event, and by different events, so no event Pikachu knows both moves. You can use `/learn Pokemon, move` to see how a Pokemon learns a move, and `/learn Pokemon, move1, move2` to see if multiple moves are compatible on it.
 
-Similarly, Clefable cannot both know Soft-Boiled and use its hidden ability Unaware at once, since Clefable only learns Soft-Boiled in Generation III and earlier while Hidden Abilities are only usable in Generation V and later.
-
+Similarly, prior to Generation VIII Clefable cannot both know Soft-Boiled and have its Hidden Ability Unaware at once, since Clefable only learns Soft-Boiled in Generation III while Hidden Abilities are only obtainable in Generation V and later. This became possible with the release of The Crown Tundra by using an Ability Patch.
 ### How do I reset my win / loss ratio?
 
 Type `/rank` and in the box there will be a link to 'Reset W/L'. Following this link allows you to reset your ratio. Note that your other rankings will be unaffected; only your win/loss ratio will change. To change these other rankings, you can start off fresh with a new account.
