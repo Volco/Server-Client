@@ -627,6 +627,12 @@ License: GPLv2
 	background-size: cover;
 }
 
+.fablefieldweather {
+	background: #DDAAEE url(../fx/field-fablefield.png) no-repeat scroll left top;
+	color: #661155;
+	background-size: cover;
+}
+
 .inversefieldweather {
 	background: #DDAAEE url(../fx/field-inversefield.png) no-repeat scroll left top;
 	color: #661155;
