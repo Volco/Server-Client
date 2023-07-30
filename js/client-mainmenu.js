@@ -19,7 +19,8 @@
 			'blur textarea': 'onBlurPM',
 			'click .spoiler': 'clickSpoiler',
 			'click button.formatselect': 'selectFormat',
-			'click button.teamselect': 'selectTeam'
+			'click button.teamselect': 'selectTeam',
+			'keyup input': 'selectTeammate'
 		},
 		initialize: function () {
 			this.$el.addClass('scrollable');
@@ -43,12 +44,17 @@
 				buf += '<div class="menugroup"><form class="battleform" data-search="1">';
 				buf += '<p><label class="label">Format:</label>' + this.renderFormats() + '</p>';
 				buf += '<p><label class="label">Team:</label>' + this.renderTeams() + '</p>';
+				buf += '<p><label class="label" name="partner" style="display:none">';
+				buf += 'Partner: <input name="teammate" /></label></p>';
 				buf += '<p><label class="checkbox"><input type="checkbox" name="private" ' + (Storage.prefs('disallowspectators') ? 'checked' : '') + ' /> <abbr title="You can still invite spectators by giving them the URL or using the /invite command">Don\'t allow spectators</abbr></label></p>';
 				buf += '<p><button class="button mainmenu1 big" name="search"><strong>Battle!</strong><br /><small>Find a random opponent</small></button></p></form></div>';
 			}
 
-			buf += '<div class="menugroup"><p><button class="button mainmenu2" name="joinRoom" value="teambuilder">Teambuilder</button></p>';
-			buf += '<p><button class="button mainmenu3" name="joinRoom" value="ladder">Ladder</button></p></div>';
+			buf += '<div class="menugroup">';
+			buf += '<p><button class="button mainmenu2" name="joinRoom" value="teambuilder">Teambuilder</button></p>';
+			buf += '<p><button class="button mainmenu3" name="joinRoom" value="ladder">Ladder</button></p>';
+			buf += '<p><button class="button mainmenu4" name="send" value="/smogtours">Tournaments</button></p>';
+			buf += '</div>';
 
 			buf += '<div class="menugroup"><p><button class="button mainmenu4 onlineonly disabled" name="joinRoom" value="battles">Watch a battle</button></p>';
 			buf += '<p><button class="button mainmenu5 onlineonly disabled" name="finduser">Find a user</button></p></div>';
@@ -274,6 +280,15 @@
 			buf += '<p class="buttonbar"><button name="acceptChallenge"><strong>' + BattleLog.escapeHTML(acceptButtonLabel) + '</strong></button> <button type="button" name="rejectChallenge">' + BattleLog.escapeHTML(rejectButtonLabel) + '</button></p></form>';
 			$challenge.html(buf);
 		},
+
+		selectTeammate: function (e) {
+			if (e.currentTarget.name !== 'teammate' || e.keyCode !== 13) return;
+			var partner = toID(e.currentTarget.value);
+			if (!partner.length) return;
+			app.send('/requestpartner ' + partner + ',' + this.curFormat);
+			e.currentTarget.value = '';
+		},
+
 		openPM: function (name, dontFocus) {
 			var userid = toID(name);
 			var $pmWindow = this.$pmBox.find('.pm-window-' + userid);
@@ -893,7 +908,6 @@
 			var $teamButton = $pmWindow.find('button[name=team]');
 			var privacy = this.adjustPrivacy($pmWindow.find('input[name=private]').is(':checked'));
 
-			target.disabled = true;
 			if ($teamButton.length) {
 				var teamIndex = $teamButton.val();
 				var team = null;
@@ -904,6 +918,7 @@
 				}
 				app.sendTeam(team);
 			}
+			target.disabled = true;
 			app.send(privacy + '/accept ' + userid);
 		},
 		rejectChallenge: function (i, target) {
@@ -982,8 +997,8 @@
 			if (!noChoice) {
 				this.curFormat = formatid;
 				if (!this.curFormat) {
-					if (BattleFormats['gen8randombattle']) {
-						this.curFormat = 'gen8randombattle';
+					if (BattleFormats['gen9randombattle']) {
+						this.curFormat = 'gen9randombattle';
 					} else for (var i in BattleFormats) {
 						if (!BattleFormats[i].searchShow || !BattleFormats[i].challengeShow) continue;
 						this.curFormat = i;
@@ -1228,7 +1243,7 @@
 				var formatName = BattleLog.escapeFormat(format.id);
 				if (formatName.charAt(0) !== '[') formatName = '[Gen 6] ' + formatName;
 				formatName = formatName.replace('[Gen 8 ', '[');
-				formatName = formatName.replace('[Gen 8] ', '');
+				formatName = formatName.replace('[Gen 9] ', '');
 				formatName = formatName.replace('[Gen 7 ', '[');
 				bufs[curBuf] += '<li><button name="selectFormat" value="' + i + '"' + (curFormat === i ? ' class="sel"' : '') + '>' + formatName + '</button></li>';
 			}
@@ -1256,6 +1271,10 @@
 				app.rooms[''].curTeamIndex = -1;
 				var $teamButton = this.sourceEl.closest('form').find('button[name=team]');
 				if ($teamButton.length) $teamButton.replaceWith(app.rooms[''].renderTeams(format));
+				var $partnerLabels = $('label[name=partner]');
+				$partnerLabels.each(function (i, label) {
+					label.style.display = BattleFormats[format].partner ? '' : 'none';
+				});
 			}
 			this.sourceEl.val(format).html(BattleLog.escapeFormat(format) || '(Select a format)');
 

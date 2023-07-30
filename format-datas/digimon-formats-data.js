@@ -805,7 +805,7 @@
 		tier: "OU",
 		isNonstandard: null,
 	},
-	herculeskabuterimon: {
+	hkabuterimon: {
 		inherit: true,
 		tier: "OU",
 		isNonstandard: null,
@@ -1120,7 +1120,7 @@
 		tier: "OU",
 		isNonstandard: null,
 	},
-	herculeskabuterimonx: {
+	hkabuterimonx: {
 		inherit: true,
 		tier: "OU",
 		isNonstandard: null,

@@ -29,9 +29,9 @@ const PSPrefsDefaults: {[key: string]: any} = {};
  */
 class PSPrefs extends PSStreamModel<string | null> {
 	/**
-	 * Dark mode!
+	 * The theme to use. "system" matches the theme of the system accessing the client.
 	 */
-	dark = false;
+	theme: 'light' | 'dark' | 'system' = 'light';
 	/**
 	 * Disables animated GIFs, but keeps other animations enabled.
 	 * Workaround for a Chrome 64 bug with GIFs.
@@ -127,6 +127,17 @@ class PSPrefs extends PSStreamModel<string | null> {
 		} else if (isChrome64) {
 			newPrefs['nogif'] = true;
 			alert('Your version of Chrome has a bug that makes animated GIFs freeze games sometimes, so certain animations have been disabled. Only some people have the problem, so you can experiment and enable them in the Options menu setting "Disable GIFs for Chrome 64 bug".');
+		}
+
+		const colorSchemeQuerySupported = window.matchMedia?.('(prefers-color-scheme: dark)').media !== 'not all';
+		if (newPrefs['theme'] === 'system' && !colorSchemeQuerySupported) {
+			newPrefs['theme'] = 'light';
+		}
+		if (newPrefs['dark'] !== undefined) {
+			if (newPrefs['dark']) {
+				newPrefs['theme'] = 'dark';
+			}
+			delete newPrefs['dark'];
 		}
 	}
 }
@@ -352,14 +363,19 @@ class PSServer {
 			type: 'staff',
 			order: 106,
 		},
-		// by default, unrecognized ranks go here, between driver and bot
+		'\u00a7': {
+			name: "Section Leader (\u00a7)",
+			type: 'staff',
+			order: 107,
+		},
+		// by default, unrecognized ranks go here, between section leader and bot
 		'*': {
 			name: "Bot (*)",
-			order: 108,
+			order: 109,
 		},
 		'\u2606': {
 			name: "Player (\u2606)",
-			order: 109,
+			order: 110,
 		},
 		'+': {
 			name: "Voice (+)",
@@ -385,7 +401,7 @@ class PSServer {
 		},
 	};
 	defaultGroup: PSGroup = {
-		order: 107,
+		order: 108,
 	};
 	getGroup(symbol: string | undefined) {
 		return this.groups[(symbol || ' ').charAt(0)] || this.defaultGroup;
