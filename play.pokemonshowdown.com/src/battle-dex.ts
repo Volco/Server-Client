@@ -308,7 +308,7 @@ const Dex = new class implements ModdedDex {
 				id = toID(name);
 			}
 			if (!window.BattleMovedex) window.BattleMovedex = {};
-			let data = this.modData ? this.modData.Moves[id] : window.BattleMovedex[id];
+			let data = window.BattleMovedex[id];
 			if (data && typeof data.exists === 'boolean') return data;
 
 			if (!data && id.substr(0, 11) === 'hiddenpower' && id.length > 11) {
@@ -363,7 +363,7 @@ const Dex = new class implements ModdedDex {
 				id = toID(name);
 			}
 			if (!window.BattleItems) window.BattleItems = {};
-			let data = this.modData ? this.modData.Items[id] : window.BattleItems[id];
+			let data = window.BattleItems[id];
 			if (data && typeof data.exists === 'boolean') return data;
 			if (!data) data = {exists: false};
 			let item = new Item(id, name, data);
@@ -426,7 +426,7 @@ const Dex = new class implements ModdedDex {
 				}
 			}
 			if (!window.BattlePokedex) window.BattlePokedex = {};
-			let data = this.modData ? this.modData.Pokedex[id] : window.BattlePokedex[id];
+			let data = window.BattlePokedex[id];
 			if (this.modData?.Pokedex[formid]?.inherit && !window.BattlePokedex[formid]) {
 				delete this.modData.Pokedex[formid].inherit;
 				for (const key in this.modData.Pokedex[id]) {
