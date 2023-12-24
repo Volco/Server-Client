@@ -294,17 +294,22 @@ const Dex = new class implements ModdedDex {
 
 	moves = {
 		get: (nameOrMove: string | Move | null | undefined): Move => {
-			console.log('nameOrMove' + nameOrMove);
+			console.log('nameOrMove: ' + nameOrMove);
 			if (nameOrMove && typeof nameOrMove !== 'string') {
 				// TODO: don't accept Moves here
 				return nameOrMove;
 			}
 			let name = nameOrMove || '';
+			console.log('name: ' + nameOrMove);
 			let id = toID(nameOrMove);
+			console.log('id: ' + id);
+
 			if (window.BattleAliases && id in BattleAliases) {
 				name = BattleAliases[id];
 				id = toID(name);
 			}
+			console.log('name: ' + nameOrMove);
+			console.log('id: ' + id);
 			if (!window.BattleMovedex) window.BattleMovedex = {};
 			let data = window.BattleMovedex[id];
 			if (data && typeof data.exists === 'boolean') return data;
