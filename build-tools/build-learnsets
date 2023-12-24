@@ -16,17 +16,17 @@ const fs = require('fs');
 
 const thisFile = __filename;
 const thisDir = __dirname;
-const rootDir = path.resolve(thisDir, '..');
+const rootDir = path.resolve(thisDir, '../play.pokemonshowdown.com');
 
 // Make sure this is true when committing
-const isVPS = true;;
+const isVPS = true;
 
 const vpsDawnPath = '/home/dawn/Dawn/';
 const localDawnPath = '../data/Dawn/';
 
 const dawnPath = isVPS ? vpsDawnPath : localDawnPath;
 
-const Dex = require(dawnPath + '.sim-dist/dex').Dex;
+const Dex = require(dawnPath + 'dist/sim/dex').Dex;
 const toID = Dex.toID;
 
 function updateLearnsets(callback) {
