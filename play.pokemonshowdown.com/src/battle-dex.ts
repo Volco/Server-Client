@@ -308,7 +308,7 @@ const Dex = new class implements ModdedDex {
 			console.log('name: ' + nameOrMove);
 			console.log('id: ' + id);
 			console.log('window: ' + window);
-			console.log('window.BattleMovedex: ' + window.BattleMovedex);
+			console.log('window.BattleMovedex: ' + JSON.stringify(window.BattleMovedex, null, 2));
 			if (!window.BattleMovedex) window.BattleMovedex = {};
 			let data = window.BattleMovedex[id];
 			console.log('data: ' + data);
