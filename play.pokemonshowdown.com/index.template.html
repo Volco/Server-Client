@@ -28,6 +28,35 @@ https://psim.us/dev
 <meta id="viewport" name="viewport" content="width=device-width" />
 <title>Showdown!</title>
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<script>
+	function loadRemoteData(src) {
+		var scriptEl = document.createElement('script');
+		scriptEl.src = src.replace(/.*\/?data\//g, 'https://play.pokemonshowdown.com/data/');
+		document.head.appendChild(scriptEl);
+	}
+	Config = {
+		server: {
+			id: 'dawn',
+			host: 'server.dawn-ps.com',
+			port: 443,
+			registered: true
+		},
+	};
+	(function () {
+		if (location.search !== '') {
+			var m = /\?~~(([^:\/]*)(:[0-9]*)?)/.exec(location.search);
+			if (m) {
+				Config.server = {
+					id: m[1],
+					host: m[2],
+					port: (m[3] && parseInt(m[3].substr(1))) || 8000
+				};
+			} else {
+				alert('Unrecognised query string syntax: ' + location.search);
+			}
+		}
+	})();
+</script>
 <link rel="shortcut icon" href="//play.pokemonshowdown.com/favicon.ico" id="dynamic-favicon" />
 <link rel="icon" sizes="256x256" href="//play.pokemonshowdown.com/favicon-256.png" />
 <link rel="stylesheet" href="//play.pokemonshowdown.com/style/battle.css?" />
