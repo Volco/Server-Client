@@ -1025,7 +1025,6 @@ class ModdedDex {
 			if (this.cache.Species.hasOwnProperty(id)) return this.cache.Species[id];
 
 			let data = {...Dex.species.get(name)};
-			console.log(data);
 
 			for (let i = Dex.gen - 1; i >= this.gen; i--) {
 				const table = window.BattleTeambuilderTable[`gen${i}`];
