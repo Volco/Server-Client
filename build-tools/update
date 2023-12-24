@@ -179,23 +179,23 @@ let replayEmbedContents = fs.readFileSync('play.pokemonshowdown.com/js/replay-em
 replayEmbedContents = replayEmbedContents.replace(/play\.pokemonshowdown\.com/g, routes.client);
 
 // add news, only if it's actually likely to exist
-process.stdout.write("and news... ");
-let stdout = '';
-let newsid = 0;
-let news = '[failed to retrieve news]';
-try {
-	stdout = child_process.execSync('php ' + path.resolve(thisDir, 'news-embed.php'));
-} catch (e) {
-	console.log("git hook failed to retrieve news (exec command failed):\n" + (e.error + e.stderr + e.stdout));
-}
-try {
-	if (stdout) [newsid, news] = JSON.parse(stdout);
-} catch (e) {
-	console.log("git hook failed to retrieve news (parsing JSON failed):\n" + e.stack);
-}
+// process.stdout.write("and news... ");
+// let stdout = '';
+// let newsid = 0;
+// let news = '[failed to retrieve news]';
+// try {
+// 	stdout = child_process.execSync('php ' + path.resolve(thisDir, 'news-embed.php'));
+// } catch (e) {
+// 	console.log("git hook failed to retrieve news (exec command failed):\n" + (e.error + e.stderr + e.stdout));
+// }
+// try {
+// 	if (stdout) [newsid, news] = JSON.parse(stdout);
+// } catch (e) {
+// 	console.log("git hook failed to retrieve news (parsing JSON failed):\n" + e.stack);
+// }
 
-indexContents = indexContents.replace(/<!-- newsid -->/g, newsid);
-indexContents = indexContents.replace(/<!-- news -->/g, news);
+// indexContents = indexContents.replace(/<!-- newsid -->/g, newsid);
+// indexContents = indexContents.replace(/<!-- news -->/g, news);
 
 try {
 	indexContents = indexContents.replace(/<!-- head custom -->/g, '' + fs.readFileSync('config/head-custom.html'));
