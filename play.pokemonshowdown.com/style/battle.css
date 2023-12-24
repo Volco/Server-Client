@@ -513,6 +513,15 @@ License: GPLv2
 	background-size: cover;
 }
 
+.forgottenbattlefieldweather {
+	background: #CCAAEE url(../fx/field-forgottenbattlefield.png) no-repeat scroll left top;
+	background-size: cover;
+}
+
+.glitchfieldweather {
+	background: #CCAAEE url(../fx/field-glitchfieldfield.png) no-repeat scroll left top;
+	background-size: cover;
+}
 
 .flowergardenweather {
 	background: #CCAAEE url(../fx/field-flowergarden.png) no-repeat scroll left top;
@@ -541,6 +550,11 @@ License: GPLv2
 
 .corrosivemistweather {
 	background: #CCAAEE url(../fx/field-corrosivemist.png) no-repeat scroll left top;
+	background-size: cover;
+}
+
+.tempestfieldweather {
+	background: #CCAAEE url(../fx/field-tempestfield.png) no-repeat scroll left top;
 	background-size: cover;
 }
 
