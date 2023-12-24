@@ -294,6 +294,7 @@ const Dex = new class implements ModdedDex {
 
 	moves = {
 		get: (nameOrMove: string | Move | null | undefined): Move => {
+			console.log('nameOrMove' + nameOrMove);
 			if (nameOrMove && typeof nameOrMove !== 'string') {
 				// TODO: don't accept Moves here
 				return nameOrMove;
@@ -306,8 +307,6 @@ const Dex = new class implements ModdedDex {
 			}
 			if (!window.BattleMovedex) window.BattleMovedex = {};
 			let data = window.BattleMovedex[id];
-			console.log('id: ' + id);
-			console.log('data: ' + data);
 			if (data && typeof data.exists === 'boolean') return data;
 
 			if (!data && id.substr(0, 11) === 'hiddenpower' && id.length > 11) {
