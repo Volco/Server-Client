@@ -1543,6 +1543,7 @@ class BattleTooltips {
 			const stats = this.calculateModifiedStats(pokemon, serverPokemon, true);
 			if (stats.atk > stats.spa) category = 'Physical';
 		}
+		console.log('Movetype: ' + moveType + ' Category: ' + category);
 		return [moveType, category];
 	}
 
