@@ -645,13 +645,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			this.formatType = 'natdex';
 			if (!format) format = 'ou' as ID;
 		}
-<<<<<<< HEAD:src/battle-dex-search.ts
-		if (format.includes('digimon')) {
-			this.formatType = 'digimon';
-		}
-=======
 		if (format.includes('doubles') && this.dex.gen > 4 && !this.formatType) this.formatType = 'doubles';
->>>>>>> upstream/master:play.pokemonshowdown.com/src/battle-dex-search.ts
 		if (this.formatType === 'letsgo') format = format.slice(6) as ID;
 		if (format.includes('metronome')) {
 			this.formatType = 'metronome';
