@@ -20,7 +20,8 @@
 
 declare var require: any;
 declare var global: any;
-
+console.log('window: ');
+console.log(window);
 if (typeof window === 'undefined') {
 	// Node
 	(global as any).window = global;
@@ -305,13 +306,8 @@ const Dex = new class implements ModdedDex {
 				name = BattleAliases[id];
 				id = toID(name);
 			}
-			console.log('name: ' + nameOrMove);
-			console.log('id: ' + id);
-			console.log('window: ' + window);
-			console.log('window.BattleMovedex: ' + JSON.stringify(window.BattleMovedex, null, 2));
 			if (!window.BattleMovedex) window.BattleMovedex = {};
 			let data = window.BattleMovedex[id];
-			console.log('data: ' + data);
 			if (data && typeof data.exists === 'boolean') return data;
 
 			if (!data && id.substr(0, 11) === 'hiddenpower' && id.length > 11) {
