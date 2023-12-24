@@ -1062,6 +1062,7 @@ class ModdedDex {
 		get: (name: string): Effect => {
 			const id = toID(name) as ID;
 			name = id.substr(0, 1).toUpperCase() + id.substr(1);
+			console.log(Dex.types);
 
 			if (this.cache.Types.hasOwnProperty(id)) return this.cache.Types[id];
 
