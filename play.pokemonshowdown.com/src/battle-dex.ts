@@ -300,10 +300,7 @@ const Dex = new class implements ModdedDex {
 			}
 			let name = nameOrMove || '';
 			let id = toID(nameOrMove);
-			if (this.modData?.Aliases?.[id]) {
-				name = this.modData.Aliases[id];
-				id = toID(name);
-			} else if (window.BattleAliases && id in BattleAliases) {
+			if (window.BattleAliases && id in BattleAliases) {
 				name = BattleAliases[id];
 				id = toID(name);
 			}
@@ -333,13 +330,11 @@ const Dex = new class implements ModdedDex {
 
 			if (!data) data = {exists: false};
 			let move = new Move(id, name, data);
-			if (this.modData) {
-				return move;
-			}
 			window.BattleMovedex[id] = move;
 			return move;
 		},
 	};
+
 
 	getGen3Category(type: string) {
 		return [
