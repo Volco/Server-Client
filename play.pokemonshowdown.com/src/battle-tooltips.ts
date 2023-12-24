@@ -1401,8 +1401,6 @@ class BattleTooltips {
 	getMoveType(move: Move, value: ModifiableValue, forMaxMove?: boolean | Move): [TypeName, 'Physical' | 'Special' | 'Status'] {
 		const pokemon = value.pokemon;
 		const serverPokemon = value.serverPokemon;
-		console.log('here comes the move: ');
-        console.log(move);
 		let moveType = move.type;
 		let category = move.category;
 		if (category === 'Status' && forMaxMove) return ['Normal', 'Status']; // Max Guard
@@ -1544,7 +1542,6 @@ class BattleTooltips {
 			const stats = this.calculateModifiedStats(pokemon, serverPokemon, true);
 			if (stats.atk > stats.spa) category = 'Physical';
 		}
-		console.log('Movetype: ' + moveType + ' Category: ' + category);
 		return [moveType, category];
 	}
 
