@@ -663,6 +663,8 @@
 				for (var i = 0; i < curActive.moves.length; i++) {
 					var moveData = curActive.moves[i];
 					var move = this.battle.dex.moves.get(moveData.move);
+					console.log('here comes the dex: ');
+					console.log(this.battle.dex);
 					console.log('here comes the move: ');
 					console.log(move);
 					var name = move.name;
