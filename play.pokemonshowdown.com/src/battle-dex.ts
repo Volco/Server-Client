@@ -20,8 +20,6 @@
 
 declare var require: any;
 declare var global: any;
-console.log('window: ');
-console.log(window);
 if (typeof window === 'undefined') {
 	// Node
 	(global as any).window = global;
@@ -336,7 +334,6 @@ const Dex = new class implements ModdedDex {
 			return move;
 		},
 	};
-
 
 	getGen3Category(type: string) {
 		return [
