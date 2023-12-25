@@ -208,8 +208,7 @@ const Dex = new class implements ModdedDex {
 		if (!window.BattleTeambuilderTable) return this;
 		if (modid in Dex.serverDexes) return Dex.serverDexes[modid];
 		if (modid in window.BattleTeambuilderTable && window.BattleTeambuilderTable[modid].data) {
-			const moddedDex = new ModdedDex();
-			moddedDex.modid = modid;
+			const moddedDex = new ModdedDex(modid);
 			moddedDex.modData = window.BattleTeambuilderTable[modid].data;
 			for (const id in moddedDex.modData.Pokedex) {
 				const entry = moddedDex.modData.Pokedex[id];
@@ -220,7 +219,6 @@ const Dex = new class implements ModdedDex {
 					if (formatsEntry.unreleasedHidden) entry.unreleasedHidden = formatsEntry.unreleasedHidden;
 				}
 			}
-			moddedDex.gen = moddedDex.modData.gen || 8;
 			Dex.serverDexes[modid] = moddedDex;
 			return moddedDex;
 		}
