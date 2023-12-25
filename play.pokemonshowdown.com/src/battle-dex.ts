@@ -193,7 +193,7 @@ const Dex = new class implements ModdedDex {
 
 	loadedSpriteData = {xy: 1, bw: 0};
 	moddedDexes: {[mod: string]: ModdedDex} = {};
-	serverDexes: {[mod: string]: Dexes} = {};
+	serverDexes: {[mod: string]: ModdedDex} = {};
 
 	mod(modid: ID): ModdedDex {
 		if (modid === 'gen9') return this;
@@ -204,11 +204,11 @@ const Dex = new class implements ModdedDex {
 		this.moddedDexes[modid] = new ModdedDex(modid);
 		return this.moddedDexes[modid];
 	}
-	serverMod(modid: ID): Dexes {
+	serverMod(modid: ID): ModdedDex {
 		if (!window.BattleTeambuilderTable) return this;
 		if (modid in Dex.serverDexes) return Dex.serverDexes[modid];
 		if (modid in window.BattleTeambuilderTable && window.BattleTeambuilderTable[modid].data) {
-			const moddedDex = new Dexes();
+			const moddedDex = new ModdedDex();
 			moddedDex.modid = modid;
 			moddedDex.modData = window.BattleTeambuilderTable[modid].data;
 			for (const id in moddedDex.modData.Pokedex) {
