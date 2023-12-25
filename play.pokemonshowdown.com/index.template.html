@@ -84,15 +84,10 @@ https://psim.us/dev
 						<!-- news -->
 					</div>
 				</div>
-				<div class="mainmenu">
-					<div id="loading-message" class="mainmessage">Initializing... <noscript>FAILED<br /><br />Pok&eacute;mon Showdown requires JavaScript.</noscript></div>
-				</div>
 			</div>
-			<div class="rightmenu">
-			</div>
-			<div class="mainmenufooter">
-				<small><a href="//pokemonshowdown.com/" target="_blank"><strong>Pok&eacute;mon Showdown</strong></a> | <a href="http://smogon.com/" target="_blank"><strong>Smogon</strong></a><br><a href="//pokemonshowdown.com/dex/" target="_blank">Pokédex</a> | <a href="//pokemonshowdown.com/replay/" target="_blank">Replays</a> | <a href="//pokemonshowdown.com/rules" target="_blank">Rules</a></small> | <small><a href="//pokemonshowdown.com/forums/" target="_blank">Forum</a></small>
-			</div>
+		</div>
+		<div class="mainmenu">
+			<div id="loading-message" class="mainmessage">Initializing... <noscript>FAILED<br /><br />Pok&eacute;mon Showdown requires JavaScript.</noscript></div>
 		</div>
 	</div>
 	<div class="rightmenu">
@@ -117,39 +112,35 @@ https://psim.us/dev
 <script src="//play.pokemonshowdown.com/js/lib/backbone.js?"></script>
 <script src="//play.pokemonshowdown.com/js/lib/d3.v3.min.js"></script>
 
-	<script>
-		document.getElementById('loading-message').innerHTML += ' DONE<br />Loading data...';
-		window.exports = window;
-	</script>
-
-	<script src="config/config.js"></script>
-	<!-- fallback for if you've never done a full build -->
-	<script src="js/server/chat-formatter.js" onerror="loadRemoteData(this.src)"></script>
-	<script src="js/battledata.js" onerror="alert('You must build the client with `node build` before using index.html')"></script>
-	<script src="data/text.js" onerror="loadRemoteData(this.src)"></script>
-	<script src="data/pokedex-mini.js" onerror="loadRemoteData(this.src)"></script>
-	<script src="data/pokedex-mini-bw.js" onerror="loadRemoteData(this.src)"></script>
-	<script src="data/typechart.js" onerror="loadRemoteData(this.src)"></script>
-	<script src="js/battle.js"></script>
-	<script src="js/lib/sockjs-1.4.0-nwjsfix.min.js"></script>
-	<script src="js/lib/color-thief.min.js"></script>
-
-	<script>
-		document.getElementById('loading-message').innerHTML += ' DONE<br />Loading client...';
-	</script>
-
-	<script src="js/client.js"></script>
-	<script src="js/client-topbar.js"></script>
-	<script src="js/client-mainmenu.js"></script>
-	<script src="js/client-teambuilder.js"></script>
-	<script src="js/client-ladder.js"></script>
-	<script src="js/client-chat.js"></script>
-	<script src="js/client-chat-tournament.js"></script>
-	<script src="js/battle-tooltips.js"></script>
-	<script src="js/client-battle.js"></script>
-	<script src="js/client-rooms.js"></script>
-	<script src="js/storage.js"></script>
-	<script src="data/graphics.js" onerror="loadRemoteData(this.src)"></script>
+<script>
+	LM.innerHTML += ' DONE<br />Loading data...';
+</script>
+<script src="config/config.js"></script>
+<!-- fallback for if you've never done a full build -->
+<script src="js/server/chat-formatter.js" onerror="loadRemoteData(this.src)"></script>
+<script src="js/battledata.js" onerror="alert('You must build the client with `node build` before using index.html')"></script>
+<script src="data/text.js" onerror="loadRemoteData(this.src)"></script>
+<script src="data/pokedex-mini.js" onerror="loadRemoteData(this.src)"></script>
+<script src="data/pokedex-mini-bw.js" onerror="loadRemoteData(this.src)"></script>
+<script src="data/typechart.js" onerror="loadRemoteData(this.src)"></script>
+<script src="js/battle.js"></script>
+<script src="js/lib/sockjs-1.4.0-nwjsfix.min.js"></script>
+<script src="js/lib/color-thief.min.js"></script>
+<script>
+	LM.innerHTML += ' DONE<br />Loading client...';
+</script>
+<script src="js/client.js"></script>
+<script src="js/client-topbar.js"></script>
+<script src="js/client-mainmenu.js"></script>
+<script src="js/client-teambuilder.js"></script>
+<script src="js/client-ladder.js"></script>
+<script src="js/client-chat.js"></script>
+<script src="js/client-chat-tournament.js"></script>
+script src="js/battle-tooltips.js"></script>
+<script src="js/client-battle.js"></script>
+<script src="js/client-rooms.js"></script>
+<script src="js/storage.js"></script>
+<script src="data/graphics.js" onerror="loadRemoteData(this.src)"></script>
 
 <script>
 	// framebust - see https://owasp.org/www-pdf-archive/OWASP_AppSec_Research_2010_Busting_Frame_Busting_by_Rydstedt.pdf
