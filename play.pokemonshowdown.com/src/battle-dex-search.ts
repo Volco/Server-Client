@@ -983,7 +983,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		} else if (this.formatType === 'stadium') {
 			table = table['gen' + dex.gen + 'stadium' + (dex.gen > 1 ? dex.gen : '')];
 		} else if (this.formatType === 'sanctified') {
-			table = table['sanctified'];
+			table = table['gen9sanctified'];
 		}
 
 		if (!table.tierSet) {
@@ -1223,7 +1223,7 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 		} else if (this.dex.gen < 9) {
 			table = table['gen' + this.dex.gen];
 		} else if (this.formatType === 'sanctified') {
-			table = table['sanctified'];
+			table = table['gen9sanctified'];
 		}
 		if (!table.itemSet) {
 			table.itemSet = table.items.map((r: any) => {
