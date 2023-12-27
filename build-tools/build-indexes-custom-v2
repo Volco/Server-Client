@@ -1220,13 +1220,18 @@ console.log("DONE");
 process.stdout.write("Building `data/pokedex.js`... ");
 
 {
-	const Pokedex = requireNoCache('../caches/pokemon-showdown/dist/data/pokedex.js').Pokedex;
+	let Pokedex = requireNoCache('../caches/pokemon-showdown/dist/data/pokedex.js').Pokedex;
+	const SanctifiedDex = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/pokedex.js').Pokedex;
+	const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
+	DawnDex.data.FormatsData = Object.assign(SanctifiedFormatsData, DawnDex.data.FormatsData);
+	Pokedex = Object.assign(SanctifiedDex, Dex);
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
-		if (Dex.data.FormatsData[id]) {
+		if (DawnDex.data.FormatsData[id]) {
 			// console.log('formatsentry:' + id);
-			const formatsEntry = Dex.data.FormatsData[id];
+			const formatsEntry = DawnDex.data.FormatsData[id];
 			if (formatsEntry.tier) entry.tier = formatsEntry.tier;
+			if (formatsEntry.tier === 'Illegal') entry.tier = 'OU';
 			if (formatsEntry.isNonstandard) entry.isNonstandard = formatsEntry.isNonstandard;
 			if (formatsEntry.unreleasedHidden) entry.unreleasedHidden = formatsEntry.unreleasedHidden;
 		}
@@ -1245,7 +1250,10 @@ console.log("DONE");
 process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.js`...");
 
 {
-	const Moves = requireNoCache('../caches/pokemon-showdown/dist/data/moves.js').Moves;
+	let Moves = requireNoCache('../caches/pokemon-showdown/dist/data/moves.js').Moves;
+	const SanctifiedMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/moves.js').Moves;
+	Moves = Object.assign(SanctifiedMoves, Moves);
+
 	for (const id in Moves) {
 		const move = Dex.moves.get(Moves[id].name);
 		if (move.desc) Moves[id].desc = move.desc;
@@ -1261,7 +1269,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Items = requireNoCache('../caches/pokemon-showdown/dist/data/items.js').Items;
+	let Items = requireNoCache('../caches/pokemon-showdown/dist/data/items.js').Items;
+	const SanctifiedItems = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/items.js').Items;
+	Items = Object.assign(SanctifiedItems, Items);
 	for (const id in Items) {
 		const item = Dex.items.get(Items[id].name);
 		if (item.desc) Items[id].desc = item.desc;
@@ -1276,7 +1286,10 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Abilities = requireNoCache('../caches/pokemon-showdown/dist/data/abilities.js').Abilities;
+	let Abilities = requireNoCache('../caches/pokemon-showdown/dist/data/abilities.js').Abilities;
+	const SanctifiedAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9s/abilities.js').Abilities;
+	Abilities = Object.assign(SanctifiedAbilities, Abilities);
+
 	for (const id in Abilities) {
 		const ability = Dex.abilities.get(Abilities[id].name);
 		if (ability.desc) Abilities[id].desc = ability.desc;
@@ -1311,7 +1324,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const FormatsData = requireNoCache('../caches/pokemon-showdown/dist/data/formats-data.js').FormatsData;
+	let FormatsData = requireNoCache('../caches/pokemon-showdown/dist/data/formats-data.js').FormatsData;
+	const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
+	FormatsData = Object.assign(SanctifiedFormatsData, FormatsData);
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/formats-data.js', buf);
 }
@@ -1321,7 +1336,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Formats = requireNoCache('../caches/pokemon-showdown/dist/config/formats.js').Formats;
+	const Formats = requireNoCache(dawnPath + 'dist/config/formats.js').Formats;
 	const buf = 'exports.Formats = ' + es3stringify(Formats) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/formats.js', buf);
 }
@@ -1331,7 +1346,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Learnsets = requireNoCache('../caches/pokemon-showdown/dist/data/learnsets.js').Learnsets;
+	let Learnsets = requireNoCache('../caches/pokemon-showdown/dist/data/learnsets.js').Learnsets;
+	const SanctifiedLearnsets = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/learnsets.js').Learnsets;
+	Learnsets = Object.assign(SanctifiedLearnsets, Learnsets);
 	const buf = 'exports.BattleLearnsets = ' + es3stringify(Learnsets) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/learnsets.js', buf);
 	fs.writeFileSync('play.pokemonshowdown.com/data/learnsets.json', JSON.stringify(Learnsets));
