@@ -555,6 +555,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		} else if (isSanctified) {
 			BattleTeambuilderTable['gen9sanctified'] = {};
 			BattleTeambuilderTable['gen9sanctified'].learnsets = {};
+			BattleTeambuilderTable['gen9sanctified'].items = items;
 			BattleTeambuilderTable['gen9sanctified'].tiers = tiers;
 			BattleTeambuilderTable['gen9sanctified'].overrideTier = overrideTier;
 			BattleTeambuilderTable['gen9sanctified'].formatSlices = formatSlices;
@@ -1089,6 +1090,18 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (gens.indexOf(9) >= 0 && learnset[moveid].some(x => x[0] === '9' && x !== '9V')) {
 				BattleTeambuilderTable['gen9dlc1'].learnsets[id][moveid] += 'a';
 			}
+		}
+	}
+
+	const SanctifiedLearnsets = Dex.mod('gen9sanctified').data.Learnsets;
+	for (const id in SanctifiedLearnsets) {
+		const learnset = SanctifiedLearnsets[id].learnset;
+		if (!learnset) continue;
+		BattleTeambuilderTable['gen9sanctified'].learnsets[id] = {};
+		// just put them in
+		for (const moveid in learnset) {
+			const gens = learnset[moveid].map(x => Number(x[0]));
+			const minGen = Math.min(...gens);
 		}
 	}
 
