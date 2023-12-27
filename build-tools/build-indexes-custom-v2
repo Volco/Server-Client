@@ -1161,9 +1161,9 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	//
 
 	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified']) {
-		const modDex = Dex.mod(mod);
+		const modDex = DawnDex.mod(mod);
 		const modData = modDex.data;
-		const parentDex = Dex.forGen(modDex.gen);
+		const parentDex = DawnDex.forGen(modDex.gen);
 
 		const overrideSpeciesData = {};
 		BattleTeambuilderTable[mod].overrideSpeciesData = overrideSpeciesData;
