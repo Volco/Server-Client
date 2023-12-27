@@ -844,6 +844,8 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (table && table[tableKey]) {
 			table = table[tableKey];
 		}
+		console.log('testing table in get tier');
+		console.log(tableKey, table);
 		if (!table) return pokemon.tier;
 
 		let id = pokemon.id;
@@ -986,8 +988,6 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		} else if (this.formatType === 'sanctified') {
 			table = table['gen9sanctified'];
 		}
-		console.log('mons search: ');
-		console.log(this.formatType, table);
 
 		if (!table.tierSet) {
 			table.tierSet = table.tiers.map((r: any) => {
