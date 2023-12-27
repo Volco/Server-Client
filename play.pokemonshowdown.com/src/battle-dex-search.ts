@@ -1559,7 +1559,12 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 				console.log(Dex.mod('gen9sanctified' as ID));
 				for (let moveid in learnset) {
 					let learnsetEntry = learnset[moveid];
-					const move = dex.moves.get(moveid);
+					let move = dex.moves.get(moveid);
+					if (this.formatType?.startsWith('sanctified')) {
+						move = Dex.mod('gen9sanctified' as ID).moves.get(moveid);
+					}
+					console.log('move:')
+					console.log(move);
 					const minGenCode: {[gen: number]: string} = {6: 'p', 7: 'q', 8: 'g', 9: 'a'};
 					if (regionBornLegality && !learnsetEntry.includes(minGenCode[dex.gen])) {
 						continue;
