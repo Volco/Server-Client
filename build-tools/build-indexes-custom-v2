@@ -1287,7 +1287,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 
 {
 	let Abilities = requireNoCache('../caches/pokemon-showdown/dist/data/abilities.js').Abilities;
-	const SanctifiedAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9s/abilities.js').Abilities;
+	const SanctifiedAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/abilities.js').Abilities;
 	Abilities = Object.assign(SanctifiedAbilities, Abilities);
 
 	for (const id in Abilities) {
