@@ -1166,6 +1166,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const parentDex = DawnDex.forGen(modDex.gen);
 
 		const overrideSpeciesData = {};
+		if (!BattleTeambuilderTable[mod]) BattleTeambuilderTable[mod] = {};
 		BattleTeambuilderTable[mod].overrideSpeciesData = overrideSpeciesData;
 		for (const id in modData.Pokedex) {
 			const modEntry = modDex.species.get(id);
