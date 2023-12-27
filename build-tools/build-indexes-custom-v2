@@ -1224,7 +1224,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	const SanctifiedDex = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/pokedex.js').Pokedex;
 	const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
 	DawnDex.data.FormatsData = Object.assign(SanctifiedFormatsData, DawnDex.data.FormatsData);
-	Pokedex = Object.assign(SanctifiedDex, Dex);
+	Pokedex = Object.assign(SanctifiedDex, Pokedex);
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
 		if (DawnDex.data.FormatsData[id]) {
