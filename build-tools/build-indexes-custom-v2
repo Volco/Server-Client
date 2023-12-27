@@ -342,12 +342,13 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	const LC = GENS.map(num => num + 0.7);
 	const STADIUM = [2.04, 1.04];
 	const NATDEX = [9.1, 8.1];
-	const OTHER = [9.9, 9.411, 9.41, 9.401, 9.4, 9.2, -9.4, -9.401, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.1];
+	const OTHER = [9.9, 9.69, 9.411, 9.41, 9.401, 9.4, 9.2, -9.4, -9.401, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.1];
 
 	// process.stdout.write("\n  ");
 	for (const genIdent of [...GENS, ...DOUBLES, ...VGC, ...NFE, ...STADIUM, ...OTHER, ...NATDEX, ...LC]) {
 		const isLetsGo = (genIdent === 7.1);
 		const isBDSP = (genIdent === 8.6 || genIdent === -8.6);
+		const isSanctified = (genIdent === 9.69);
 		const isMetBattle = ('' + genIdent).endsWith('.2');
 		const isNFE = ('' + genIdent).endsWith('.3');
 		const isLC = ('' + genIdent).endsWith('.7');
@@ -372,6 +373,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		})();
 		// process.stdout.write("" + gen + (isDoubles ? " doubles" : "") + "... ");
 		const pokemon = Object.keys(Dex.data.Pokedex);
+		const SanctifiedPokemon = Object.keys(DawnDex.mod('gen9sanctified').data.Pokedex);
 		pokemon.sort();
 		const tierTable = {};
 		const overrideTier = {};
@@ -382,6 +384,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			const species = Dex.mod(gen).species.get(id);
 			const baseSpecies = Dex.mod(gen).species.get(species.baseSpecies);
 			if (species.gen > genNum) continue;
+			if (genNum === 9.69) continue;
 			const tier = (() => {
 				if (isMetBattle) {
 					let tier = species.tier;
@@ -495,6 +498,14 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			}
 		}
 
+		for (const id of SanctifiedPokemon) {
+			const species = Dex.mod('gen9sanctified').species.get(id);
+			if (genNum !== 9.69) continue;
+			overrideTier[species.id] = species.tier;
+			if (!tierTable[species.tier]) tierTable[species.tier] = [];
+			tierTable[species.tier].push(id);
+		}
+
 		nonstandardMoves.push(...Object.keys(Dex.data.Moves).filter(id => {
 			const move = Dex.mod(isSSDLC1 ? 'gen8dlc1' : isPreDLC ? 'gen9predlc' : 'gen9dlc1').moves.get(id);
 			const bMove = Dex.mod(isSSDLC1 ? 'gen8' : 'gen9').moves.get(id);
@@ -541,6 +552,12 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['gen8bdsp'].overrideTier = overrideTier;
 			BattleTeambuilderTable['gen8bdsp'].monotypeBans = monotypeBans;
 			BattleTeambuilderTable['gen8bdsp'].formatSlices = formatSlices;
+		} else if (isSanctified) {
+			BattleTeambuilderTable['gen9sanctified'] = {};
+			BattleTeambuilderTable['gen9sanctified'].learnsets = {};
+			BattleTeambuilderTable['gen9sanctified'].tiers = tiers;
+			BattleTeambuilderTable['gen9sanctified'].overrideTier = overrideTier;
+			BattleTeambuilderTable['gen9sanctified'].formatSlices = formatSlices;
 		} else if (isVGC) {
 			BattleTeambuilderTable[gen + 'vgc'] = {};
 			BattleTeambuilderTable[gen + 'vgc'].tiers = tiers;
@@ -578,6 +595,9 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		const tierOrder = (() => {
+			if (isSanctified) {
+				return ["AG", "Uber", "(Uber)", "OUBL", "OU", "(OU)", "UUBL", "UU", "RUBL", "RU", 'HUBL', 'HU', "NUBL", "NU", "PUBL", "PU", "ZUBL", "ZU", "NFE", "LC"];
+			}
 			if (isVGC || isGen9BH) {
 				return ["Mythical", "Restricted Legendary", "Regular", "NFE", "LC"];
 			}
