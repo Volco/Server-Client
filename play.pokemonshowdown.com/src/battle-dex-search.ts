@@ -1562,47 +1562,48 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 					let move = dex.moves.get(moveid);
 					if (this.formatType?.startsWith('sanctified')) {
 						move = Dex.mod('gen9sanctified' as ID).moves.get(moveid);
-					}
-					console.log('move:')
-					console.log(move);
-					const minGenCode: {[gen: number]: string} = {6: 'p', 7: 'q', 8: 'g', 9: 'a'};
-					if (regionBornLegality && !learnsetEntry.includes(minGenCode[dex.gen])) {
-						continue;
-					}
-					if (
-						!learnsetEntry.includes(gen) &&
-						(!isTradebacks ? true : !(move.gen <= dex.gen && learnsetEntry.includes('' + (dex.gen + 1))))
-					) {
-						continue;
-					}
-					if (this.formatType !== 'natdex' && move.isNonstandard === "Past") {
-						continue;
-					}
-					if (
-						this.formatType?.startsWith('dlc1') &&
-						BattleTeambuilderTable['gen8dlc1']?.nonstandardMoves.includes(moveid)
-					) {
-						continue;
-					}
-					if (
-						this.formatType?.includes('predlc') && this.formatType !== 'predlcnatdex' &&
-						BattleTeambuilderTable['gen9predlc']?.nonstandardMoves.includes(moveid)
-					) {
-						continue;
-					}
-					if (
-						this.formatType?.includes('svdlc1') && this.formatType !== 'svdlc1natdex' &&
-						BattleTeambuilderTable['gen9dlc1']?.nonstandardMoves.includes(moveid)
-					) {
-						continue;
-					}
-					if (moves.includes(moveid)) continue;
-					moves.push(moveid);
-					if (moveid === 'sketch') sketch = true;
-					if (moveid === 'hiddenpower') {
-						moves.push(
-							'hiddenpowerbug', 'hiddenpowerdark', 'hiddenpowerdragon', 'hiddenpowerelectric', 'hiddenpowerfighting', 'hiddenpowerfire', 'hiddenpowerflying', 'hiddenpowerghost', 'hiddenpowergrass', 'hiddenpowerground', 'hiddenpowerice', 'hiddenpowerpoison', 'hiddenpowerpsychic', 'hiddenpowerrock', 'hiddenpowersteel', 'hiddenpowerwater'
-						);
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+					} else {
+						const minGenCode: {[gen: number]: string} = {6: 'p', 7: 'q', 8: 'g', 9: 'a'};
+						if (regionBornLegality && !learnsetEntry.includes(minGenCode[dex.gen])) {
+							continue;
+						}
+						if (
+							!learnsetEntry.includes(gen) &&
+							(!isTradebacks ? true : !(move.gen <= dex.gen && learnsetEntry.includes('' + (dex.gen + 1))))
+						) {
+							continue;
+						}
+						if (this.formatType !== 'natdex' && move.isNonstandard === "Past") {
+							continue;
+						}
+						if (
+							this.formatType?.startsWith('dlc1') &&
+							BattleTeambuilderTable['gen8dlc1']?.nonstandardMoves.includes(moveid)
+						) {
+							continue;
+						}
+						if (
+							this.formatType?.includes('predlc') && this.formatType !== 'predlcnatdex' &&
+							BattleTeambuilderTable['gen9predlc']?.nonstandardMoves.includes(moveid)
+						) {
+							continue;
+						}
+						if (
+							this.formatType?.includes('svdlc1') && this.formatType !== 'svdlc1natdex' &&
+							BattleTeambuilderTable['gen9dlc1']?.nonstandardMoves.includes(moveid)
+						) {
+							continue;
+						}
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+						if (moveid === 'sketch') sketch = true;
+						if (moveid === 'hiddenpower') {
+							moves.push(
+								'hiddenpowerbug', 'hiddenpowerdark', 'hiddenpowerdragon', 'hiddenpowerelectric', 'hiddenpowerfighting', 'hiddenpowerfire', 'hiddenpowerflying', 'hiddenpowerghost', 'hiddenpowergrass', 'hiddenpowerground', 'hiddenpowerice', 'hiddenpowerpoison', 'hiddenpowerpsychic', 'hiddenpowerrock', 'hiddenpowersteel', 'hiddenpowerwater'
+							);
+						}
 					}
 				}
 			}
