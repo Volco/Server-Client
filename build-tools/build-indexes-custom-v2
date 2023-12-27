@@ -1093,7 +1093,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 	}
 
-	const SanctifiedLearnsets = Dex.mod('gen9sanctified').data.Learnsets;
+	const SanctifiedLearnsets = DawnDex.mod('gen9sanctified').data.Learnsets;
 	for (const id in SanctifiedLearnsets) {
 		const learnset = SanctifiedLearnsets[id].learnset;
 		if (!learnset) continue;
@@ -1102,6 +1102,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const moveid in learnset) {
 			const gens = learnset[moveid].map(x => Number(x[0]));
 			const minGen = Math.min(...gens);
+			BattleTeambuilderTable['gen9sanctified'].learnsets[id][moveid] = '0123456789'.slice(minGen);
 		}
 	}
 
