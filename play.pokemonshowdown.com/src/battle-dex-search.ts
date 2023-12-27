@@ -1554,8 +1554,9 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		while (learnsetid) {
 			let learnset = lsetTable.learnsets[learnsetid];
 			if (learnset) {
-				console.log('has learnset: ');
+				console.log('has learnset, mod: ');
 				console.log(learnset);
+				console.log(Dex.mod('gen9sanctified' as ID));
 				for (let moveid in learnset) {
 					let learnsetEntry = learnset[moveid];
 					const move = dex.moves.get(moveid);
