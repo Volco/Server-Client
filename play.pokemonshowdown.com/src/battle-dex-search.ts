@@ -551,7 +551,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 
 	protected formatType: 'doubles' | 'bdsp' | 'bdspdoubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' |
 	'ssdlc1' | 'ssdlc1doubles' | 'predlc' | 'predlcdoubles' | 'predlcnatdex' | 'svdlc1' | 'svdlc1doubles' |
-	'svdlc1natdex' | 'stadium' | 'lc' | null = null;
+	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | null = null;
 
 	/**
 	 * Cached copy of what the results list would be with only base filters
@@ -630,6 +630,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		}
 		if (format === 'partnersincrime') this.formatType = 'doubles';
 		if (format.startsWith('ffa') || format === 'freeforall') this.formatType = 'doubles';
+		if (format.includes('sanctified')) {
+			this.formatType = 'sanctified';
+		}
 		if (format.includes('letsgo')) {
 			this.formatType = 'letsgo';
 			this.dex = Dex.mod('gen7letsgo' as ID);
@@ -820,6 +823,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		let table = window.BattleTeambuilderTable;
 		const gen = this.dex.gen;
 		const tableKey = this.formatType === 'doubles' ? `gen${gen}doubles` :
+			this.formatType === 'sanctified' ? 'gen9sanctified' :
 			this.formatType === 'letsgo' ? 'gen7letsgo' :
 			this.formatType === 'bdsp' ? 'gen8bdsp' :
 			this.formatType === 'bdspdoubles' ? 'gen8bdspdoubles' :
@@ -978,6 +982,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			}
 		} else if (this.formatType === 'stadium') {
 			table = table['gen' + dex.gen + 'stadium' + (dex.gen > 1 ? dex.gen : '')];
+		} else if (this.formatType === 'sanctified') {
+			table = table['sanctified'];
 		}
 
 		if (!table.tierSet) {
@@ -1216,6 +1222,8 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 			table = table['gen' + this.dex.gen + 'metronome'];
 		} else if (this.dex.gen < 9) {
 			table = table['gen' + this.dex.gen];
+		} else if (this.formatType === 'sanctified') {
+			table = table['sanctified'];
 		}
 		if (!table.itemSet) {
 			table.itemSet = table.items.map((r: any) => {
