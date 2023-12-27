@@ -1544,9 +1544,10 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		let sketch = false;
 		let gen = '' + dex.gen;
 		let lsetTable = BattleTeambuilderTable;
-		console.log('format type, lsetTable["gen9sanctified"]:');
+		console.log('format type, lsetTable["gen9sanctified"], learnsetid:');
 		console.log(this.formatType);
-		console.log(lsetTable["gen9sanctified"])
+		console.log(lsetTable["gen9sanctified"]);
+		console.log(learnsetid);
 		if (this.formatType?.startsWith('sanctified')) lsetTable = lsetTable['gen9sanctified'];
 		if (this.formatType?.startsWith('bdsp')) lsetTable = lsetTable['gen8bdsp'];
 		if (this.formatType === 'letsgo') lsetTable = lsetTable['gen7letsgo'];
