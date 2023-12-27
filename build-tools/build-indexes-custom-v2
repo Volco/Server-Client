@@ -501,7 +501,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of SanctifiedPokemon) {
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
 			if (!isSanctified) continue;
-			console.log('nani');
+			if (species.num > 0 && species.forme !== "Sanctified") continue;
 			overrideTier[species.id] = species.tier;
 			if (!tierTable[species.tier]) tierTable[species.tier] = [];
 			tierTable[species.tier].push(id);
