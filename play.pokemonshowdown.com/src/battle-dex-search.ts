@@ -633,6 +633,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('sanctified')) {
 			this.formatType = 'sanctified';
 		}
+		console.log(format);
 		if (format.includes('worldscollide')) {
 			this.formatType = 'worldscollide';
 		}
