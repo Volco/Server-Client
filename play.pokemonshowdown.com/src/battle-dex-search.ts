@@ -551,7 +551,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 
 	protected formatType: 'doubles' | 'bdsp' | 'bdspdoubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' |
 	'ssdlc1' | 'ssdlc1doubles' | 'predlc' | 'predlcdoubles' | 'predlcnatdex' | 'svdlc1' | 'svdlc1doubles' |
-	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | null = null;
+	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | null = null;
 
 	/**
 	 * Cached copy of what the results list would be with only base filters
@@ -636,6 +636,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		console.log(format);
 		if (format.includes('worldscollide')) {
 			this.formatType = 'worldscollide';
+		}
+		if (format.includes('nationaldexfields')) {
+			this.formatType = 'omnifield';
 		}
 		if (format.includes('letsgo')) {
 			this.formatType = 'letsgo';
@@ -754,6 +757,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'letsgo') table = table['gen7letsgo'];
 		if (this.formatType === 'sanctified') table = table['gen9sanctified'];
 		if (this.formatType === 'worldscollide') table = table['gen9universal'];
+		if (this.formatType === 'omnifield') table = table['omnifield'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -831,6 +835,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		const tableKey = this.formatType === 'doubles' ? `gen${gen}doubles` :
 			this.formatType === 'sanctified' ? 'gen9sanctified' :
 			this.formatType === 'worldscollide' ? 'gen9universal' :
+			this.formatType === 'omnifield' ? 'omnifield' :
 			this.formatType === 'letsgo' ? 'gen7letsgo' :
 			this.formatType === 'bdsp' ? 'gen8bdsp' :
 			this.formatType === 'bdspdoubles' ? 'gen8bdspdoubles' :
@@ -995,6 +1000,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['gen9sanctified'];
 		} else if (this.formatType === 'worldscollide') {
 			table = table['gen9universal'];
+		} else if (this.formatType === 'omnifield') {
+			table = table['omnifield'];
 		}
 
 		if (!table.tierSet) {
@@ -1237,6 +1244,8 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 			table = table['gen9sanctified'];
 		} else if (this.formatType === 'worldscollide') {
 			table = table['gen9universal'];
+		} else if (this.formatType === 'omnifield') {
+			table = table['omnifield'];
 		}
 		if (!table.itemSet) {
 			table.itemSet = table.items.map((r: any) => {
@@ -1559,6 +1568,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		let lsetTable = BattleTeambuilderTable;
 		if (this.formatType?.startsWith('sanctified')) lsetTable = lsetTable['gen9sanctified'];
 		if (this.formatType?.startsWith('worldscollide')) lsetTable = lsetTable['gen9universal'];
+		if (this.formatType?.startsWith('omnifield')) lsetTable = lsetTable['omnifield'];
 		if (this.formatType?.startsWith('bdsp')) lsetTable = lsetTable['gen8bdsp'];
 		if (this.formatType === 'letsgo') lsetTable = lsetTable['gen7letsgo'];
 		if (this.formatType?.startsWith('ssdlc1')) lsetTable = lsetTable['gen8dlc1'];
@@ -1576,6 +1586,10 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 						moves.push(moveid);
 					} else if (this.formatType?.startsWith('worldscollide')) {
 						move = Dex.mod('gen9universal' as ID).moves.get(moveid);
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+					} else if (this.formatType?.startsWith('omnifield')) {
+						move = Dex.mod('omnifield' as ID).moves.get(moveid);
 						if (moves.includes(moveid)) continue;
 						moves.push(moveid);
 					} else {
