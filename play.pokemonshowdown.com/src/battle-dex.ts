@@ -697,8 +697,13 @@ const Dex = new class implements ModdedDex {
 				}
 				let animSuffix = allowAnim ? 'ani' : '';
 				let animExtension = allowAnim ? '.gif' : '.png';
-				spriteData.w = animationData[facing].w;
-				spriteData.h = animationData[facing].h;
+				if (animationData[facing]) {
+					spriteData.w = animationData[facing].w;
+					spriteData.h = animationData[facing].h;
+				} else {
+					spriteData.w = 96;
+					spriteData.h = 96;
+				}
 				spriteData.url = Config.hostURL +
 					'sprites/' +
 					'custom' +
