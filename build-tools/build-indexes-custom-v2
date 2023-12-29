@@ -533,13 +533,13 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[species.tier].push(id);
 		}
 
-		// for (const id of OmnifieldPokemon) {
-		// 	const species = DawnDex.mod('omnifield').species.get(id);
-		// 	if (!isOmnifield) continue;
-		// 	overrideTier[species.id] = species.natDexTier || species.tier || 'OU';
-		// 	if (!tierTable[species.natDexTier || species.tier || 'OU']) tierTable[species.natDexTier || species.tier || 'OU'] = [];
-		// 	tierTable[species.natDexTier || species.tier || 'OU'].push(id);
-		// }
+		for (const id of OmnifieldPokemon) {
+			const species = DawnDex.mod('omnifield').species.get(id);
+			if (!isOmnifield) continue;
+			overrideTier[species.id] = species.natDexTier || species.tier || 'OU';
+			if (!tierTable[species.natDexTier || species.tier || 'OU']) tierTable[species.natDexTier || species.tier || 'OU'] = [];
+			tierTable[species.natDexTier || species.tier || 'OU'].push(id);
+		}
 
 		nonstandardMoves.push(...Object.keys(Dex.data.Moves).filter(id => {
 			const move = Dex.mod(isSSDLC1 ? 'gen8dlc1' : isPreDLC ? 'gen9predlc' : 'gen9dlc1').moves.get(id);
@@ -1267,7 +1267,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 
-	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield']) {
+	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal']) {
 		const modDex = DawnDex.mod(mod);
 		const modData = modDex.data;
 		const parentDex = DawnDex.forGen(modDex.gen);
