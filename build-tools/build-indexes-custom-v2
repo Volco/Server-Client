@@ -527,6 +527,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				if (species.name === "Mantine") {
 					if (entry && entry.tier) {
 						console.log(entry);
+						console.log(entry.tier);
 						// species.tier = entry.tier;
 					}
 				}
