@@ -659,7 +659,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 
 		const tierOrder = (() => {
 			if (isSanctified || isUniversal) {
-				return ["AG", "Uber", "(Uber)", "OUBL", "OU", "(OU)", "UUBL", "UU", "RUBL", "RU", 'HUBL', 'HU', "NUBL", "NU", "PUBL", "PU", "ZUBL", "ZU", "NFE", "LC"];
+				return ["AG", "Uber", "(Uber)", "OUBL", "OU", "(OU)", "UUBL", "UU", "RUBL", "RU", 'HUBL', 'HU', "NUBL", "NU", "PUBL", "PU", "ZUBL", "ZU", "AUBL", "AU", "NFE", "LC"];
 			}
 			if (isVGC || isGen9BH) {
 				return ["Mythical", "Restricted Legendary", "Regular", "NFE", "LC"];
