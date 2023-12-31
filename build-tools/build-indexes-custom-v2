@@ -522,6 +522,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			// if (species.num > 0 && species.forme !== "Sanctified") continue;
 			if (species.name === 'Mantine') {
 				console.log('mantine tier: ' + species.tier);
+				console.log(species);
 			}
 			overrideTier[species.id] = species.tier;
 			if (!tierTable[species.tier]) tierTable[species.tier] = [];
