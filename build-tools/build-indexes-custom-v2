@@ -519,6 +519,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of SanctifiedPokemon) {
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
 			if (!isSanctified) continue;
+			let tier = species.tier;
 			// if (species.num > 0 && species.forme !== "Sanctified") continue;
 			if (species.tier === 'Illegal') {
 				// try looking it up in gen9sanctified formats-data.js and get the tier from there
@@ -526,16 +527,16 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				const entry = UniversalFormatsData[id];
 				if (species.name === "Mantine") {
 					if (entry && entry.tier && typeof entry.tier === "string") {
-						species.tier = entry.tier;
+						tier = entry.tier;
 					}
 				}
 			}
 			if (species.name === "Mantine") {
-				console.log(species.tier);
+				console.log(tier);
 			}
-			overrideTier[species.id] = species.tier;
-			if (!tierTable[species.tier]) tierTable[species.tier] = [];
-			tierTable[species.tier].push(id);
+			overrideTier[species.id] = tier;
+			if (!tierTable[tier]) tierTable[tier] = [];
+			tierTable[tier].push(id);
 		}
 
 		for (const id of UniversalPokemon) {
