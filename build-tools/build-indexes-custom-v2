@@ -525,10 +525,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
 				const entry = UniversalFormatsData[id];
 				if (species.name === "Mantine") {
-					if (entry && entry.tier) {
-						console.log(entry);
-						console.log(entry.tier);
-						// species.tier = entry.tier;
+					if (entry && entry.tier && typeof entry.tier === "string") {
+						species.tier = entry.tier;
 					}
 				}
 			}
