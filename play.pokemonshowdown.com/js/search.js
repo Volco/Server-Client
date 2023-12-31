@@ -244,7 +244,14 @@
 				rubl: "RUBL",
 				nubl: "NUBL",
 				publ: "PUBL",
-				zubl: "ZUBL"
+				zubl: "ZUBL",
+				hubl: "HUBL",
+				hu: "HU",
+				aubl: "AUBL",
+				au: "AU",
+				oubl: "OUBL",
+				fubl: "FUBL",
+				fu: "FU"
 			};
 			var tier = {name: tierTable[id]};
 			return this.renderTierRow(tier, matchStart, matchLength, errorMessage);

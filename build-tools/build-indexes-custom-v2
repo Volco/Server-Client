@@ -526,8 +526,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const id of UniversalPokemon) {
-			console.log('id:');
-			console.log(id);
 			const species = DawnDex.mod('gen9universal').species.get(id);
 			if (!isUniversal) continue;
 			overrideTier[species.id] = species.tier;
