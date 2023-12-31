@@ -520,6 +520,9 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
 			if (!isSanctified) continue;
 			// if (species.num > 0 && species.forme !== "Sanctified") continue;
+			if (species.name === 'Mantine') {
+				console.log('mantine tier: ' + species.tier);
+			}
 			overrideTier[species.id] = species.tier;
 			if (!tierTable[species.tier]) tierTable[species.tier] = [];
 			tierTable[species.tier].push(id);
