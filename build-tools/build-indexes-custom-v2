@@ -85,7 +85,7 @@ function requireNoCache(pathSpec) {
 
 	index = index.concat(['physical', 'special', 'status'].map(x => toID(x) + ' category'));
 	index = index.concat(['monster', 'water1', 'bug', 'flying', 'field', 'fairy', 'grass', 'humanlike', 'water3', 'mineral', 'amorphous', 'water2', 'ditto', 'dragon', 'undiscovered'].map(x => toID(x) + ' egggroup'));
-	index = index.concat(['ou', 'uu', 'ru', 'nu', 'pu', 'zu', 'lc', 'nfe', 'uber', 'uubl', 'rubl', 'nubl', 'publ', 'zubl', 'cap', 'caplc', 'capnfe'].map(x => toID(x) + ' tier'));
+	index = index.concat(['ou', 'uu', 'ru', 'nu', 'pu', 'zu', 'lc', 'nfe', 'uber', 'uubl', 'rubl', 'nubl', 'publ', 'zubl', 'cap', 'caplc', 'capnfe', 'hubl', 'hu', 'aubl', 'au', 'oubl', 'fubl', 'fu'].map(x => toID(x) + ' tier'));
 
 	let BattleArticleTitles = {};
 
