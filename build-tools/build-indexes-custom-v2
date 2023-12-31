@@ -524,9 +524,11 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				// try looking it up in gen9sanctified formats-data.js and get the tier from there
 				const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
 				const entry = UniversalFormatsData[id];
-				if (entry && entry.tier) {
-					console.log(entry);
-					// species.tier = entry.tier;
+				if (species.name === "Mantine") {
+					if (entry && entry.tier) {
+						console.log(entry);
+						// species.tier = entry.tier;
+					}
 				}
 			}
 			if (species.name === "Mantine") {
