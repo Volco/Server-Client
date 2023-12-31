@@ -525,6 +525,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
 				const entry = UniversalFormatsData[id];
 				if (entry && entry.tier) {
+					console.log(entry);
 					species.tier = entry.tier;
 				}
 			}
