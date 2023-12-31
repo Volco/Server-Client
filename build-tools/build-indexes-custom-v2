@@ -520,12 +520,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
 			if (!isSanctified) continue;
 			let tier = species.tier;
-			const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
-			const entry = UniversalFormatsData[id];
-			if (species.name === "Mantine") {
-				if (entry && entry.tier && typeof entry.tier === "string") {
-					tier = entry.tier;
-				}
+			const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
+			const entry = SanctifiedFormatsData[id];
+			if (entry && entry.tier && typeof entry.tier === "string") {
+				tier = entry.tier;
 			}
 			overrideTier[species.id] = tier;
 			if (!tierTable[tier]) tierTable[tier] = [];
@@ -535,9 +533,15 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of UniversalPokemon) {
 			const species = DawnDex.mod('gen9universal').species.get(id);
 			if (!isUniversal) continue;
-			overrideTier[species.id] = species.tier;
-			if (!tierTable[species.tier]) tierTable[species.tier] = [];
-			tierTable[species.tier].push(id);
+			let tier = species.tier;
+			const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
+			const entry = UniversalFormatsData[id];
+			if (entry && entry.tier && typeof entry.tier === "string") {
+				tier = entry.tier;
+			}
+			overrideTier[species.id] = tier;
+			if (!tierTable[tier]) tierTable[tier] = [];
+			tierTable[tier].push(id);
 		}
 
 		// for (const id of OmnifieldPokemon) {
