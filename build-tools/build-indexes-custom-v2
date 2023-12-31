@@ -683,9 +683,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				formatSlices[usedTier] = tiers.length;
 			}
 			if (!tierTable[tier]) continue;
-			if (isSanctified) {
-				console.log(tier);
-			}
 			if (tier === "(PU)") {
 				tiers.push(['header', "Below PU"]);
 			} else if (tier === "(DUU)") {
@@ -706,6 +703,9 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		} else {
 			if (!formatSlices['DOU']) formatSlices['DOU'] = formatSlices['New'];
 			if (!formatSlices['DUU']) formatSlices['DUU'] = formatSlices['New'];
+		}
+		if (isSanctified) {
+			console.log(tiers);
 		}
 
 		const itemList = Object.keys(Dex.data.Items);
