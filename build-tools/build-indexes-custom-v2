@@ -526,7 +526,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				const entry = UniversalFormatsData[id];
 				if (entry && entry.tier) {
 					console.log(entry);
-					species.tier = entry.tier;
+					// species.tier = entry.tier;
 				}
 			}
 			if (species.name === "Mantine") {
