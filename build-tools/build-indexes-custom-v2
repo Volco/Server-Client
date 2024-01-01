@@ -545,13 +545,17 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const id of OmnifieldPokemon) {
-			console.log('id:');
-			console.log(id);
 			const species = DawnDex.mod('omnifield').species.get(id);
 			if (!isOmnifield) continue;
-			overrideTier[species.id] = species.natDexTier || species.tier || 'OU';
-			if (!tierTable[species.natDexTier || species.tier || 'OU']) tierTable[species.natDexTier || species.tier || 'OU'] = [];
-			tierTable[species.natDexTier || species.tier || 'OU'].push(id);
+			let tier =  species.natDexTier || species.tier || 'OU';
+			const OmnifieldFormatsData = requireNoCache(dawnPath + 'dist/data/mods/omnifield/formats-data.js').FormatsData;
+			const entry = OmnifieldFormatsData[id];
+			if (entry && entry.tier && typeof entry.tier === "string") {
+				tier = entry.tier;
+			}
+			overrideTier[species.id] = tier;
+			if (!tierTable[tier]) tierTable[tier] = [];
+			tierTable[tier].push(id);
 		}
 
 		nonstandardMoves.push(...Object.keys(Dex.data.Moves).filter(id => {
