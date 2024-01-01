@@ -1565,13 +1565,14 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		let lsetTable = BattleTeambuilderTable;
 		if (this.formatType?.startsWith('sanctified')) lsetTable = lsetTable['gen9sanctified'];
 		if (this.formatType?.startsWith('worldscollide')) lsetTable = lsetTable['gen9universal'];
-		if (this.formatType?.startsWith('omnifield')) lsetTable = lsetTable['omnifield'];
+		if (this.formatType === 'omnifield') lsetTable = lsetTable['omnifield'];
 		if (this.formatType?.startsWith('bdsp')) lsetTable = lsetTable['gen8bdsp'];
 		if (this.formatType === 'letsgo') lsetTable = lsetTable['gen7letsgo'];
 		if (this.formatType?.startsWith('ssdlc1')) lsetTable = lsetTable['gen8dlc1'];
 		if (this.formatType?.startsWith('predlc')) lsetTable = lsetTable['gen9predlc'];
 		if (this.formatType?.startsWith('svdlc1')) lsetTable = lsetTable['gen9dlc1'];
 		console.log('DEBUGGING:');
+		console.log(this.formatType === 'omnifield');
 		console.log(lsetTable);
 		while (learnsetid) {
 			let learnset = lsetTable.learnsets[learnsetid];
