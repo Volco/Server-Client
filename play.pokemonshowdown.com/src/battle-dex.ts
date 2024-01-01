@@ -921,7 +921,11 @@ class ModdedDex {
 	constructor(modid: ID) {
 		this.modid = modid;
 		const gen = parseInt(modid.substr(3, 1), 10);
-		if (!modid.startsWith('gen') || !gen) throw new Error("Unsupported modid");
+		if (modid === 'omnifield') {
+			this.gen = 9;
+		} else {
+			if (!modid.startsWith('gen') || !gen) throw new Error("Unsupported modid");
+		}
 		this.gen = gen;
 	}
 	moves = {
