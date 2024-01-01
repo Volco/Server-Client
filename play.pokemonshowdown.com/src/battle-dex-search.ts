@@ -636,9 +636,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('worldscollide')) {
 			this.formatType = 'worldscollide';
 		}
-		if (format.includes('nationaldexfields')) {
-			this.formatType = 'omnifield';
-		}
 		if (format.includes('letsgo')) {
 			this.formatType = 'letsgo';
 			this.dex = Dex.mod('gen7letsgo' as ID);
@@ -662,6 +659,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if ((format.endsWith('lc') || format.startsWith('lc')) && format !== 'caplc' && !this.formatType) {
 			this.formatType = 'lc';
 			format = 'lc' as ID;
+		}
+		if (format.includes('nationaldexfields')) {
+			this.formatType = 'omnifield';
 		}
 		if (format.endsWith('draft')) format = format.slice(0, -5) as ID;
 		this.format = format;
