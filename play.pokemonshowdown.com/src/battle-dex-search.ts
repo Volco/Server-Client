@@ -858,8 +858,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (table && table[tableKey]) {
 			table = table[tableKey];
 		}
-		console.log('testing table in get tier');
-		console.log(tableKey, table);
 		if (!table) return pokemon.tier;
 
 		let id = pokemon.id;
