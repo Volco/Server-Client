@@ -663,6 +663,8 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('nationaldexfields')) {
 			this.formatType = 'omnifield';
 		}
+		console.log('this.formatType')
+		console.log(this.formatType);
 		if (format.endsWith('draft')) format = format.slice(0, -5) as ID;
 		this.format = format;
 
