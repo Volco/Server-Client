@@ -1187,7 +1187,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	const OmnifieldLearnsets = DawnDex.mod('omnifield').data.Learnsets;
 	for (const id in OmnifieldLearnsets) {
 		const learnset = OmnifieldLearnsets[id].learnset;
-		console.log(id, learnset);
 		if (!learnset) continue;
 		BattleTeambuilderTable['omnifield'].learnsets[id] = {};
 		for (const moveid in learnset) {
@@ -1362,7 +1361,6 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
 		if (DawnDex.data.FormatsData[id]) {
-			// console.log('formatsentry:' + id);
 			const formatsEntry = DawnDex.data.FormatsData[id];
 			if (formatsEntry.tier) entry.tier = formatsEntry.tier;
 			if (formatsEntry.tier === 'Illegal') entry.tier = 'OU';
