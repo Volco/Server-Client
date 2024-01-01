@@ -551,7 +551,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			const OmnifieldFormatsData = requireNoCache(dawnPath + 'dist/data/mods/omnifield/formats-data.js').FormatsData;
 			const entry = OmnifieldFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
-				tier = entry.tier;
+				tier = entry.natDexTier || entry.tier || "OU";
 			}
 			overrideTier[species.id] = tier;
 			if (!tierTable[tier]) tierTable[tier] = [];
