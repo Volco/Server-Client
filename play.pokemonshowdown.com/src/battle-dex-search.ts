@@ -633,16 +633,12 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('sanctified')) {
 			this.formatType = 'sanctified';
 		}
-		console.log(format);
 		if (format.includes('worldscollide')) {
 			this.formatType = 'worldscollide';
 		}
 		if (format.includes('nationaldexfields')) {
 			this.formatType = 'omnifield';
 		}
-		console.log('DEBUGGING:');
-		console.log(format);
-		console.log(this.formatType);
 		if (format.includes('letsgo')) {
 			this.formatType = 'letsgo';
 			this.dex = Dex.mod('gen7letsgo' as ID);
@@ -1575,6 +1571,8 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType?.startsWith('ssdlc1')) lsetTable = lsetTable['gen8dlc1'];
 		if (this.formatType?.startsWith('predlc')) lsetTable = lsetTable['gen9predlc'];
 		if (this.formatType?.startsWith('svdlc1')) lsetTable = lsetTable['gen9dlc1'];
+		console.log('DEBUGGING:');
+		console.log(lsetTable);
 		while (learnsetid) {
 			let learnset = lsetTable.learnsets[learnsetid];
 			if (learnset) {
