@@ -96,50 +96,50 @@ https://psim.us/dev
 	var LM = document.getElementById('loading-message');
 	LM.innerHTML += ' DONE<br />Loading libraries...';
 </script>
-<script nomodule src="js/lib/ps-polyfill.js"></script>
-<script src="//play.pokemonshowdown.com/config/config.js?"></script>
-<script src="js/lib/jquery-2.2.4.min.js"></script>
-<script src="js/lib/jquery-cookie.js"></script>
-<script src="js/lib/autoresize.jquery.min.js"></script>
-<script src="js/battle-sound.js"></script>
-<script src="js/lib/html-css-sanitizer-minified.js"></script>
-<script src="js/lib/lodash.core.js"></script>
-<script src="js/lib/backbone.js"></script>
-<script src="js/lib/d3.v3.min.js"></script>
+<script nomodule src="js/lib/ps-polyfill.js" async="async"></script>
+<script src="//play.pokemonshowdown.com/config/config.js?" async="async"></script>
+<script src="js/lib/jquery-2.2.4.min.js" async="async"></script>
+<script src="js/lib/jquery-cookie.js" async="async"></script>
+<script src="js/lib/autoresize.jquery.min.js" async="async"></script>
+<script src="js/battle-sound.js" async="async"></script>
+<script src="js/lib/html-css-sanitizer-minified.js" async="async"></script>
+<script src="js/lib/lodash.core.js" async="async"></script>
+<script src="js/lib/backbone.js" async="async"></script>
+<script src="js/lib/d3.v3.min.js" async="async"></script>
 
 	<script>
 		LM.innerHTML += ' DONE<br />Loading data...';
 		window.exports = window;
 	</script>
 
-	<script src="config/config.js"></script>
+	<script src="config/config.js" async="async"></script>
 	<!-- fallback for if you've never done a full build -->
-	<script src="js/server/chat-formatter.js" onerror="loadRemoteData(this.src)"></script>
-	<script src="js/battledata.js" onerror="alert('You must build the client with `node build` before using index.html')"></script>
-	<script src="data/text.js" onerror="loadRemoteData(this.src)"></script>
-	<script src="data/pokedex-mini.js" onerror="loadRemoteData(this.src)"></script>
-	<script src="data/pokedex-mini-bw.js" onerror="loadRemoteData(this.src)"></script>
-	<script src="data/typechart.js" onerror="loadRemoteData(this.src)"></script>
-	<script src="js/battle.js"></script>
-	<script src="js/lib/sockjs-1.4.0-nwjsfix.min.js"></script>
-	<script src="js/lib/color-thief.min.js"></script>
+	<script src="js/server/chat-formatter.js" async="async" onerror="loadRemoteData(this.src)"></script>
+	<script src="js/battledata.js" async="async" onerror="alert('You must build the client with `node build` before using index.html')"></script>
+	<script src="data/text.js" async="async" onerror="loadRemoteData(this.src)"></script>
+	<script src="data/pokedex-mini.js" async="async" onerror="loadRemoteData(this.src)"></script>
+	<script src="data/pokedex-mini-bw.js async="async"" onerror="loadRemoteData(this.src)"></script>
+	<script src="data/typechart.js" async="async" onerror="loadRemoteData(this.src)"></script>
+	<script src="js/battle.js" async="async"></script>
+	<script src="js/lib/sockjs-1.4.0-nwjsfix.min.js" async="async"></script>
+	<script src="js/lib/color-thief.min.js" async="async"></script>
 
 	<script>
 		LM.innerHTML += ' DONE<br />Loading client...';
 	</script>
 
-	<script src="js/client.js"></script>
-	<script src="js/client-topbar.js"></script>
-	<script src="js/client-mainmenu.js"></script>
-	<script src="js/client-teambuilder.js"></script>
-	<script src="js/client-ladder.js"></script>
-	<script src="js/client-chat.js"></script>
-	<script src="js/client-chat-tournament.js"></script>
-	<script src="js/battle-tooltips.js"></script>
-	<script src="js/client-battle.js"></script>
-	<script src="js/client-rooms.js"></script>
-	<script src="js/storage.js"></script>
-	<script src="data/graphics.js" onerror="loadRemoteData(this.src)"></script>
+	<script src="js/client.js" async="async"></script>
+	<script src="js/client-topbar.js" async="async"></script>
+	<script src="js/client-mainmenu.js" async="async"></script>
+	<script src="js/client-teambuilder.js" async="async"></script>
+	<script src="js/client-ladder.js" async="async"></script>
+	<script src="js/client-chat.js" async="async"></script>
+	<script src="js/client-chat-tournament.js" async="async"></script>
+	<script src="js/battle-tooltips.js" async="async"></script>
+	<script src="js/client-battle.js" async="async"></script>
+	<script src="js/client-rooms.js" async="async"></script>
+	<script src="js/storage.js" async="async"></script>
+	<script src="data/graphics.js" async="async" onerror="loadRemoteData(this.src)"></script>
 
 <script>
 	// framebust - see https://owasp.org/www-pdf-archive/OWASP_AppSec_Research_2010_Busting_Frame_Busting_by_Rydstedt.pdf
