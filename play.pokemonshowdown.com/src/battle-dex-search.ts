@@ -640,6 +640,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('nationaldexfields')) {
 			this.formatType = 'omnifield';
 		}
+		console.log('DEBUGGING:')
+		console.log(format);
+		console.log(this.formatType);
 		if (format.includes('letsgo')) {
 			this.formatType = 'letsgo';
 			this.dex = Dex.mod('gen7letsgo' as ID);
