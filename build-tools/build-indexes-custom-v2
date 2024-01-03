@@ -958,6 +958,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const SanctifiedItemList = Object.keys(DawnDex.mod('gen9sanctified').data.Items);
 		const UniversalItemList = Object.keys(DawnDex.mod('gen9universal').data.Items);
 		const OmnifieldItemList = Object.keys(DawnDex.mod('omnifield').data.Items);
+		EspionageItemList.sort();
+		SanctifiedItemList.sort();
+		UniversalItemList.sort();
+		OmnifieldItemList.sort();
 		for (const id of EspionageItemList) {
 			if (!isEspionage) unreleasedItems.push(id);
 			greatItems.push(id);
