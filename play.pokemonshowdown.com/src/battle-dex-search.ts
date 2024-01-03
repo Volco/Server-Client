@@ -1282,6 +1282,7 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 				...results,
 			];
 		}
+		console.log(results);
 		return results;
 	}
 	filter(row: SearchRow, filters: string[][]) {
