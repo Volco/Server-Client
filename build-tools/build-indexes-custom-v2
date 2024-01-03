@@ -736,7 +736,12 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!formatSlices['DUU']) formatSlices['DUU'] = formatSlices['New'];
 		}
 
-		const itemList = Object.keys(Dex.data.Items);
+		let itemList = Object.keys(Dex.data.Items);
+		let EspionageItemList = Object.keys(DawnDex.mod('gen9espionage').data.Items);
+		let SanctifiedItemList = Object.keys(DawnDex.mod('gen9sanctified').data.Items);
+		let UniversalItemList = Object.keys(DawnDex.mod('gen9universal').data.Items);
+		let OmnifieldItemList = Object.keys(DawnDex.mod('omnifield').data.Items);
+		itemList = [...new Set([...itemList, ...EspionageItemList, ...SanctifiedItemList, ...UniversalItemList, ...OmnifieldItemList])];
 		itemList.sort();
 
 		const greatItems = [['header', "Popular items"]];
@@ -960,9 +965,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		items.push(...poorItems);
 		items.push(...badItems);
 		items.push(...unreleasedItems);
-		if (isEspionage) {
-			console.log(unreleasedItems);
-		}
 	}
 
 	//
