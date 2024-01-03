@@ -736,12 +736,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!formatSlices['DUU']) formatSlices['DUU'] = formatSlices['New'];
 		}
 
-		let itemList = Object.keys(Dex.data.Items);
-		let EspionageItemList = Object.keys(DawnDex.mod('gen9espionage').data.Items);
-		let SanctifiedItemList = Object.keys(DawnDex.mod('gen9sanctified').data.Items);
-		let UniversalItemList = Object.keys(DawnDex.mod('gen9universal').data.Items);
-		let OmnifieldItemList = Object.keys(DawnDex.mod('omnifield').data.Items);
-		itemList = [...new Set([...itemList, ...EspionageItemList, ...SanctifiedItemList, ...UniversalItemList, ...OmnifieldItemList])];
+		const itemList = Object.keys(Dex.data.Items);
 		itemList.sort();
 
 		const greatItems = [['header', "Popular items"]];
@@ -958,6 +953,26 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 					goodItems.push(id);
 				}
 			}
+		}
+		const EspionageItemList = Object.keys(DawnDex.mod('gen9espionage').data.Items);
+		const SanctifiedItemList = Object.keys(DawnDex.mod('gen9sanctified').data.Items);
+		const UniversalItemList = Object.keys(DawnDex.mod('gen9universal').data.Items);
+		const OmnifieldItemList = Object.keys(DawnDex.mod('omnifield').data.Items);
+		for (const id of EspionageItemList) {
+			if (!isEspionage) unreleasedItems.push(id);
+			greatItems.push(id);
+		}
+		for (const id of SanctifiedItemList) {
+			if (!isSanctified) unreleasedItems.push(id);
+			greatItems.push(id);
+		}
+		for (const id of UniversalItemList) {
+			if (!isUniversal) unreleasedItems.push(id);
+			greatItems.push(id);
+		}
+		for (const id of OmnifieldItemList) {
+			if (!isOmnifield) unreleasedItems.push(id);
+			greatItems.push(id);
 		}
 		items.push(...greatItems);
 		items.push(...goodItems);
