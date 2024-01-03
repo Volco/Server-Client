@@ -80,6 +80,12 @@ function requireNoCache(pathSpec) {
 	index = index.concat(Object.keys(DawnDex.mod('omnifield').data.Items).map(x => x + ' item'));
 	index = index.concat(Object.keys(DawnDex.mod('omnifield').data.Abilities).map(x => x + ' ability'));
 	index = index.concat(Object.keys(DawnDex.mod('omnifield').data.TypeChart).map(x => toID(x) + ' type'));
+	// Gen 9 Espionage
+	index = index.concat(Object.keys(DawnDex.mod('gen9espionage').data.Pokedex).map(x => x + ' pokemon'));
+	index = index.concat(Object.keys(DawnDex.mod('gen9espionage').data.Moves).map(x => x + ' move'));
+	index = index.concat(Object.keys(DawnDex.mod('gen9espionage').data.Items).map(x => x + ' item'));
+	index = index.concat(Object.keys(DawnDex.mod('gen9espionage').data.Abilities).map(x => x + ' ability'));
+	index = index.concat(Object.keys(DawnDex.mod('gen9espionage').data.TypeChart).map(x => toID(x) + ' type'));
 	// Remove dupes
 	index = [...new Set(index)];
 
@@ -354,7 +360,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	const LC = GENS.map(num => num + 0.7);
 	const STADIUM = [2.04, 1.04];
 	const NATDEX = [9.1, 8.1];
-	const OTHER = [9.9, 9.69, 9.68, 9.67, 9.411, 9.41, 9.401, 9.4, 9.2, -9.4, -9.401, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.1];
+	const OTHER = [9.9, 9.69, 9.68, 9.67, 9.66, 9.411, 9.41, 9.401, 9.4, 9.2, -9.4, -9.401, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.1];
 
 	// process.stdout.write("\n  ");
 	for (const genIdent of [...GENS, ...DOUBLES, ...VGC, ...NFE, ...STADIUM, ...OTHER, ...NATDEX, ...LC]) {
@@ -363,6 +369,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const isSanctified = (genIdent === 9.69);
 		const isUniversal = (genIdent === 9.68);
 		const isOmnifield = (genIdent === 9.67);
+		const isEspionage = (genIdent === 9.66);
 		const isMetBattle = ('' + genIdent).endsWith('.2');
 		const isNFE = ('' + genIdent).endsWith('.3');
 		const isLC = ('' + genIdent).endsWith('.7');
@@ -390,6 +397,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const SanctifiedPokemon = Object.keys(DawnDex.mod('gen9sanctified').data.Pokedex);
 		const UniversalPokemon = Object.keys(DawnDex.mod('gen9universal').data.Pokedex);
 		const OmnifieldPokemon = Object.keys(DawnDex.mod('omnifield').data.Pokedex);
+		const EspionagePokemon = Object.keys(DawnDex.mod('gen9espionage').data.Pokedex);
 		pokemon.sort();
 		const tierTable = {};
 		const overrideTier = {};
@@ -403,6 +411,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (isSanctified) continue;
 			if (isUniversal) continue;
 			if (isOmnifield) continue;
+			if (isEspionage) continue;
 			const tier = (() => {
 				if (isMetBattle) {
 					let tier = species.tier;
@@ -558,6 +567,20 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 
+		for (const id of EspionagePokemon) {
+			const species = DawnDex.mod('gen9espionage').species.get(id);
+			if (!isEspionage) continue;
+			let tier = species.tier;
+			const EspionageFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/formats-data.js').FormatsData;
+			const entry = EspionageFormatsData[id];
+			if (entry && entry.tier && typeof entry.tier === "string") {
+				tier = entry.tier;
+			}
+			overrideTier[species.id] = tier;
+			if (!tierTable[tier]) tierTable[tier] = [];
+			tierTable[tier].push(id);
+		}
+
 		nonstandardMoves.push(...Object.keys(Dex.data.Moves).filter(id => {
 			const move = Dex.mod(isSSDLC1 ? 'gen8dlc1' : isPreDLC ? 'gen9predlc' : 'gen9dlc1').moves.get(id);
 			const bMove = Dex.mod(isSSDLC1 ? 'gen8' : 'gen9').moves.get(id);
@@ -611,6 +634,13 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['omnifield'].tiers = tiers;
 			BattleTeambuilderTable['omnifield'].overrideTier = overrideTier;
 			BattleTeambuilderTable['omnifield'].formatSlices = formatSlices;
+		} else if (isEspionage) {
+			BattleTeambuilderTable['gen9espionage'] = {};
+			BattleTeambuilderTable['gen9espionage'].learnsets = {};
+			BattleTeambuilderTable['gen9espionage'].items = items;
+			BattleTeambuilderTable['gen9espionage'].tiers = tiers;
+			BattleTeambuilderTable['gen9espionage'].overrideTier = overrideTier;
+			BattleTeambuilderTable['gen9espionage'].formatSlices = formatSlices;
 		} else if (isSanctified) {
 			BattleTeambuilderTable['gen9sanctified'] = {};
 			BattleTeambuilderTable['gen9sanctified'].learnsets = {};
@@ -722,7 +752,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				continue;
 			}
 			if (item.isNonstandard && !isMetBattle) {
-				if (isNatDex || isSanctified || isOmnifield || isUniversal) {
+				if (isNatDex || isSanctified || isOmnifield || isUniversal || isEspionage) {
 					let curItem = item;
 					let curGen = genNum;
 					while (item.isNonstandard && curGen >= 7) {
@@ -1196,6 +1226,18 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 	}
 
+	const EspionageLearnsets = DawnDex.mod('gen9espionage').data.Learnsets;
+	for (const id in EspionageLearnsets) {
+		const learnset = EspionageLearnsets[id].learnset;
+		if (!learnset) continue;
+		BattleTeambuilderTable['gen9espionage'].learnsets[id] = {};
+		for (const moveid in learnset) {
+			const gens = learnset[moveid].map(x => Number(x[0]));
+			const minGen = Math.min(...gens);
+			BattleTeambuilderTable['gen9espionage'].learnsets[id][moveid] = '0123456789'.slice(minGen);
+		}
+	}
+
 	// Client relevant data that should be overriden by past gens and mods
 	const overrideSpeciesKeys = ['abilities', 'baseStats', 'cosmeticFormes', 'isNonstandard', 'requiredItems', 'types', 'unreleasedHidden'];
 	const overrideMoveKeys = ['accuracy', 'basePower', 'category', 'desc', 'flags', 'isNonstandard', 'noSketch', 'pp', 'priority', 'shortDesc', 'target', 'type'];
@@ -1284,7 +1326,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 
-	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield']) {
+	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage']) {
 		const modDex = DawnDex.mod(mod);
 		const modData = modDex.data;
 		const parentDex = DawnDex.forGen(modDex.gen);
@@ -1352,12 +1394,16 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
 	const OmnifieldDex = requireNoCache(dawnPath + 'dist/data/mods/omnifield/pokedex.js').Pokedex;
 	const OmnifieldFormatsData = requireNoCache(dawnPath + 'dist/data/mods/omnifield/formats-data.js').FormatsData;
+	const EspionageDex = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/pokedex.js').Pokedex;
+	const EspionageFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/formats-data.js').FormatsData;
 	DawnDex.data.FormatsData = Object.assign(SanctifiedFormatsData, DawnDex.data.FormatsData);
 	DawnDex.data.FormatsData = Object.assign(UniversalFormatsData, DawnDex.data.FormatsData);
 	DawnDex.data.FormatsData = Object.assign(OmnifieldFormatsData, DawnDex.data.FormatsData);
+	DawnDex.data.FormatsData = Object.assign(EspionageFormatsData, DawnDex.data.FormatsData);
 	Pokedex = Object.assign(SanctifiedDex, Pokedex);
 	Pokedex = Object.assign(UniversalDex, Pokedex);
 	Pokedex = Object.assign(OmnifieldDex, Pokedex);
+	Pokedex = Object.assign(EspionageDex, Pokedex);
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
 		if (DawnDex.data.FormatsData[id]) {
@@ -1386,9 +1432,11 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const SanctifiedMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/moves.js').Moves;
 	const UniversalMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/moves.js').Moves;
 	const OmnifieldMoves = requireNoCache(dawnPath + 'dist/data/mods/omnifield/moves.js').Moves;
+	const EspionageMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/moves.js').Moves;
 	Moves = Object.assign(SanctifiedMoves, Moves);
 	Moves = Object.assign(UniversalMoves, Moves);
 	Moves = Object.assign(OmnifieldMoves, Moves);
+	Moves = Object.assign(EspionageMoves, Moves);
 
 	for (const id in Moves) {
 		const move = Dex.moves.get(Moves[id].name);
@@ -1409,9 +1457,11 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const SanctifiedItems = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/items.js').Items;
 	const UniversalItems = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/items.js').Items;
 	const OmnifieldItems = requireNoCache(dawnPath + 'dist/data/mods/omnifield/items.js').Items;
+	const EspionageItems = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/items.js').Items;
 	Items = Object.assign(SanctifiedItems, Items);
 	Items = Object.assign(UniversalItems, Items);
 	Items = Object.assign(OmnifieldItems, Items);
+	Items = Object.assign(EspionageItems, Items);
 	for (const id in Items) {
 		const item = Dex.items.get(Items[id].name);
 		if (item.desc) Items[id].desc = item.desc;
@@ -1430,9 +1480,11 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const SanctifiedAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/abilities.js').Abilities;
 	const UniversalAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/abilities.js').Abilities;
 	const OmnifieldAbilities = requireNoCache(dawnPath + 'dist/data/mods/omnifield/abilities.js').Abilities;
+	const EspionageAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/abilities.js').Abilities;
 	Abilities = Object.assign(SanctifiedAbilities, Abilities);
 	Abilities = Object.assign(UniversalAbilities, Abilities);
 	Abilities = Object.assign(OmnifieldAbilities, Abilities);
+	Abilities = Object.assign(EspionageAbilities, Abilities);
 
 	for (const id in Abilities) {
 		const ability = Dex.abilities.get(Abilities[id].name);
@@ -1476,9 +1528,11 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
 	const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
 	const OmnifieldFormatsData = requireNoCache(dawnPath + 'dist/data/mods/omnifield/formats-data.js').FormatsData;
+	const EspionageFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/formats-data.js').FormatsData;
 	FormatsData = Object.assign(SanctifiedFormatsData, FormatsData);
 	FormatsData = Object.assign(UniversalFormatsData, FormatsData);
 	FormatsData = Object.assign(OmnifieldFormatsData, FormatsData);
+	FormatsData = Object.assign(EspionageFormatsData, FormatsData);
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/formats-data.js', buf);
 }
@@ -1502,9 +1556,11 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const SanctifiedLearnsets = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/learnsets.js').Learnsets;
 	const UniversalLearnsets = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/learnsets.js').Learnsets;
 	const OmnifieldLearnsets = requireNoCache(dawnPath + 'dist/data/mods/omnifield/learnsets.js').Learnsets;
+	const EspionageLearnsets = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/learnsets.js').Learnsets;
 	Learnsets = Object.assign(SanctifiedLearnsets, Learnsets);
 	Learnsets = Object.assign(UniversalLearnsets, Learnsets);
 	Learnsets = Object.assign(OmnifieldLearnsets, Learnsets);
+	Learnsets = Object.assign(EspionageLearnsets, Learnsets);
 	const buf = 'exports.BattleLearnsets = ' + es3stringify(Learnsets) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/learnsets.js', buf);
 	fs.writeFileSync('play.pokemonshowdown.com/data/learnsets.json', JSON.stringify(Learnsets));
