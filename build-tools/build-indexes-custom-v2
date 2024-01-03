@@ -964,22 +964,22 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		OmnifieldItemList.sort();
 		for (const id of EspionageItemList) {
 			if (itemList.includes(id)) continue;
-			if (!isEspionage) unreleasedItems.push(id);
+			if (!isEspionage) continue;
 			greatItems.push(id);
 		}
 		for (const id of SanctifiedItemList) {
 			if (itemList.includes(id)) continue;
-			if (!isSanctified) unreleasedItems.push(id);
+			if (!isSanctified) continue;
 			greatItems.push(id);
 		}
 		for (const id of UniversalItemList) {
 			if (itemList.includes(id)) continue;
-			if (!isUniversal) unreleasedItems.push(id);
+			if (!isUniversal) continue;
 			greatItems.push(id);
 		}
 		for (const id of OmnifieldItemList) {
 			if (itemList.includes(id)) continue;
-			if (!isOmnifield) unreleasedItems.push(id);
+			if (!isOmnifield) continue;
 			greatItems.push(id);
 		}
 		items.push(...greatItems);
