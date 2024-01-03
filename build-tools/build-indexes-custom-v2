@@ -1432,11 +1432,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const SanctifiedMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/moves.js').Moves;
 	const UniversalMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/moves.js').Moves;
 	const OmnifieldMoves = requireNoCache(dawnPath + 'dist/data/mods/omnifield/moves.js').Moves;
-	const EspionageMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/moves.js').Moves;
 	Moves = Object.assign(SanctifiedMoves, Moves);
 	Moves = Object.assign(UniversalMoves, Moves);
 	Moves = Object.assign(OmnifieldMoves, Moves);
-	Moves = Object.assign(EspionageMoves, Moves);
 
 	for (const id in Moves) {
 		const move = Dex.moves.get(Moves[id].name);
