@@ -1478,11 +1478,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const SanctifiedAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/abilities.js').Abilities;
 	const UniversalAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/abilities.js').Abilities;
 	const OmnifieldAbilities = requireNoCache(dawnPath + 'dist/data/mods/omnifield/abilities.js').Abilities;
-	const EspionageAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/abilities.js').Abilities;
 	Abilities = Object.assign(SanctifiedAbilities, Abilities);
 	Abilities = Object.assign(UniversalAbilities, Abilities);
 	Abilities = Object.assign(OmnifieldAbilities, Abilities);
-	Abilities = Object.assign(EspionageAbilities, Abilities);
 
 	for (const id in Abilities) {
 		const ability = Dex.abilities.get(Abilities[id].name);
