@@ -819,10 +819,13 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			let table = BattleTeambuilderTable;
 			if (this.formatType?.startsWith('bdsp')) table = table['gen8bdsp'];
 			if (this.formatType === 'letsgo') table = table['gen7letsgo'];
+			if (this.formatType === 'sanctified') table = table['gen9sanctified'];
+			if (this.formatType === 'espionage') table = table['gen9espionage'];
+			if (this.formatType === 'worldscollide') table = table['gen9universal'];
+			if (this.formatType === 'omnifield') table = table['omnifield'];
+			console.log('testing dragon dance');
+			console.log(table.learnsets['dragondance']);
 			let learnset = table.learnsets[learnsetid];
-			console.log('DEBUGGING LEARNSET: ');
-			console.log(learnset);
-			console.log
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
 					(learnset[moveid].includes(`${gen + 1}`) && move.gen === gen))) {
