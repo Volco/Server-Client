@@ -1513,16 +1513,15 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	for (const id in Abilities) {
 		// grab dist/data/text/abilities.js
 		const abilityTexts = requireNoCache('../caches/pokemon-showdown/dist/data/text/abilities.js').AbilitiesText;
-		let ability = DawnDex.abilities.get(id);
-		// look in mods for the ability gen9sanctified, gen9universal, omnifield, gen9espionage
+		let ability = DawnDex.abilities.get(Abilities[id].name);
 		if (!ability) {
-			ability = DawnDex.mod('gen9sanctified').abilities.get(id);
+			ability = DawnDex.mod('gen9sanctified').data.abilities.get(id);
 			if (!ability) {
-				ability = DawnDex.mod('gen9universal').abilities.get(id);
+				ability = DawnDex.mod('gen9universal').data.abilities.get(id);
 				if (!ability) {
-					ability = DawnDex.mod('omnifield').abilities.get(id);
+					ability = DawnDex.mod('omnifield').data.abilities.get(id);
 					if (!ability) {
-						ability = DawnDex.mod('gen9espionage').abilities.get(id);
+						ability = DawnDex.mod('gen9espionage').data.abilities.get(id);
 					}
 				}
 			}
