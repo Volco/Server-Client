@@ -1597,13 +1597,12 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 {
 	const textData = DawnDex.loadTextData();
 	const Text = textData.Default;
-	fs.writeFileSync('play.pokemonshowdown.com/data/text-data.js', 'exports.BattleText = ' + es3stringify(Text) + ';');
 
 	function assignData(id, entry) {
-		if (id === 'dynamo') {
-			console.log(entry);
-		}
 		for (const key in entry) {
+			if (id === 'dynamo') {
+				['name', 'desc', 'shortDesc'].includes(key)
+			}
 			if (['name', 'desc', 'shortDesc'].includes(key)) continue;
 			const textEntry = Text[id] || (Text[id] = {});
 			if (key.startsWith('gen')) {
