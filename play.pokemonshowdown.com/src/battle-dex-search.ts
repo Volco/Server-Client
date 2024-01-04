@@ -824,6 +824,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'worldscollide') table = table['gen9universal'];
 			if (this.formatType === 'omnifield') table = table['omnifield'];
 			console.log('testing dragon dance');
+			console.log('learnsetid : ' + learnsetid)
 			console.log(table.learnsets['dragondance']);
 			let learnset = table.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
