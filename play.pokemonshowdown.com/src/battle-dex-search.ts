@@ -823,9 +823,13 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'espionage') table = table['gen9espionage'];
 			if (this.formatType === 'worldscollide') table = table['gen9universal'];
 			if (this.formatType === 'omnifield') table = table['omnifield'];
-			console.log('testing dragon dance');
-			console.log(table.learnsets);
 			let learnset = table.learnsets[learnsetid];
+			if (learnsetid === 'luxelong') {
+				console.log('LUXELONG');
+				console.log(learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
+				learnset[moveid].includes(genChar) ||
+					(learnset[moveid].includes(`${gen + 1}`) && move.gen === gen)));
+			}
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
 					(learnset[moveid].includes(`${gen + 1}`) && move.gen === gen))) {
