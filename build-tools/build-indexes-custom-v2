@@ -1516,8 +1516,8 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 		const ability = DawnDex.abilities.get(Abilities[id].name);
 		if (ability.desc) Abilities[id].desc = ability.desc;
 		if (ability.shortDesc) Abilities[id].shortDesc = ability.shortDesc;
-		if (!ability.desc) Abilities[id].desc = abilityTexts[id].desc;
-		if (!ability.shortDesc) Abilities[id].shortDesc = abilityTexts[id].shortDesc;
+		if (!ability.desc && abilityTexts[id] && typeof abilityTexts[id].desc === 'string') Abilities[id].desc = abilityTexts[id].desc;
+		if (!ability.shortDesc && abilityTexts[id] && typeof abilityTexts[id].shortDesc === 'string') Abilities[id].shortDesc = abilityTexts[id].shortDesc;
 	}
 	const buf = 'exports.BattleAbilities = ' + es3stringify(Abilities) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/abilities.js', buf);
