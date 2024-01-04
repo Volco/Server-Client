@@ -1529,6 +1529,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 		if (id === 'dynamo') {
 			console.log('i wanna dy dy');
 			console.log(ability.name);
+			console.log(abilityTexts[id]);
 		}
 		if (ability.desc) Abilities[id].desc = ability.desc;
 		if (ability.shortDesc) Abilities[id].shortDesc = ability.shortDesc;
