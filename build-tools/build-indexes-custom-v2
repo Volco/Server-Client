@@ -1597,7 +1597,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 {
 	const textData = DawnDex.loadTextData();
 	const Text = textData.Default;
-	fs.writeFileSync('play.pokemonshowdown.com/data/text-data.js', 'exports.BattleText = ' + es3stringify(textData) + ';');
+	fs.writeFileSync('play.pokemonshowdown.com/data/text-data.js', 'exports.BattleText = ' + es3stringify(Text) + ';');
 
 	function assignData(id, entry) {
 		for (const key in entry) {
