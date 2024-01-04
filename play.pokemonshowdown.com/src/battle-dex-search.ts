@@ -829,6 +829,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 				console.log(learnset !== undefined);
 				console.log(moveid in learnset);
 				console.log(learnset[moveid].includes(genChar));
+				console.log('learnset[moveid], genchar')
+				console.log(learnset[moveid]);
+				console.log(genChar);
 			}
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
