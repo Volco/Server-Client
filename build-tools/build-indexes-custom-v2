@@ -1601,7 +1601,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	function assignData(id, entry) {
 		for (const key in entry) {
 			if (id === 'dynamo') {
-				['name', 'desc', 'shortDesc'].includes(key)
+				console.log(['name', 'desc', 'shortDesc'].includes(key));
 			}
 			if (['name', 'desc', 'shortDesc'].includes(key)) continue;
 			const textEntry = Text[id] || (Text[id] = {});
