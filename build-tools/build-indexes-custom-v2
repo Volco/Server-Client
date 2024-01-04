@@ -1226,7 +1226,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const moveid in learnset) {
 			const gens = learnset[moveid].map(x => Number(x[0]));
 			const minGen = Math.min(...gens);
-			BattleTeambuilderTable['gen9sanctified'].learnsets[id][moveid] = '0123456789'.slice(minGen);
+			BattleTeambuilderTable['gen9sanctified'].learnsets[id][moveid] = '0123456789'.slice(minGen) + 'a';
 		}
 	}
 
@@ -1238,7 +1238,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const moveid in learnset) {
 			const gens = learnset[moveid].map(x => Number(x[0]));
 			const minGen = Math.min(...gens);
-			BattleTeambuilderTable['gen9universal'].learnsets[id][moveid] = '0123456789'.slice(minGen);
+			BattleTeambuilderTable['gen9universal'].learnsets[id][moveid] = '0123456789'.slice(minGen) + 'a';
 		}
 	}
 
@@ -1250,7 +1250,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const moveid in learnset) {
 			const gens = learnset[moveid].map(x => Number(x[0]));
 			const minGen = Math.min(...gens);
-			BattleTeambuilderTable['omnifield'].learnsets[id][moveid] = '0123456789'.slice(minGen);
+			BattleTeambuilderTable['omnifield'].learnsets[id][moveid] = '0123456789'.slice(minGen) + 'a';
 		}
 	}
 
@@ -1262,7 +1262,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const moveid in learnset) {
 			const gens = learnset[moveid].map(x => Number(x[0]));
 			const minGen = Math.min(...gens);
-			BattleTeambuilderTable['gen9espionage'].learnsets[id][moveid] = '0123456789'.slice(minGen);
+			BattleTeambuilderTable['gen9espionage'].learnsets[id][moveid] = '0123456789'.slice(minGen) + 'a';
 		}
 	}
 
