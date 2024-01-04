@@ -1511,21 +1511,13 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	Abilities = Object.assign(OmnifieldAbilities, Abilities);
 
 	for (const id in Abilities) {
-		let ability = DawnDex.abilities.get(Abilities[id].name);
-		if (!ability) {
-			ability = DawnDex.mod('gen9sanctified').abilities.get(Abilities[id].name);
-			if (!ability) {
-				ability = DawnDex.mod('gen9universal').abilities.get(Abilities[id].name);
-				if (!ability) {
-					ability = DawnDex.mod('omnifield').abilities.get(Abilities[id].name);
-					if (!ability) {
-						ability = DawnDex.mod('gen9espionage').abilities.get(Abilities[id].name);
-					}
-				}
-			}
-		}
+		// grab dist/data/text/abilities.js
+		const abilityTexts = requireNoCache('../caches/pokemon-showdown/dist/data/text/abilities.js').BattleAbilities;
+		const ability = DawnDex.abilities.get(Abilities[id].name);
 		if (ability.desc) Abilities[id].desc = ability.desc;
 		if (ability.shortDesc) Abilities[id].shortDesc = ability.shortDesc;
+		if (!ability.desc) Abilities[id].desc = abilityTexts[id].desc;
+		if (!ability.shortDesc) Abilities[id].shortDesc = abilityTexts[id].shortDesc;
 	}
 	const buf = 'exports.BattleAbilities = ' + es3stringify(Abilities) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/abilities.js', buf);
