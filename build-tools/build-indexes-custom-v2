@@ -1511,7 +1511,19 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	Abilities = Object.assign(OmnifieldAbilities, Abilities);
 
 	for (const id in Abilities) {
-		const ability = Dex.abilities.get(Abilities[id].name);
+		let ability = DawnDex.abilities.get(Abilities[id].name);
+		if (!ability) {
+			ability = DawnDex.mod('gen9sanctified').abilities.get(Abilities[id].name);
+			if (!ability) {
+				ability = DawnDex.mod('gen9universal').abilities.get(Abilities[id].name);
+				if (!ability) {
+					ability = DawnDex.mod('omnifield').abilities.get(Abilities[id].name);
+					if (!ability) {
+						ability = DawnDex.mod('gen9espionage').abilities.get(Abilities[id].name);
+					}
+				}
+			}
+		}
 		if (ability.desc) Abilities[id].desc = ability.desc;
 		if (ability.shortDesc) Abilities[id].shortDesc = ability.shortDesc;
 	}
