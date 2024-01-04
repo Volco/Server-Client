@@ -1512,7 +1512,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 
 	for (const id in Abilities) {
 		// grab dist/data/text/abilities.js
-		const abilityTexts = requireNoCache('../caches/pokemon-showdown/dist/data/text/abilities.js').BattleAbilities;
+		const abilityTexts = requireNoCache('../caches/pokemon-showdown/dist/data/text/abilities.js').AbilitiesText;
 		const ability = DawnDex.abilities.get(Abilities[id].name);
 		if (ability.desc) Abilities[id].desc = ability.desc;
 		if (ability.shortDesc) Abilities[id].shortDesc = ability.shortDesc;
