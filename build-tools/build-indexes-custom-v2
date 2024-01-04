@@ -1512,7 +1512,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 
 	for (const id in Abilities) {
 		// grab dist/data/text/abilities.js
-		const abilityTexts = requireNoCache('../caches/pokemon-showdown/dist/data/text/abilities.js').AbilitiesText;
+		const abilityTexts = requireNoCache(dawnPath + 'dist/data/text/abilities.js').AbilitiesText;
 		let ability = DawnDex.abilities.get(Abilities[id].name);
 		if (!ability) {
 			ability = DawnDex.mod('gen9sanctified').abilities.get(id);
