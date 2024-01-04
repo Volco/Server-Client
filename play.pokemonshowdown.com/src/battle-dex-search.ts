@@ -1286,7 +1286,6 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 				...results,
 			];
 		}
-		console.log(results);
 		return results;
 	}
 	filter(row: SearchRow, filters: string[][]) {
@@ -1586,9 +1585,6 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType?.startsWith('ssdlc1')) lsetTable = lsetTable['gen8dlc1'];
 		if (this.formatType?.startsWith('predlc')) lsetTable = lsetTable['gen9predlc'];
 		if (this.formatType?.startsWith('svdlc1')) lsetTable = lsetTable['gen9dlc1'];
-		console.log('DEBUGGING:');
-		console.log(this.formatType === 'omnifield');
-		console.log(lsetTable);
 		while (learnsetid) {
 			let learnset = lsetTable.learnsets[learnsetid];
 			if (learnset) {
