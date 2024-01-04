@@ -1457,6 +1457,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 
 {
 	let Moves = requireNoCache('../caches/pokemon-showdown/dist/data/moves.js').Moves;
+	const moveTexts = requireNoCache(dawnPath + 'dist/data/text/moves.js').MovesText;
 	const SanctifiedMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/moves.js').Moves;
 	const UniversalMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/moves.js').Moves;
 	const OmnifieldMoves = requireNoCache(dawnPath + 'dist/data/mods/omnifield/moves.js').Moves;
@@ -1465,9 +1466,23 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	Moves = Object.assign(OmnifieldMoves, Moves);
 
 	for (const id in Moves) {
-		const move = Dex.moves.get(Moves[id].name);
+		let move = Dex.moves.get(Moves[id].name);
+		if (!move) {
+			move = DawnDex.mod('gen9sanctified').moves.get(id);
+			if (!move) {
+				move = DawnDex.mod('gen9universal').moves.get(id);
+				if (!move) {
+					move = DawnDex.mod('omnifield').moves.get(id);
+					if (!move) {
+						move = DawnDex.mod('gen9espionage').moves.get(id);
+					}
+				}
+			}
+		}
 		if (move.desc) Moves[id].desc = move.desc;
 		if (move.shortDesc) Moves[id].shortDesc = move.shortDesc;
+		if (!move.desc && moveTexts[id] && typeof moveTexts[id].desc === 'string') Moves[id].desc = moveTexts[id].desc;
+		if (!move.shortDesc && moveTexts[id] && typeof moveTexts[id].shortDesc === 'string') Moves[id].shortDesc = moveTexts[id].shortDesc;
 	}
 	const buf = 'exports.BattleMovedex = ' + es3stringify(Moves) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/moves.js', buf);
@@ -1480,6 +1495,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 
 {
 	let Items = requireNoCache('../caches/pokemon-showdown/dist/data/items.js').Items;
+	const itemTexts = requireNoCache(dawnPath + 'dist/data/text/items.js').ItemsText;
 	const SanctifiedItems = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/items.js').Items;
 	const UniversalItems = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/items.js').Items;
 	const OmnifieldItems = requireNoCache(dawnPath + 'dist/data/mods/omnifield/items.js').Items;
@@ -1489,9 +1505,23 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	Items = Object.assign(OmnifieldItems, Items);
 	Items = Object.assign(EspionageItems, Items);
 	for (const id in Items) {
-		const item = Dex.items.get(Items[id].name);
+		let item = DawnDex.items.get(Items[id].name);
+		if (!item) {
+			item = DawnDex.mod('gen9sanctified').items.get(id);
+			if (!item) {
+				item = DawnDex.mod('gen9universal').items.get(id);
+				if (!item) {
+					item = DawnDex.mod('omnifield').items.get(id);
+					if (!item) {
+						item = DawnDex.mod('gen9espionage').items.get(id);
+					}
+				}
+			}
+		}
 		if (item.desc) Items[id].desc = item.desc;
 		if (item.shortDesc) Items[id].shortDesc = item.shortDesc;
+		if (!item.desc && itemTexts[id] && typeof itemTexts[id].desc === 'string') Items[id].desc = itemTexts[id].desc;
+		if (!item.shortDesc && itemTexts[id] && typeof itemTexts[id].shortDesc === 'string') Items[id].shortDesc = itemTexts[id].shortDesc;
 	}
 	const buf = 'exports.BattleItems = ' + es3stringify(Items) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/items.js', buf);
@@ -1503,6 +1533,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 
 {
 	let Abilities = requireNoCache('../caches/pokemon-showdown/dist/data/abilities.js').Abilities;
+	const abilityTexts = requireNoCache(dawnPath + 'dist/data/text/abilities.js').AbilitiesText;
 	const SanctifiedAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/abilities.js').Abilities;
 	const UniversalAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/abilities.js').Abilities;
 	const OmnifieldAbilities = requireNoCache(dawnPath + 'dist/data/mods/omnifield/abilities.js').Abilities;
@@ -1511,8 +1542,6 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	Abilities = Object.assign(OmnifieldAbilities, Abilities);
 
 	for (const id in Abilities) {
-		// grab dist/data/text/abilities.js
-		const abilityTexts = requireNoCache(dawnPath + 'dist/data/text/abilities.js').AbilitiesText;
 		let ability = DawnDex.abilities.get(Abilities[id].name);
 		if (!ability) {
 			ability = DawnDex.mod('gen9sanctified').abilities.get(id);
@@ -1525,11 +1554,6 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 					}
 				}
 			}
-		}
-		if (id === 'dynamo') {
-			console.log('i wanna dy dy');
-			console.log(ability.name);
-			console.log(abilityTexts[id]);
 		}
 		if (ability.desc) Abilities[id].desc = ability.desc;
 		if (ability.shortDesc) Abilities[id].shortDesc = ability.shortDesc;
