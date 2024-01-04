@@ -826,9 +826,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			let learnset = table.learnsets[learnsetid];
 			if (learnsetid === 'luxelong') {
 				console.log('LUXELONG');
-				console.log(learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
-				learnset[moveid].includes(genChar) ||
-					(learnset[moveid].includes(`${gen + 1}`) && move.gen === gen)));
+				console.log(learnset !== undefined);
+				console.log(moveid in learnset);
+				console.log(learnset[moveid].includes(genChar));
 			}
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
