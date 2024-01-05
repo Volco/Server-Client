@@ -1025,7 +1025,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		console.log(format);
 		console.log(tierSet);
 		console.log(slices);
-		if (format === 'ubers' || format === 'uber' || format === 'ubersuu') tierSet = tierSet.slice(slices.Uber);
+		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || 'sanctifiedubers') tierSet = tierSet.slice(slices.Uber);
 		else if (isVGCOrBS || (isHackmons && dex.gen === 9 && !this.formatType)) {
 			if (format.endsWith('series13') || isHackmons) {
 				// Show Mythicals
@@ -1037,12 +1037,12 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			} else {
 				tierSet = tierSet.slice(slices.Regular);
 			}
-		} else if (format === 'ou') tierSet = tierSet.slice(slices.OU);
-		else if (format === 'uu') tierSet = tierSet.slice(slices.UU);
-		else if (format === 'ru') tierSet = tierSet.slice(slices.RU || slices.UU);
-		else if (format === 'nu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
-		else if (format === 'pu') tierSet = tierSet.slice(slices.PU || slices.NU);
-		else if (format === 'zu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
+		} else if (format === 'ou' || format === 'worldscollideou' || format === 'sanctifiedou') tierSet = tierSet.slice(slices.OU);
+		else if (format === 'uu' || format === 'worldscollideuu' || format == 'sanctifieduu') tierSet = tierSet.slice(slices.UU);
+		else if (format === 'ru' || format === 'worldscollideru' || format === 'sanctifiedru') tierSet = tierSet.slice(slices.RU || slices.UU);
+		else if (format === 'nu' || format === 'worldscollidenu' || format === 'sanctifiednu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
+		else if (format === 'pu' || format === 'worldscollidepu' || format === 'sanctifiedpu') tierSet = tierSet.slice(slices.PU || slices.NU);
+		else if (format === 'zu' || format === 'worldscollidezu' || format === 'sanctifiedzu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
 		else if (format === 'lc' || format === 'lcuu' || format.startsWith('lc') || (format !== 'caplc' && format.endsWith('lc'))) tierSet = tierSet.slice(slices.LC);
 		else if (format === 'cap' || format.endsWith('cap')) {
 			tierSet = tierSet.slice(0, slices.AG || slices.Uber).concat(tierSet.slice(slices.OU));
