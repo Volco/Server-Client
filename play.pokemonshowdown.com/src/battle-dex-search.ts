@@ -1040,12 +1040,11 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		else if (format === 'ou' || format === 'worldscollideou' || format === 'sanctifiedou') tierSet = tierSet.slice(slices.OU);
 		else if (format === 'uu' || format === 'worldscollideuu' || format == 'sanctifieduu') tierSet = tierSet.slice(slices.UU);
 		else if (format === 'ru' || format === 'worldscollideru' || format === 'sanctifiedru') tierSet = tierSet.slice(slices.RU || slices.UU);
-		else if (format === 'hu' || format === 'worldscollidehu' || format === 'sanctifiedhu') tierSet = tierSet.slice(slices.HU || slices.RU || slices.UU);
+		else if (format === 'hu' || format === 'worldscollidehu' || format === 'sanctifiedhu') tierSet = tierSet.slice(slices.HU);
 		else if (format === 'nu' || format === 'worldscollidenu' || format === 'sanctifiednu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
-		else if (format === 'au' || format === 'worldscollideau' || format === 'sanctifiedau') tierSet = tierSet.slice(slices.AU || slices.PU || slices.RU || slices.UU);
+		else if (format === 'au' || format === 'worldscollideau' || format === 'sanctifiedau') tierSet = tierSet.slice(slices.AU);
 		else if (format === 'pu' || format === 'worldscollidepu' || format === 'sanctifiedpu') tierSet = tierSet.slice(slices.PU || slices.NU);
 		else if (format === 'zu' || format === 'worldscollidezu' || format === 'sanctifiedzu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
-		else if (format === 'fu' || format === 'worldscollidefu' || format === 'sanctifiedfu') tierSet = tierSet.slice(slices.FU || slices.ZU || slices.PU || slices.NU);
 		else if (format === 'lc' || format === 'lcuu' || format.startsWith('lc') || (format !== 'caplc' && format.endsWith('lc'))) tierSet = tierSet.slice(slices.LC);
 		else if (format === 'cap' || format.endsWith('cap')) {
 			tierSet = tierSet.slice(0, slices.AG || slices.Uber).concat(tierSet.slice(slices.OU));
