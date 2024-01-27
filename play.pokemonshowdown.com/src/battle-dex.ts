@@ -810,7 +810,7 @@ const Dex = new class implements ModdedDex {
 			// Insert a hyphen before 'aevianeast' or 'aevianwest'
 			clean_id = clean_id.replace(/(aevian(east|west))$/, '-$1');
 
-			return `background:transparent url(${Config.hostURL}sprites/icons/${clean_id}.png) no-repeat scroll 0 0${fainted}`;
+			return `background:transparent url(${Config.hostURL}sprites/icons/${clean_id}.png) no-repeat scroll 6px 0${fainted}`;
 		}
 		return `background:transparent url(${Dex.resourcePrefix}sprites/pokemonicons-sheet.png?v16) no-repeat scroll -${left}px -${top}px${fainted}`;
 	}
