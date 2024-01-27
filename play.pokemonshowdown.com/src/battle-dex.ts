@@ -800,7 +800,14 @@ const Dex = new class implements ModdedDex {
 		let left = (num % 12) * 40;
 		let fainted = ((pokemon as Pokemon | ServerPokemon)?.fainted ? `;opacity:.3;filter:grayscale(100%) brightness(.5)` : ``);
 		if (num === 0) {
-			console.log(id);
+			let clean_id = id.replace(/(aevian)$/, '-$1');
+			// Insert a hyphen before 'megag'
+			clean_id = clean_id.replace(/(megag)(female)?$/, '-$1$2');
+			
+			// Insert a hyphen between 'megag' and 'female' if they are consecutive
+			clean_id = clean_id.replace(/(megag)-(female)$/, '$1-$2');
+			// the icons are in /sprites/icons/{clean_id}.png
+			return `background:transparent url(${Config.hostURL}sprites/icons/${clean_id}.png) no-repeat scroll 0 0${fainted}`;
 		}
 		return `background:transparent url(${Dex.resourcePrefix}sprites/pokemonicons-sheet.png?v16) no-repeat scroll -${left}px -${top}px${fainted}`;
 	}
