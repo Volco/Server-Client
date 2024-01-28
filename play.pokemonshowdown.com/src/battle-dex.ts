@@ -697,6 +697,7 @@ const Dex = new class implements ModdedDex {
 				}
 				let animSuffix = allowAnim ? 'ani' : '';
 				let animExtension = allowAnim ? '.gif' : '.png';
+				animExtension = '.png';
 				if (animationData[facing]) {
 					spriteData.w = animationData[facing].w;
 					spriteData.h = animationData[facing].h;
