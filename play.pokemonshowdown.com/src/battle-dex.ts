@@ -807,8 +807,8 @@ const Dex = new class implements ModdedDex {
 			// Insert a hyphen between 'megag' and 'female' if they are consecutive
 			clean_id = clean_id.replace(/(megag)-(female)$/, '$1-$2');
 
-			// Insert a hyphen before 'aevianeast' or 'aevianwest'
-			clean_id = clean_id.replace(/(aevian(east|west))$/, '-$1');
+			// Insert a hyphen before 'aevianeast', 'aevianwest', 'aevianfiery', 'aevianicy', or 'aevianrocky'
+			clean_id = clean_id.replace(/(aevian(east|west|fiery|icy|rocky))$/, '-$1');
 
 			return `background:transparent url(${Config.hostURL}sprites/icons/${clean_id}.png) no-repeat scroll 6px 0${fainted}`;
 		}
