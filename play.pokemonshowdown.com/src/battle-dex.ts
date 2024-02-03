@@ -527,6 +527,7 @@ const Dex = new class implements ModdedDex {
 		mod?: string,
 		dynamax?: boolean,
 	} = {gen: 6}) {
+		console.log('testing')
 		const mechanicsGen = options.gen || 6;
 		let isDynamax = !!options.dynamax;
 		if (pokemon instanceof Pokemon) {
@@ -548,8 +549,6 @@ const Dex = new class implements ModdedDex {
 			pokemon = pokemon.getSpeciesForme() + (isGigantamax ? '-Gmax' : '');
 		}
 		const species = Dex.species.get(pokemon);
-		console.log('testing:')
-		console.log(species.num);
 		// Gmax sprites are already extremely large, so we don't need to double.
 		if (species.name.endsWith('-Gmax')) isDynamax = false;
 		let spriteData = {
