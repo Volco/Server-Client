@@ -871,13 +871,7 @@ const Dex = new class implements ModdedDex {
 		const data = this.getTeambuilderSpriteData(pokemon, gen);
 		let shiny = (data.shiny ? '-shiny' : '');
 		let spriteDir = data.spriteDir;
-		let url = data.isCustom ? Config.hostURL : Dex.resourcePrefix;
-		if (spriteDir == 'sprites/gen5') {
-			spriteDir = 'sprites/custom';
-			shiny = '';
-			url = Config.hostURL;
-		}
-		return 'background-image:url(' + url + spriteDir + shiny + '/' + data.spriteid + '.png);background-position:' + data.x + 'px ' + data.y + 'px;background-repeat:no-repeat';
+		return 'background-image:url(' + (data.isCustom ? Config.hostURL : Dex.resourcePrefix) + spriteDir + shiny + '/' + data.spriteid + '.png);background-position:' + data.x + 'px ' + data.y + 'px;background-repeat:no-repeat';
 	}
 
 	getItemIcon(item: any) {
