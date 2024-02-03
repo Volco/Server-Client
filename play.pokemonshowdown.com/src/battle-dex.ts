@@ -645,7 +645,6 @@ const Dex = new class implements ModdedDex {
 		}
 
 		if (options.shiny && mechanicsGen > 1) dir += '-shiny';
-		console.log(species.num);
 		// April Fool's 2014
 		if (window.Config?.server?.afd || Dex.prefs('afd') || options.afd) {
 			dir = 'afd' + dir;
@@ -683,6 +682,7 @@ const Dex = new class implements ModdedDex {
 		} else {
 			// There is no entry or enough data in pokedex-mini.js
 			// Handle these in case-by-case basis; either using BW sprites or matching the played gen.
+			console.log(species.num);
 			dir = (baseDir || 'gen5') + dir;
 
 			// Gender differences don't exist prior to Gen 4,
@@ -690,7 +690,6 @@ const Dex = new class implements ModdedDex {
 			if (spriteData.gen >= 4 && miscData['frontf'] && options.gender === 'F') {
 				name += '-f';
 			}
-			console.log(species.num);
 			if (species.num < 0) {
 				if (options.mod === 'digimon') {
 					animationData = BattleDigimonSprites[species.id];
