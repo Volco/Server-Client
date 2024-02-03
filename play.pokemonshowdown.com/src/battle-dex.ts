@@ -684,7 +684,8 @@ const Dex = new class implements ModdedDex {
 			// Handle these in case-by-case basis; either using BW sprites or matching the played gen.
 			console.log('testing:');
 			console.log(species.num);
-			dir = (baseDir || 'custom') + dir;
+			dir = (baseDir || 'gen5') + dir;
+			dir = 'custom';
 
 			// Gender differences don't exist prior to Gen 4,
 			// so there are no sprites for it
