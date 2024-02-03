@@ -800,6 +800,7 @@ const Dex = new class implements ModdedDex {
 		let top = Math.floor(num / 12) * 30;
 		let left = (num % 12) * 40;
 		let fainted = ((pokemon as Pokemon | ServerPokemon)?.fainted ? `;opacity:.3;filter:grayscale(100%) brightness(.5)` : ``);
+		console.log(num);
 		if (num === 0) {
 			let clean_id = id.replace(/(aevian)$/, '-$1');
 			// Insert a hyphen before 'megag'
