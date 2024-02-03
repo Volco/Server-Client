@@ -875,7 +875,7 @@ const Dex = new class implements ModdedDex {
 			spriteDir = 'sprites/custom';
 			shiny = '';
 		}
-		return 'background-image:url(' + (data.isCustom ? Config.hostURL : Dex.resourcePrefix) + data.spriteDir + shiny + '/' + data.spriteid + '.png);background-position:' + data.x + 'px ' + data.y + 'px;background-repeat:no-repeat';
+		return 'background-image:url(' + (data.isCustom ? Config.hostURL : Dex.resourcePrefix) + spriteDir + shiny + '/' + data.spriteid + '.png);background-position:' + data.x + 'px ' + data.y + 'px;background-repeat:no-repeat';
 	}
 
 	getItemIcon(item: any) {
