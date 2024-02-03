@@ -869,12 +869,13 @@ const Dex = new class implements ModdedDex {
 	getTeambuilderSprite(pokemon: any, gen: number = 0) {
 		if (!pokemon) return '';
 		const data = this.getTeambuilderSpriteData(pokemon, gen);
-		const shiny = (data.shiny ? '-shiny' : '');
+		let shiny = (data.shiny ? '-shiny' : '');
 		let spriteDir = data.spriteDir;
 		if (spriteDir === 'sprites/gen5') {
 			spriteDir = 'sprites/custom';
+			shiny = '';
 		}
-		return 'background-image:url(' + (data.isCustom ? Config.hostURL : Dex.resourcePrefix) + spriteDir + '/' + data.spriteid + '.png);background-position:' + data.x + 'px ' + data.y + 'px;background-repeat:no-repeat';
+		return 'background-image:url(' + (data.isCustom ? Config.hostURL : Dex.resourcePrefix) + data.spriteDir + shiny + '/' + data.spriteid + '.png);background-position:' + data.x + 'px ' + data.y + 'px;background-repeat:no-repeat';
 	}
 
 	getItemIcon(item: any) {
