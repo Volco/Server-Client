@@ -871,7 +871,7 @@ const Dex = new class implements ModdedDex {
 		const data = this.getTeambuilderSpriteData(pokemon, gen);
 		let shiny = (data.shiny ? '-shiny' : '');
 		let spriteDir = data.spriteDir;
-		if (spriteDir === 'sprites/gen5') {
+		if (spriteDir == 'sprites/gen5') {
 			spriteDir = 'sprites/custom';
 			shiny = '';
 		}
