@@ -527,7 +527,6 @@ const Dex = new class implements ModdedDex {
 		mod?: string,
 		dynamax?: boolean,
 	} = {gen: 6}) {
-		console.log('testing')
 		const mechanicsGen = options.gen || 6;
 		let isDynamax = !!options.dynamax;
 		if (pokemon instanceof Pokemon) {
