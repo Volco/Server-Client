@@ -682,6 +682,7 @@ const Dex = new class implements ModdedDex {
 		} else {
 			// There is no entry or enough data in pokedex-mini.js
 			// Handle these in case-by-case basis; either using BW sprites or matching the played gen.
+			console.log('testing:');
 			console.log(species.num);
 			dir = (baseDir || 'gen5') + dir;
 
