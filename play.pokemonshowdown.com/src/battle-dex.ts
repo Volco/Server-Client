@@ -822,7 +822,6 @@ const Dex = new class implements ModdedDex {
 			spriteid = species.spriteid || toID(pokemon.species);
 		}
 		// if it doesn't exist then add it so you don't get a broken image lol it's a custom client you can easily add the image
-		console.log(species.num);
 		if (species.num <= 0) {
 			return {
 				spriteDir: 'sprites/custom', spriteid, x: 15, y: 15, isCustom: true,
