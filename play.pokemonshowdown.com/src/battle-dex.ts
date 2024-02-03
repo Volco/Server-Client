@@ -548,6 +548,8 @@ const Dex = new class implements ModdedDex {
 			pokemon = pokemon.getSpeciesForme() + (isGigantamax ? '-Gmax' : '');
 		}
 		const species = Dex.species.get(pokemon);
+		console.log('testing:')
+		console.log(species.num);
 		// Gmax sprites are already extremely large, so we don't need to double.
 		if (species.name.endsWith('-Gmax')) isDynamax = false;
 		let spriteData = {
@@ -682,10 +684,7 @@ const Dex = new class implements ModdedDex {
 		} else {
 			// There is no entry or enough data in pokedex-mini.js
 			// Handle these in case-by-case basis; either using BW sprites or matching the played gen.
-			console.log('testing:');
-			console.log(species.num);
 			dir = (baseDir || 'gen5') + dir;
-			dir = 'custom';
 
 			// Gender differences don't exist prior to Gen 4,
 			// so there are no sprites for it
