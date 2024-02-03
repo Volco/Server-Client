@@ -645,7 +645,7 @@ const Dex = new class implements ModdedDex {
 		}
 
 		if (options.shiny && mechanicsGen > 1) dir += '-shiny';
-
+		console.log(species.num);
 		// April Fool's 2014
 		if (window.Config?.server?.afd || Dex.prefs('afd') || options.afd) {
 			dir = 'afd' + dir;
@@ -673,7 +673,6 @@ const Dex = new class implements ModdedDex {
 		if (animationData[facing + 'f'] && options.gender === 'F') facing += 'f';
 		let allowAnim = !Dex.prefs('noanim') && !Dex.prefs('nogif');
 		if (allowAnim && spriteData.gen >= 6) spriteData.pixelated = false;
-		console.log(species.num);
 		if (allowAnim && animationData[facing] && spriteData.gen >= 5) {
 			if (facing.slice(-1) === 'f') name += '-f';
 			dir = baseDir + 'ani' + dir;
