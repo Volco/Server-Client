@@ -530,8 +530,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const id of SanctifiedPokemon) {
-			console.log('sanctified');
-			console.log(id);
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
 			if (!isSanctified) continue;
 			let tier = species.tier;
@@ -546,8 +544,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const id of UniversalPokemon) {
-			console.log('universal');
-			console.log(id);
 			const species = DawnDex.mod('gen9universal').species.get(id);
 			if (!isUniversal) continue;
 			let tier = species.tier;
@@ -562,8 +558,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const id of OmnifieldPokemon) {
-			console.log('omnifield');
-			console.log(id);
 			const species = DawnDex.mod('omnifield').species.get(id);
 			if (!isOmnifield) continue;
 			let tier =  species.natDexTier || species.tier || 'OU';
@@ -578,8 +572,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const id of EspionagePokemon) {
-			console.log('espionage');
-			console.log(id);
 			const species = DawnDex.mod('gen9espionage').species.get(id);
 			if (!isEspionage) continue;
 			let tier = species.tier;
