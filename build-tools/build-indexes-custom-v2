@@ -530,6 +530,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const id of SanctifiedPokemon) {
+			if (id === 'phione') continue;
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
 			if (!isSanctified) continue;
 			let tier = species.tier;
@@ -544,8 +545,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const id of UniversalPokemon) {
+			if (id === 'phione') continue;
 			const species = DawnDex.mod('gen9universal').species.get(id);
-			console.log(id);
 			if (!isUniversal) continue;
 			let tier = species.tier;
 			const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
@@ -559,6 +560,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const id of OmnifieldPokemon) {
+			if (id === 'phione') continue;
 			const species = DawnDex.mod('omnifield').species.get(id);
 			if (!isOmnifield) continue;
 			let tier =  species.natDexTier || species.tier || 'OU';
@@ -573,6 +575,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const id of EspionagePokemon) {
+			if (id === 'phione') continue;
 			const species = DawnDex.mod('gen9espionage').species.get(id);
 			if (!isEspionage) continue;
 			let tier = species.tier;
