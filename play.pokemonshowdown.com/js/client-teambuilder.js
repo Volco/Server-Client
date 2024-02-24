@@ -30,6 +30,15 @@
 				if (this.curTeam.format.includes('bdsp')) {
 					this.curTeam.dex = Dex.mod('gen8bdsp');
 				}
+				if (this.curTeam.format.includes('sanctified')) {
+					this.curTeam.dex = Dex.mod('gen9sanctified');
+				}
+				if (this.curTeam.format.includes('espionage')) {
+					this.curTeam.dex = Dex.mod('gen9espionage');
+				}
+				if (this.curTeam.format.includes('worldscollide')) {
+					this.curTeam.dex = Dex.mod('gen9worldscollide');
+				}
 				Storage.activeSetList = this.curSetList;
 			}
 		},
