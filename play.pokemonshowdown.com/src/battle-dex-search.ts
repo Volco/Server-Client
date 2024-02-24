@@ -581,6 +581,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		} else if (!format) {
 			this.dex = Dex;
 		}
+		console.log(format, this.dex.gen);
 
 		if (format.startsWith('dlc1') && this.dex.gen === 8) {
 			if (format.includes('doubles')) {
