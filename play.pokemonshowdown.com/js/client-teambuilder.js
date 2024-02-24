@@ -39,6 +39,9 @@
 				if (this.curTeam.format.includes('worldscollide')) {
 					this.curTeam.dex = Dex.mod('gen9worldscollide');
 				}
+				if (this.curTeam.format.includes('fields')) {
+					this.curTeam.dex = Dex.mod('gen9fields');
+				}
 				Storage.activeSetList = this.curSetList;
 			}
 		},
