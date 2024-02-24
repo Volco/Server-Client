@@ -461,6 +461,7 @@ const Dex = new class implements ModdedDex {
 					}
 				}
 			}
+			console.log(species);
 
 			return species;
 		},
