@@ -419,6 +419,8 @@ const Dex = new class implements ModdedDex {
 			}
 			if (!window.BattlePokedex) window.BattlePokedex = {};
 			let data = window.BattlePokedex[id];
+			console.log('data', data);
+			console.log('modData', this.modData);
 			if (this.modData?.Pokedex[formid]?.inherit && !window.BattlePokedex[formid]) {
 				delete this.modData.Pokedex[formid].inherit;
 				for (const key in this.modData.Pokedex[id]) {
