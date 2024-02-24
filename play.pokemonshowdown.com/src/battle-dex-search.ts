@@ -1105,6 +1105,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		if (!filters) return true;
 		if (row[0] !== 'pokemon') return true;
 		const species = this.dex.species.get(row[1]);
+		console.log('filter');
+		console.log(species);
 		for (const [filterType, value] of filters) {
 			switch (filterType) {
 			case 'type':
