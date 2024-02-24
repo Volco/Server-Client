@@ -581,6 +581,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		} else if (!format) {
 			this.dex = Dex;
 		}
+		if (format.includes('sanctified')) {
+			this.dex = Dex.mod('gen9sanctified' as ID);
+		}
 		console.log(format, this.dex.gen);
 
 		if (format.startsWith('dlc1') && this.dex.gen === 8) {
