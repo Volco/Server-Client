@@ -1237,6 +1237,7 @@
 		},
 		renderSet: function (set, i) {
 			var species = this.curTeam.dex.species.get(set.species);
+			console.log(species);
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isBDSP = this.curTeam.format.includes('bdsp');
 			var isNatDex = this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex');
