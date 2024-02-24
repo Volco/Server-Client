@@ -740,6 +740,18 @@
 			if (this.curTeam.format.includes('bdsp')) {
 				this.curTeam.dex = Dex.mod('gen8bdsp');
 			}
+			if (this.curTeam.format.includes('sanctified')) {
+				this.curTeam.dex = Dex.mod('gen9sanctified');
+			}
+			if (this.curTeam.format.includes('espionage')) {
+				this.curTeam.dex = Dex.mod('gen9espionage');
+			}
+			if (this.curTeam.format.includes('worldscollide')) {
+				this.curTeam.dex = Dex.mod('gen9worldscollide');
+			}
+			if (this.curTeam.format.includes('fields')) {
+				this.curTeam.dex = Dex.mod('gen9fields');
+			}
 			Storage.activeSetList = this.curSetList = Storage.unpackTeam(this.curTeam.team);
 			this.curTeamIndex = i;
 			this.update();
@@ -1579,6 +1591,18 @@
 			}
 			if (this.curTeam.format.includes('bdsp')) {
 				this.curTeam.dex = Dex.mod('gen8bdsp');
+			}
+			if (this.curTeam.format.includes('sanctified')) {
+				this.curTeam.dex = Dex.mod('gen9sanctified');
+			}
+			if (this.curTeam.format.includes('espionage')) {
+				this.curTeam.dex = Dex.mod('gen9espionage');
+			}
+			if (this.curTeam.format.includes('worldscollide')) {
+				this.curTeam.dex = Dex.mod('gen9worldscollide');
+			}
+			if (this.curTeam.format.includes('fields')) {
+				this.curTeam.dex = Dex.mod('gen9fields');
 			}
 			this.save();
 			if (this.curTeam.gen === 5 && !Dex.loadedSpriteData['bw']) Dex.loadSpriteData('bw');
