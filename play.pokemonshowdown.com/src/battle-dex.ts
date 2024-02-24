@@ -196,24 +196,13 @@ const Dex = new class implements ModdedDex {
 	serverDexes: {[mod: string]: ModdedDex} = {};
 
 	mod(modid: ID): ModdedDex {
+		if (modid === 'gen9') return this;
 		if (!window.BattleTeambuilderTable) return this;
-		if (modid in Dex.serverDexes) return Dex.serverDexes[modid];
-		if (modid in window.BattleTeambuilderTable && window.BattleTeambuilderTable[modid].data) {
-			const moddedDex = new ModdedDex(modid);
-			moddedDex.modData = window.BattleTeambuilderTable[modid].data;
-			for (const id in moddedDex.modData.Pokedex) {
-				const entry = moddedDex.modData.Pokedex[id];
-				if (moddedDex.modData.FormatsData[id]) {
-					const formatsEntry = moddedDex.modData.FormatsData[id];
-					if (formatsEntry.tier) entry.tier = formatsEntry.tier;
-					if (formatsEntry.isNonstandard) entry.isNonstandard = formatsEntry.isNonstandard;
-					if (formatsEntry.unreleasedHidden) entry.unreleasedHidden = formatsEntry.unreleasedHidden;
-				}
-			}
-			Dex.serverDexes[modid] = moddedDex;
-			return moddedDex;
+		if (modid in this.moddedDexes) {
+			return this.moddedDexes[modid];
 		}
-		return Dex;
+		this.moddedDexes[modid] = new ModdedDex(modid);
+		return this.moddedDexes[modid];
 	}
 	serverMod(modid: ID): ModdedDex {
 		if (!window.BattleTeambuilderTable) return this;
