@@ -584,6 +584,15 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('sanctified')) {
 			this.dex = Dex.mod('gen9sanctified' as ID);
 		}
+		if (format.includes('espionage')) {
+			this.dex = Dex.mod('gen9espionage' as ID);
+		}
+		if (format.includes('worldscollide')) {
+			this.dex = Dex.mod('gen9universal' as ID);
+		}
+		if (format.includes('omnifield')) {
+			this.dex = Dex.mod('omnifield' as ID);
+		}
 		console.log(format, this.dex.gen);
 
 		if (format.startsWith('dlc1') && this.dex.gen === 8) {
