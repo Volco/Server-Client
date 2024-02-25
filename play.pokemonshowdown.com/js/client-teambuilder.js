@@ -33,15 +33,15 @@
 				if (this.curTeam.format.includes('sanctified')) {
 					this.curTeam.dex = Dex.mod('gen9sanctified');
 				}
-				if (this.curTeam.format.includes('espionage')) {
-					this.curTeam.dex = Dex.mod('gen9espionage');
-				}
-				if (this.curTeam.format.includes('worldscollide')) {
-					this.curTeam.dex = Dex.mod('gen9worldscollide');
-				}
-				if (this.curTeam.format.includes('fields')) {
-					this.curTeam.dex = Dex.mod('gen9fields');
-				}
+				// if (this.curTeam.format.includes('espionage')) {
+				// 	this.curTeam.dex = Dex.mod('gen9espionage');
+				// }
+				// if (this.curTeam.format.includes('worldscollide')) {
+				// 	this.curTeam.dex = Dex.mod('gen9universal');
+				// }
+				// if (this.curTeam.format.includes('fields')) {
+				// 	this.curTeam.dex = Dex.mod('omnifield');
+				// }
 				Storage.activeSetList = this.curSetList;
 			}
 		},
@@ -743,15 +743,15 @@
 			if (this.curTeam.format.includes('sanctified')) {
 				this.curTeam.dex = Dex.mod('gen9sanctified');
 			}
-			if (this.curTeam.format.includes('espionage')) {
-				this.curTeam.dex = Dex.mod('gen9espionage');
-			}
-			if (this.curTeam.format.includes('worldscollide')) {
-				this.curTeam.dex = Dex.mod('gen9worldscollide');
-			}
-			if (this.curTeam.format.includes('fields')) {
-				this.curTeam.dex = Dex.mod('gen9fields');
-			}
+			// if (this.curTeam.format.includes('espionage')) {
+			// 	this.curTeam.dex = Dex.mod('gen9espionage');
+			// }
+			// if (this.curTeam.format.includes('worldscollide')) {
+			// 	this.curTeam.dex = Dex.mod('gen9universal');
+			// }
+			// if (this.curTeam.format.includes('fields')) {
+			// 	this.curTeam.dex = Dex.mod('omnifield');
+			// }
 			Storage.activeSetList = this.curSetList = Storage.unpackTeam(this.curTeam.team);
 			this.curTeamIndex = i;
 			this.update();
@@ -1595,15 +1595,15 @@
 			if (this.curTeam.format.includes('sanctified')) {
 				this.curTeam.dex = Dex.mod('gen9sanctified');
 			}
-			if (this.curTeam.format.includes('espionage')) {
-				this.curTeam.dex = Dex.mod('gen9espionage');
-			}
-			if (this.curTeam.format.includes('worldscollide')) {
-				this.curTeam.dex = Dex.mod('gen9worldscollide');
-			}
-			if (this.curTeam.format.includes('fields')) {
-				this.curTeam.dex = Dex.mod('gen9fields');
-			}
+			// if (this.curTeam.format.includes('espionage')) {
+			// 	this.curTeam.dex = Dex.mod('gen9espionage');
+			// }
+			// if (this.curTeam.format.includes('worldscollide')) {
+			// 	this.curTeam.dex = Dex.mod('gen9universal');
+			// }
+			// if (this.curTeam.format.includes('fields')) {
+			// 	this.curTeam.dex = Dex.mod('omnifield');
+			// }
 			this.save();
 			if (this.curTeam.gen === 5 && !Dex.loadedSpriteData['bw']) Dex.loadSpriteData('bw');
 			this.update();
