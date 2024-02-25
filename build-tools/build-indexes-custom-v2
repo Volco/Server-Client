@@ -528,12 +528,11 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				}
 			}
 		}
-
+		const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
 		for (const id of SanctifiedPokemon) {
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
 			if (!isSanctified) continue;
 			let tier = species.tier;
-			const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
 			const entry = SanctifiedFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
@@ -542,12 +541,11 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
 		}
-
+		const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
 		for (const id of UniversalPokemon) {
 			const species = DawnDex.mod('gen9universal').species.get(id);
 			if (!isUniversal) continue;
 			let tier = species.tier;
-			const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
 			const entry = UniversalFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
@@ -557,11 +555,11 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 
+		const OmnifieldFormatsData = requireNoCache(dawnPath + 'dist/data/mods/omnifield/formats-data.js').FormatsData;
 		for (const id of OmnifieldPokemon) {
 			const species = DawnDex.mod('omnifield').species.get(id);
 			if (!isOmnifield) continue;
 			let tier =  species.natDexTier || species.tier || 'OU';
-			const OmnifieldFormatsData = requireNoCache(dawnPath + 'dist/data/mods/omnifield/formats-data.js').FormatsData;
 			const entry = OmnifieldFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.natDexTier || entry.tier || "OU";
@@ -571,11 +569,11 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 
+		const EspionageFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/formats-data.js').FormatsData;
 		for (const id of EspionagePokemon) {
 			const species = DawnDex.mod('gen9espionage').species.get(id);
 			if (!isEspionage) continue;
 			let tier = species.tier;
-			const EspionageFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/formats-data.js').FormatsData;
 			const entry = EspionageFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
