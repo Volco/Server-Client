@@ -532,10 +532,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of SanctifiedPokemon) {
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
 			if (!isSanctified) continue;
-			let tier = species.tier;
+			let tier = 'OU';
 			const entry = SanctifiedFormatsData[id];
-			if (entry && entry.tier && typeof entry.tier === "string") {
-				tier = entry.tier;
+			if (entry && entry.natDexTier && typeof entry.natDexTier === "string") {
+				tier = entry.natDexTier;
 			}
 			overrideTier[species.id] = tier;
 			if (!tierTable[tier]) tierTable[tier] = [];
