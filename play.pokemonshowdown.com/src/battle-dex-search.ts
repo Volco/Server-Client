@@ -551,7 +551,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 
 	protected formatType: 'doubles' | 'bdsp' | 'bdspdoubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' |
 	'ssdlc1' | 'ssdlc1doubles' | 'predlc' | 'predlcdoubles' | 'predlcnatdex' | 'svdlc1' | 'svdlc1doubles' |
-	'svdlc1natdex' | 'stadium' | 'lc' | null = null;
+	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | null = null;
 
 	/**
 	 * Cached copy of what the results list would be with only base filters
@@ -581,6 +581,19 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		} else if (!format) {
 			this.dex = Dex;
 		}
+		if (format.includes('sanctified')) {
+			this.dex = Dex.mod('gen9sanctified' as ID);
+		}
+		if (format.includes('espionage')) {
+			this.dex = Dex.mod('gen9espionage' as ID);
+		}
+		if (format.includes('worldscollide')) {
+			this.dex = Dex.mod('gen9universal' as ID);
+		}
+		if (format.includes('omnifield')) {
+			this.dex = Dex.mod('omnifield' as ID);
+		}
+		console.log(format, this.dex.gen);
 
 		if (format.startsWith('dlc1') && this.dex.gen === 8) {
 			if (format.includes('doubles')) {
@@ -630,6 +643,15 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		}
 		if (format === 'partnersincrime') this.formatType = 'doubles';
 		if (format.startsWith('ffa') || format === 'freeforall') this.formatType = 'doubles';
+		if (format.includes('sanctified')) {
+			this.formatType = 'sanctified';
+		}
+		if (format.includes('espionage')) {
+			this.formatType = 'espionage';
+		}
+		if (format.includes('worldscollide')) {
+			this.formatType = 'worldscollide';
+		}
 		if (format.includes('letsgo')) {
 			this.formatType = 'letsgo';
 			this.dex = Dex.mod('gen7letsgo' as ID);
@@ -653,6 +675,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if ((format.endsWith('lc') || format.startsWith('lc')) && format !== 'caplc' && !this.formatType) {
 			this.formatType = 'lc';
 			format = 'lc' as ID;
+		}
+		if (format.includes('fields')) {
+			this.formatType = 'omnifield';
 		}
 		if (format.endsWith('draft')) format = format.slice(0, -5) as ID;
 		this.format = format;
@@ -745,6 +770,10 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		let table = BattleTeambuilderTable;
 		if (this.formatType?.startsWith('bdsp')) table = table['gen8bdsp'];
 		if (this.formatType === 'letsgo') table = table['gen7letsgo'];
+		if (this.formatType === 'sanctified') table = table['gen9sanctified'];
+		if (this.formatType === 'espionage') table = table['gen9espionage'];
+		if (this.formatType === 'worldscollide') table = table['gen9universal'];
+		if (this.formatType === 'omnifield') table = table['omnifield'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -803,6 +832,10 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			let table = BattleTeambuilderTable;
 			if (this.formatType?.startsWith('bdsp')) table = table['gen8bdsp'];
 			if (this.formatType === 'letsgo') table = table['gen7letsgo'];
+			if (this.formatType === 'sanctified') table = table['gen9sanctified'];
+			if (this.formatType === 'espionage') table = table['gen9espionage'];
+			if (this.formatType === 'worldscollide') table = table['gen9universal'];
+			if (this.formatType === 'omnifield') table = table['omnifield'];
 			let learnset = table.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
@@ -820,6 +853,10 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		let table = window.BattleTeambuilderTable;
 		const gen = this.dex.gen;
 		const tableKey = this.formatType === 'doubles' ? `gen${gen}doubles` :
+			this.formatType === 'sanctified' ? 'gen9sanctified' :
+			this.formatType === 'espionage' ? 'gen9espionage' :
+			this.formatType === 'worldscollide' ? 'gen9universal' :
+			this.formatType === 'omnifield' ? 'omnifield' :
 			this.formatType === 'letsgo' ? 'gen7letsgo' :
 			this.formatType === 'bdsp' ? 'gen8bdsp' :
 			this.formatType === 'bdspdoubles' ? 'gen8bdspdoubles' :
@@ -978,6 +1015,14 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			}
 		} else if (this.formatType === 'stadium') {
 			table = table['gen' + dex.gen + 'stadium' + (dex.gen > 1 ? dex.gen : '')];
+		} else if (this.formatType === 'sanctified') {
+			table = table['gen9sanctified'];
+		} else if (this.formatType === 'worldscollide') {
+			table = table['gen9universal'];
+		} else if (this.formatType === 'omnifield') {
+			table = table['omnifield'];
+		} else if (this.formatType === 'espionage') {
+			table = table['gen9espionage'];
 		}
 
 		if (!table.tierSet) {
@@ -989,7 +1034,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		}
 		let tierSet: SearchRow[] = table.tierSet;
 		let slices: {[k: string]: number} = table.formatSlices;
-		if (format === 'ubers' || format === 'uber' || format === 'ubersuu') tierSet = tierSet.slice(slices.Uber);
+		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers') tierSet = tierSet.slice(slices.Uber);
 		else if (isVGCOrBS || (isHackmons && dex.gen === 9 && !this.formatType)) {
 			if (format.endsWith('series13') || isHackmons) {
 				// Show Mythicals
@@ -1001,12 +1046,17 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			} else {
 				tierSet = tierSet.slice(slices.Regular);
 			}
-		} else if (format === 'ou') tierSet = tierSet.slice(slices.OU);
-		else if (format === 'uu') tierSet = tierSet.slice(slices.UU);
-		else if (format === 'ru') tierSet = tierSet.slice(slices.RU || slices.UU);
-		else if (format === 'nu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
-		else if (format === 'pu') tierSet = tierSet.slice(slices.PU || slices.NU);
-		else if (format === 'zu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
+		} 
+		else if (format === 'oubl' || format === 'worldscollideoubl' || format === 'sanctifiedoubl') tierSet = tierSet.slice(slices.OUBL);
+		else if (format === 'ou' || format === 'worldscollideou' || format === 'sanctifiedou') tierSet = tierSet.slice(slices.OU);
+		else if (format === 'uu' || format === 'worldscollideuu' || format == 'sanctifieduu') tierSet = tierSet.slice(slices.UU);
+		else if (format === 'ru' || format === 'worldscollideru' || format === 'sanctifiedru') tierSet = tierSet.slice(slices.RU || slices.UU);
+		else if (format === 'hu' || format === 'worldscollidehu' || format === 'sanctifiedhu') tierSet = tierSet.slice(slices.HU);
+		else if (format === 'nu' || format === 'worldscollidenu' || format === 'sanctifiednu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
+		else if (format === 'au' || format === 'worldscollideau' || format === 'sanctifiedau') tierSet = tierSet.slice(slices.AU);
+		else if (format === 'pu' || format === 'worldscollidepu' || format === 'sanctifiedpu') tierSet = tierSet.slice(slices.PU || slices.NU);
+		else if (format === 'zu' || format === 'worldscollidezu' || format === 'sanctifiedzu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
+		else if (format === 'fu' || format === 'worldscollidefu' || format === 'sanctifiedfu') tierSet = tierSet.slice(slices.FU);
 		else if (format === 'lc' || format === 'lcuu' || format.startsWith('lc') || (format !== 'caplc' && format.endsWith('lc'))) tierSet = tierSet.slice(slices.LC);
 		else if (format === 'cap' || format.endsWith('cap')) {
 			tierSet = tierSet.slice(0, slices.AG || slices.Uber).concat(tierSet.slice(slices.OU));
@@ -1216,6 +1266,14 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 			table = table['gen' + this.dex.gen + 'metronome'];
 		} else if (this.dex.gen < 9) {
 			table = table['gen' + this.dex.gen];
+		} else if (this.formatType === 'sanctified') {
+			table = table['gen9sanctified'];
+		} else if (this.formatType === 'worldscollide') {
+			table = table['gen9universal'];
+		} else if (this.formatType === 'omnifield') {
+			table = table['omnifield'];
+		} else if (this.formatType === 'espionage') {
+			table = table['gen9espionage'];
 		}
 		if (!table.itemSet) {
 			table.itemSet = table.items.map((r: any) => {
@@ -1536,6 +1594,10 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		let sketch = false;
 		let gen = '' + dex.gen;
 		let lsetTable = BattleTeambuilderTable;
+		if (this.formatType?.startsWith('sanctified')) lsetTable = lsetTable['gen9sanctified'];
+		if (this.formatType?.startsWith('worldscollide')) lsetTable = lsetTable['gen9universal'];
+		if (this.formatType?.startsWith('espionage')) lsetTable = lsetTable['gen9espionage'];
+		if (this.formatType === 'omnifield') lsetTable = lsetTable['omnifield'];
 		if (this.formatType?.startsWith('bdsp')) lsetTable = lsetTable['gen8bdsp'];
 		if (this.formatType === 'letsgo') lsetTable = lsetTable['gen7letsgo'];
 		if (this.formatType?.startsWith('ssdlc1')) lsetTable = lsetTable['gen8dlc1'];
@@ -1546,45 +1608,63 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 			if (learnset) {
 				for (let moveid in learnset) {
 					let learnsetEntry = learnset[moveid];
-					const move = dex.moves.get(moveid);
-					const minGenCode: {[gen: number]: string} = {6: 'p', 7: 'q', 8: 'g', 9: 'a'};
-					if (regionBornLegality && !learnsetEntry.includes(minGenCode[dex.gen])) {
-						continue;
-					}
-					if (
-						!learnsetEntry.includes(gen) &&
-						(!isTradebacks ? true : !(move.gen <= dex.gen && learnsetEntry.includes('' + (dex.gen + 1))))
-					) {
-						continue;
-					}
-					if (this.formatType !== 'natdex' && move.isNonstandard === "Past") {
-						continue;
-					}
-					if (
-						this.formatType?.startsWith('dlc1') &&
-						BattleTeambuilderTable['gen8dlc1']?.nonstandardMoves.includes(moveid)
-					) {
-						continue;
-					}
-					if (
-						this.formatType?.includes('predlc') && this.formatType !== 'predlcnatdex' &&
-						BattleTeambuilderTable['gen9predlc']?.nonstandardMoves.includes(moveid)
-					) {
-						continue;
-					}
-					if (
-						this.formatType?.includes('svdlc1') && this.formatType !== 'svdlc1natdex' &&
-						BattleTeambuilderTable['gen9dlc1']?.nonstandardMoves.includes(moveid)
-					) {
-						continue;
-					}
-					if (moves.includes(moveid)) continue;
-					moves.push(moveid);
-					if (moveid === 'sketch') sketch = true;
-					if (moveid === 'hiddenpower') {
-						moves.push(
-							'hiddenpowerbug', 'hiddenpowerdark', 'hiddenpowerdragon', 'hiddenpowerelectric', 'hiddenpowerfighting', 'hiddenpowerfire', 'hiddenpowerflying', 'hiddenpowerghost', 'hiddenpowergrass', 'hiddenpowerground', 'hiddenpowerice', 'hiddenpowerpoison', 'hiddenpowerpsychic', 'hiddenpowerrock', 'hiddenpowersteel', 'hiddenpowerwater'
-						);
+					let move = dex.moves.get(moveid);
+					if (this.formatType?.startsWith('sanctified')) {
+						move = Dex.mod('gen9sanctified' as ID).moves.get(moveid);
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+					} else if (this.formatType?.startsWith('worldscollide')) {
+						move = Dex.mod('gen9universal' as ID).moves.get(moveid);
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+					} else if (this.formatType?.startsWith('omnifield')) {
+						move = Dex.mod('omnifield' as ID).moves.get(moveid);
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+					}  else if (this.formatType?.startsWith('espionage')) {
+						move = Dex.mod('gen9espionage' as ID).moves.get(moveid);
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+					} else {
+						const minGenCode: {[gen: number]: string} = {6: 'p', 7: 'q', 8: 'g', 9: 'a'};
+						if (regionBornLegality && !learnsetEntry.includes(minGenCode[dex.gen])) {
+							continue;
+						}
+						if (
+							!learnsetEntry.includes(gen) &&
+							(!isTradebacks ? true : !(move.gen <= dex.gen && learnsetEntry.includes('' + (dex.gen + 1))))
+						) {
+							continue;
+						}
+						if (this.formatType !== 'natdex' && move.isNonstandard === "Past") {
+							continue;
+						}
+						if (
+							this.formatType?.startsWith('dlc1') &&
+							BattleTeambuilderTable['gen8dlc1']?.nonstandardMoves.includes(moveid)
+						) {
+							continue;
+						}
+						if (
+							this.formatType?.includes('predlc') && this.formatType !== 'predlcnatdex' &&
+							BattleTeambuilderTable['gen9predlc']?.nonstandardMoves.includes(moveid)
+						) {
+							continue;
+						}
+						if (
+							this.formatType?.includes('svdlc1') && this.formatType !== 'svdlc1natdex' &&
+							BattleTeambuilderTable['gen9dlc1']?.nonstandardMoves.includes(moveid)
+						) {
+							continue;
+						}
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+						if (moveid === 'sketch') sketch = true;
+						if (moveid === 'hiddenpower') {
+							moves.push(
+								'hiddenpowerbug', 'hiddenpowerdark', 'hiddenpowerdragon', 'hiddenpowerelectric', 'hiddenpowerfighting', 'hiddenpowerfire', 'hiddenpowerflying', 'hiddenpowerghost', 'hiddenpowergrass', 'hiddenpowerground', 'hiddenpowerice', 'hiddenpowerpoison', 'hiddenpowerpsychic', 'hiddenpowerrock', 'hiddenpowersteel', 'hiddenpowerwater'
+							);
+						}
 					}
 				}
 			}

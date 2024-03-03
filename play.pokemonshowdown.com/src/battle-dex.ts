@@ -20,8 +20,6 @@
 
 declare var require: any;
 declare var global: any;
-console.log('window: ');
-console.log(window);
 if (typeof window === 'undefined') {
 	// Node
 	(global as any).window = global;
@@ -195,7 +193,7 @@ const Dex = new class implements ModdedDex {
 
 	loadedSpriteData = {xy: 1, bw: 0};
 	moddedDexes: {[mod: string]: ModdedDex} = {};
-	serverDexes: {[mod: string]: Dexes} = {};
+	serverDexes: {[mod: string]: ModdedDex} = {};
 
 	mod(modid: ID): ModdedDex {
 		if (modid === 'gen9') return this;
@@ -206,12 +204,11 @@ const Dex = new class implements ModdedDex {
 		this.moddedDexes[modid] = new ModdedDex(modid);
 		return this.moddedDexes[modid];
 	}
-	serverMod(modid: ID): Dexes {
+	serverMod(modid: ID): ModdedDex {
 		if (!window.BattleTeambuilderTable) return this;
 		if (modid in Dex.serverDexes) return Dex.serverDexes[modid];
 		if (modid in window.BattleTeambuilderTable && window.BattleTeambuilderTable[modid].data) {
-			const moddedDex = new Dexes();
-			moddedDex.modid = modid;
+			const moddedDex = new ModdedDex(modid);
 			moddedDex.modData = window.BattleTeambuilderTable[modid].data;
 			for (const id in moddedDex.modData.Pokedex) {
 				const entry = moddedDex.modData.Pokedex[id];
@@ -222,7 +219,6 @@ const Dex = new class implements ModdedDex {
 					if (formatsEntry.unreleasedHidden) entry.unreleasedHidden = formatsEntry.unreleasedHidden;
 				}
 			}
-			moddedDex.gen = moddedDex.modData.gen || 8;
 			Dex.serverDexes[modid] = moddedDex;
 			return moddedDex;
 		}
@@ -337,7 +333,6 @@ const Dex = new class implements ModdedDex {
 		},
 	};
 
-
 	getGen3Category(type: string) {
 		return [
 			'Fire', 'Water', 'Grass', 'Electric', 'Ice', 'Psychic', 'Dark', 'Dragon',
@@ -424,6 +419,7 @@ const Dex = new class implements ModdedDex {
 			}
 			if (!window.BattlePokedex) window.BattlePokedex = {};
 			let data = window.BattlePokedex[id];
+
 			if (this.modData?.Pokedex[formid]?.inherit && !window.BattlePokedex[formid]) {
 				delete this.modData.Pokedex[formid].inherit;
 				for (const key in this.modData.Pokedex[id]) {
@@ -650,7 +646,6 @@ const Dex = new class implements ModdedDex {
 		}
 
 		if (options.shiny && mechanicsGen > 1) dir += '-shiny';
-
 		// April Fool's 2014
 		if (window.Config?.server?.afd || Dex.prefs('afd') || options.afd) {
 			dir = 'afd' + dir;
@@ -695,15 +690,20 @@ const Dex = new class implements ModdedDex {
 			if (spriteData.gen >= 4 && miscData['frontf'] && options.gender === 'F') {
 				name += '-f';
 			}
-			
 			if (species.num < 0) {
 				if (options.mod === 'digimon') {
 					animationData = BattleDigimonSprites[species.id];
 				}
 				let animSuffix = allowAnim ? 'ani' : '';
 				let animExtension = allowAnim ? '.gif' : '.png';
-				spriteData.w = animationData[facing].w;
-				spriteData.h = animationData[facing].h;
+				animExtension = '.png';
+				if (animationData[facing]) {
+					spriteData.w = animationData[facing].w;
+					spriteData.h = animationData[facing].h;
+				} else {
+					spriteData.w = 96;
+					spriteData.h = 96;
+				}
 				spriteData.url = Config.hostURL +
 					'sprites/' +
 					'custom' +
@@ -799,6 +799,19 @@ const Dex = new class implements ModdedDex {
 		let top = Math.floor(num / 12) * 30;
 		let left = (num % 12) * 40;
 		let fainted = ((pokemon as Pokemon | ServerPokemon)?.fainted ? `;opacity:.3;filter:grayscale(100%) brightness(.5)` : ``);
+		if (num === 0) {
+			let clean_id = id.replace(/(aevian)$/, '-$1');
+			// Insert a hyphen before 'megag'
+			clean_id = clean_id.replace(/(megag)(female)?$/, '-$1$2');
+			
+			// Insert a hyphen between 'megag' and 'female' if they are consecutive
+			clean_id = clean_id.replace(/(megag)-(female)$/, '$1-$2');
+
+			// Insert a hyphen before 'aevianeast', 'aevianwest', 'aevianfiery', 'aevianicy', or 'aevianrocky'
+			clean_id = clean_id.replace(/(aevian(east|west|fiery|icy|rocky))$/, '-$1');
+
+			return `background:transparent url(${Config.hostURL}sprites/icons/${clean_id}.png) no-repeat scroll 0 0${fainted}; background-position: center;`;
+		}
 		return `background:transparent url(${Dex.resourcePrefix}sprites/pokemonicons-sheet.png?v16) no-repeat scroll -${left}px -${top}px${fainted}`;
 	}
 
@@ -810,7 +823,7 @@ const Dex = new class implements ModdedDex {
 			spriteid = species.spriteid || toID(pokemon.species);
 		}
 		// if it doesn't exist then add it so you don't get a broken image lol it's a custom client you can easily add the image
-		if (species.num < 0) {
+		if (species.num <= 0) {
 			return {
 				spriteDir: 'sprites/custom', spriteid, x: 15, y: 15, isCustom: true,
 			};
@@ -857,8 +870,9 @@ const Dex = new class implements ModdedDex {
 	getTeambuilderSprite(pokemon: any, gen: number = 0) {
 		if (!pokemon) return '';
 		const data = this.getTeambuilderSpriteData(pokemon, gen);
-		const shiny = (data.shiny ? '-shiny' : '');
-		return 'background-image:url(' + (data.isCustom ? Config.hostURL : Dex.resourcePrefix) + data.spriteDir + shiny + '/' + data.spriteid + '.png);background-position:' + data.x + 'px ' + data.y + 'px;background-repeat:no-repeat';
+		let shiny = (data.shiny ? '-shiny' : '');
+		let spriteDir = data.spriteDir;
+		return 'background-image:url(' + (data.isCustom ? Config.hostURL : Dex.resourcePrefix) + spriteDir + shiny + '/' + data.spriteid + '.png);background-position:' + data.x + 'px ' + data.y + 'px;background-repeat:no-repeat';
 	}
 
 	getItemIcon(item: any) {
@@ -875,7 +889,7 @@ const Dex = new class implements ModdedDex {
 		type = this.types.get(type).name;
 		if (!type) type = '???';
 		let sanitizedType = type.replace(/\?/g, '%3f');
-		return `<img src="${Dex.resourcePrefix}sprites/types/${sanitizedType}.png" alt="${type}" height="14" width="32" class="pixelated${b ? ' b' : ''}" />`;
+		return `<img src="${Config.hostURL}sprites/types/${sanitizedType}.png" alt="${type}" height="14" width="32" class="pixelated${b ? ' b' : ''}" />`;
 	}
 
 	getCategoryIcon(category: string | null) {
@@ -921,7 +935,11 @@ class ModdedDex {
 	constructor(modid: ID) {
 		this.modid = modid;
 		const gen = parseInt(modid.substr(3, 1), 10);
-		if (!modid.startsWith('gen') || !gen) throw new Error("Unsupported modid");
+		if (modid === 'omnifield') {
+			this.gen = 9;
+		} else {
+			if (!modid.startsWith('gen') || !gen) throw new Error("Unsupported modid");
+		}
 		this.gen = gen;
 	}
 	moves = {

@@ -1448,7 +1448,7 @@ class BattleTooltips {
 				break;
 			case 'shadowstorm':
 				moveType = '???';
-                break;	
+				break;
 			}
 		}
 		if (move.id === 'terrainpulse' && pokemon.isGrounded(serverPokemon)) {

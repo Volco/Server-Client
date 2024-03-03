@@ -6,7 +6,7 @@ const path = require('path');
 const child_process = require("child_process");
 
 // Make sure this is true when committing
-const isVPS = true;;
+const isVPS = true;
 
 const vpsDawnPath = '/home/dawn/Dawn/';
 const localDawnPath = '../data/Dawn/';

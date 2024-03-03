@@ -30,6 +30,18 @@
 				if (this.curTeam.format.includes('bdsp')) {
 					this.curTeam.dex = Dex.mod('gen8bdsp');
 				}
+				if (this.curTeam.format.includes('sanctified')) {
+					this.curTeam.dex = Dex.mod('gen9sanctified');
+				}
+				// if (this.curTeam.format.includes('espionage')) {
+				// 	this.curTeam.dex = Dex.mod('gen9espionage');
+				// }
+				// if (this.curTeam.format.includes('worldscollide')) {
+				// 	this.curTeam.dex = Dex.mod('gen9universal');
+				// }
+				// if (this.curTeam.format.includes('fields')) {
+				// 	this.curTeam.dex = Dex.mod('omnifield');
+				// }
 				Storage.activeSetList = this.curSetList;
 			}
 		},
@@ -728,6 +740,18 @@
 			if (this.curTeam.format.includes('bdsp')) {
 				this.curTeam.dex = Dex.mod('gen8bdsp');
 			}
+			if (this.curTeam.format.includes('sanctified')) {
+				this.curTeam.dex = Dex.mod('gen9sanctified');
+			}
+			// if (this.curTeam.format.includes('espionage')) {
+			// 	this.curTeam.dex = Dex.mod('gen9espionage');
+			// }
+			// if (this.curTeam.format.includes('worldscollide')) {
+			// 	this.curTeam.dex = Dex.mod('gen9universal');
+			// }
+			// if (this.curTeam.format.includes('fields')) {
+			// 	this.curTeam.dex = Dex.mod('omnifield');
+			// }
 			Storage.activeSetList = this.curSetList = Storage.unpackTeam(this.curTeam.team);
 			this.curTeamIndex = i;
 			this.update();
@@ -1237,6 +1261,7 @@
 		},
 		renderSet: function (set, i) {
 			var species = this.curTeam.dex.species.get(set.species);
+			console.log(species);
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isBDSP = this.curTeam.format.includes('bdsp');
 			var isNatDex = this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex');
@@ -1567,6 +1592,18 @@
 			if (this.curTeam.format.includes('bdsp')) {
 				this.curTeam.dex = Dex.mod('gen8bdsp');
 			}
+			if (this.curTeam.format.includes('sanctified')) {
+				this.curTeam.dex = Dex.mod('gen9sanctified');
+			}
+			// if (this.curTeam.format.includes('espionage')) {
+			// 	this.curTeam.dex = Dex.mod('gen9espionage');
+			// }
+			// if (this.curTeam.format.includes('worldscollide')) {
+			// 	this.curTeam.dex = Dex.mod('gen9universal');
+			// }
+			// if (this.curTeam.format.includes('fields')) {
+			// 	this.curTeam.dex = Dex.mod('omnifield');
+			// }
 			this.save();
 			if (this.curTeam.gen === 5 && !Dex.loadedSpriteData['bw']) Dex.loadSpriteData('bw');
 			this.update();

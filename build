@@ -34,9 +34,9 @@ var full = '';
 
 switch (process.argv[2] || '') {
 case 'full':
-	execSync(`node ./build-tools/build-indexes`, options);
+	execSync(`node ./build-tools/build-indexes-custom-v2`, options);
 	execSync(`node ./build-tools/build-learnsets`, options);
-	execSync(`node ./build-tools/build-minidex`, options);
+	// execSync(`node ./build-tools/build-minidex`, options);
 	// execSync(`node ./build-tools/build-digidex`, options);
 	full = ' full';
 	break;
@@ -48,8 +48,8 @@ case 'learnsets':
 	break;
 case 'minidex':
 case 'sprites':
-	execSync(`node ./build-tools/build-minidex`, options);
-	execSync(`node ./build-tools/build-digidex`, options);
+	// execSync(`node ./build-tools/build-minidex`, options);
+	// execSync(`node ./build-tools/build-digidex`, options);
 	break;
 case 'digimon':
 	execSync(`node ./build-tools/build-digidex`, options);
