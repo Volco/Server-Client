@@ -563,6 +563,11 @@ License: GPLv2
 	background-size: cover;
 }
 
+undercolonyweather {
+	background: #CCAAEE url(../fx/field-undercolony.png) no-repeat scroll left top;
+	background-size: cover;
+}
+
 .volcanictopweather {
 	background: #CCAAEE url(../fx/field-volcanictop.png) no-repeat scroll left top;
 	background-size: cover;
