@@ -543,7 +543,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 		const UniversalFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/formats-data.js').FormatsData;
 		for (const id of UniversalPokemon) {
-			console.log(id);
 			const species = DawnDex.mod('gen9universal').species.get(id);
 			if (!isUniversal) continue;
 			let tier = species.tier;
