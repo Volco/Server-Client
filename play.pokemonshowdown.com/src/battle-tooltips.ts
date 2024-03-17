@@ -750,6 +750,9 @@ class BattleTooltips {
 			if (move.flags.bite && ability === 'strongjaw') {
 				text += `<p class="movetag">&#x2713; Bite <small>(boosted by Strong Jaw)</small></p>`;
 			}
+			if (move.flags.bite && ability === 'crystaljaw') {
+				text += `<p class="movetag">&#x2713; Bite <small>(boosted by Crystal Jaw)</small></p>`;
+			}
 			if ((move.recoil || move.hasCrashDamage) && ability === 'reckless') {
 				text += `<p class="movetag">&#x2713; Recoil <small>(boosted by Reckless)</small></p>`;
 			}
@@ -1112,6 +1115,15 @@ class BattleTooltips {
 				speedModifiers.push(2);
 			}
 			if (ability === 'slushrush' && (weather === 'hail' || weather === 'snow')) {
+				speedModifiers.push(2);
+			}
+			if (ability === 'supercell' && (weather === 'raindance' || weather === 'primordialsea' || weather === 'newmoon')) {
+				stats.spa = Math.floor(stats.spa * 1.5);
+			}
+			if (ability === 'absolution' && weather === 'newmoon') {
+				stats.spa = Math.floor(stats.atk * 1.5);
+			}
+			if (ability === 'shadowdance' && weather === 'newmoon') {
 				speedModifiers.push(2);
 			}
 			if (item !== 'utilityumbrella') {
@@ -1524,7 +1536,13 @@ class BattleTooltips {
 					if (value.abilityModify(0, 'Pixilate')) moveType = 'Fairy';
 					if (value.abilityModify(0, 'Refrigerate')) moveType = 'Ice';
 				}
+				if (moveType === 'Rock') {
+					if (value.abilityModify(0, 'Foundry')) moveType = 'Fire';
+				}
 				if (value.abilityModify(0, 'Normalize')) moveType = 'Normal';
+			}
+			if (category === 'Physical' && move.flags['bite']) {
+				if (value.abilityModify(0, 'Crystal Jaw')) category = 'Special';
 			}
 
 			// There aren't any max moves with the sound flag, but if there were, Liquid Voice would make them water type
@@ -1875,6 +1893,9 @@ class BattleTooltips {
 		}
 		if (move.flags['bite']) {
 			value.abilityModify(1.5, "Strong Jaw");
+		}
+		if (move.flags['bite']) {
+			value.abilityModify(1.3, "Crystal Jaw");
 		}
 		if (value.value <= 60) {
 			value.abilityModify(1.5, "Technician");
