@@ -1119,6 +1119,7 @@ class BattleTooltips {
 			}
 			if (ability === 'supercell' && (weather === 'raindance' || weather === 'primordialsea' || weather === 'newmoon')) {
 				stats.spa = Math.floor(stats.spa * 1.5);
+				speedModifiers.push(1.5);
 			}
 			if (ability === 'absolution' && weather === 'newmoon') {
 				stats.spa = Math.floor(stats.atk * 1.5);
