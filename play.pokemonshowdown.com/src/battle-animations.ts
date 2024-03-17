@@ -1433,7 +1433,7 @@ export class BattleScene implements BattleSceneStub {
 
 	typeAnim(pokemon: Pokemon, types: string) {
 		const result = BattleLog.escapeHTML(types).split('/').map(type =>
-			'<img src="' + Config.hostURL + '/sprites/types/' + type + '.png" alt="' + type + '" class="pixelated" />'
+			'<img src="' + Config.hostURL + 'sprites/types/' + type + '.png" alt="' + type + '" class="pixelated" />'
 		).join(' ');
 		this.resultAnim(pokemon, result, 'neutral');
 	}
@@ -2846,12 +2846,12 @@ export class PokemonSprite extends Sprite {
 		} else if (pokemon.volatiles.typechange && pokemon.volatiles.typechange[1]) {
 			const types = pokemon.volatiles.typechange[1].split('/');
 			for (const type of types) {
-				status += '<img src="' + Config.hostURL + + 'sprites/types/' + encodeURIComponent(type) + '.png" alt="' + type + '" class="pixelated" /> ';
+				status += '<img src="' + Config.hostURL + 'sprites/types/' + encodeURIComponent(type) + '.png" alt="' + type + '" class="pixelated" /> ';
 			}
 		}
 		if (pokemon.volatiles.typeadd) {
 			const type = pokemon.volatiles.typeadd[1];
-			status += '+<img src="' + Config.hostURL + + 'sprites/types/' + type + '.png" alt="' + type + '" class="pixelated" /> ';
+			status += '+<img src="' + Config.hostURL + 'sprites/types/' + type + '.png" alt="' + type + '" class="pixelated" /> ';
 		}
 		for (const stat in pokemon.boosts) {
 			if (pokemon.boosts[stat]) {
