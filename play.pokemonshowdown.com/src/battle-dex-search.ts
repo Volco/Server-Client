@@ -1122,8 +1122,6 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			});
 		}
 
-		console.log(tierSet);
-
 		return tierSet;
 	}
 	filter(row: SearchRow, filters: string[][]) {
