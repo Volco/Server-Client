@@ -1035,7 +1035,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['gen9rebalanced'];
 		}
 
-
+		console.log('table.tierSet');
+		console.log(table.tierSet);
 		if (!table.tierSet) {
 			table.tierSet = table.tiers.map((r: any) => {
 				if (typeof r === 'string') return ['pokemon', r];
@@ -1044,8 +1045,6 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table.tiers = null;
 		}
 		let tierSet: SearchRow[] = table.tierSet;
-		console.log('tierSet');
-		console.log(tierSet);
 		let slices: {[k: string]: number} = table.formatSlices;
 		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers' || format === 'rebalancedubers') tierSet = tierSet.slice(slices.Uber);
 		else if (isVGCOrBS || (isHackmons && dex.gen === 9 && !this.formatType)) {
