@@ -596,7 +596,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('rebalanced')) {
 			this.dex = Dex.mod('gen9rebalanced' as ID);
 		}
-		console.log(format, this.dex.gen);
 
 		if (format.startsWith('dlc1') && this.dex.gen === 8) {
 			if (format.includes('doubles')) {
@@ -1122,6 +1121,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 				return true;
 			});
 		}
+
+		console.log(tierSet);
 
 		return tierSet;
 	}
