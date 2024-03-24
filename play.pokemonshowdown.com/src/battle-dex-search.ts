@@ -1035,6 +1035,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['gen9rebalanced'];
 		}
 
+		console.log(table);
+
 		if (!table.tierSet) {
 			table.tierSet = table.tiers.map((r: any) => {
 				if (typeof r === 'string') return ['pokemon', r];
