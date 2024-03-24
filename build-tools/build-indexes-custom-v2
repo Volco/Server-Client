@@ -593,7 +593,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const RebalancedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9rebalanced/formats-data.js').FormatsData;
 		for (const id of RebalancedPokemon) {
 			const species = DawnDex.mod('gen9rebalanced').species.get(id);
-			if (!isUniversal) continue;
+			if (!isRebalanced) continue;
 			let tier = species.tier;
 			const entry = RebalancedFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
@@ -722,7 +722,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		const tierOrder = (() => {
-			if (isSanctified || isUniversal) {
+			if (isSanctified || isUniversal || isRebalanced) {
 				return ["AG", "Uber", "(Uber)", "OUBL", "OU", "(OU)", "UUBL", "UU", "RUBL", "RU", 'HUBL', 'HU', "NUBL", "NU", "AUBL", "AU", "PUBL", "PU", "ZUBL", "ZU", "FUBL", "FU", "NFE", "LC"];
 			}
 			if (isVGC || isGen9BH) {
