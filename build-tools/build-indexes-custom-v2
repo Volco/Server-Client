@@ -88,6 +88,9 @@ function requireNoCache(pathSpec) {
 	index = index.concat(Object.keys(DawnDex.mod('gen9espionage').data.TypeChart).map(x => toID(x) + ' type'));
 	// Gen 9 Rebalanced
 	index = index.concat(Object.keys(DawnDex.mod('gen9rebalanced').data.Pokedex).map(x => x + ' pokemon'));
+	index = index.concat(Object.keys(DawnDex.mod('gen9rebalanced').data.Moves).map(x => x + ' move'));
+	index = index.concat(Object.keys(DawnDex.mod('gen9rebalanced').data.Items).map(x => x + ' item'));
+	index = index.concat(Object.keys(DawnDex.mod('gen9rebalanced').data.Abilities).map(x => x + ' ability'));
 	// Remove dupes
 	index = [...new Set(index)];
 
@@ -988,10 +991,12 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const SanctifiedItemList = Object.keys(DawnDex.mod('gen9sanctified').data.Items);
 		const UniversalItemList = Object.keys(DawnDex.mod('gen9universal').data.Items);
 		const OmnifieldItemList = Object.keys(DawnDex.mod('omnifield').data.Items);
+		const RebalancedItemList = Object.keys(DawnDex.mod('gen9rebalanced').data.Items);
 		EspionageItemList.sort();
 		SanctifiedItemList.sort();
 		UniversalItemList.sort();
 		OmnifieldItemList.sort();
+		RebalancedItemList.sort();
 		for (const id of EspionageItemList) {
 			if (itemList.includes(id)) continue;
 			if (!isEspionage) continue;
@@ -1010,6 +1015,11 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of OmnifieldItemList) {
 			if (itemList.includes(id)) continue;
 			if (!isOmnifield) continue;
+			greatItems.push(id);
+		}
+		for (const id of RebalancedItemList) {
+			if (itemList.includes(id)) continue;
+			if (!isRebalanced) continue;
 			greatItems.push(id);
 		}
 		items.push(...greatItems);
@@ -1507,9 +1517,11 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const SanctifiedMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/moves.js').Moves;
 	const UniversalMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/moves.js').Moves;
 	const OmnifieldMoves = requireNoCache(dawnPath + 'dist/data/mods/omnifield/moves.js').Moves;
+	const RebalancedMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9rebalanced/moves.js').Moves;
 	Moves = Object.assign(SanctifiedMoves, Moves);
 	Moves = Object.assign(UniversalMoves, Moves);
 	Moves = Object.assign(OmnifieldMoves, Moves);
+	Moves = Object.assign(RebalancedMoves, Moves);
 
 	for (const id in Moves) {
 		let move = Dex.moves.get(Moves[id].name);
@@ -1521,6 +1533,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 					move = DawnDex.mod('omnifield').moves.get(id);
 					if (!move) {
 						move = DawnDex.mod('gen9espionage').moves.get(id);
+						if (!move) {
+							move = DawnDex.mod('gen9rebalanced').moves.get(id);
+						}
 					}
 				}
 			}
@@ -1546,10 +1561,12 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const UniversalItems = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/items.js').Items;
 	const OmnifieldItems = requireNoCache(dawnPath + 'dist/data/mods/omnifield/items.js').Items;
 	const EspionageItems = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/items.js').Items;
+	const RebalancedItems = requireNoCache(dawnPath + 'dist/data/mods/gen9rebalanced/items.js').Items;
 	Items = Object.assign(SanctifiedItems, Items);
 	Items = Object.assign(UniversalItems, Items);
 	Items = Object.assign(OmnifieldItems, Items);
 	Items = Object.assign(EspionageItems, Items);
+	Items = Object.assign(RebalancedItems, Items);
 	for (const id in Items) {
 		let item = DawnDex.items.get(Items[id].name);
 		if (!item) {
@@ -1560,6 +1577,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 					item = DawnDex.mod('omnifield').items.get(id);
 					if (!item) {
 						item = DawnDex.mod('gen9espionage').items.get(id);
+						if (!item) {
+							item = DawnDex.mod('gen9rebalanced').items.get(id);
+						}
 					}
 				}
 			}
@@ -1583,9 +1603,11 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const SanctifiedAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/abilities.js').Abilities;
 	const UniversalAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/abilities.js').Abilities;
 	const OmnifieldAbilities = requireNoCache(dawnPath + 'dist/data/mods/omnifield/abilities.js').Abilities;
+	const RebalancedAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9rebalanced/abilities.js').Abilities;
 	Abilities = Object.assign(SanctifiedAbilities, Abilities);
 	Abilities = Object.assign(UniversalAbilities, Abilities);
 	Abilities = Object.assign(OmnifieldAbilities, Abilities);
+	Abilities = Object.assign(RebalancedAbilities, Abilities);
 
 	for (const id in Abilities) {
 		let ability = DawnDex.abilities.get(Abilities[id].name);
@@ -1597,6 +1619,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 					ability = DawnDex.mod('omnifield').abilities.get(id);
 					if (!ability) {
 						ability = DawnDex.mod('gen9espionage').abilities.get(id);
+						if (!ability) {
+							ability = DawnDex.mod('gen9rebalanced').abilities.get(id);
+						}
 					}
 				}
 			}
