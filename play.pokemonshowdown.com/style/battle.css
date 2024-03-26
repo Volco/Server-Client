@@ -563,7 +563,7 @@ License: GPLv2
 	background-size: cover;
 }
 
-undercolonyweather {
+.undercolonyweather {
 	background: #CCAAEE url(../fx/field-undercolony.png) no-repeat scroll left top;
 	background-size: cover;
 }
@@ -659,6 +659,38 @@ undercolonyweather {
 .inversefieldweather {
 	background: #DDAAEE url(../fx/field-inversefield.png) no-repeat scroll left top;
 	color: #661155;
+	background-size: cover;
+}
+
+/* Universal */
+
+.eclipseweather {
+	background: #CCAAEE url(../fx/weather-eclipse.png) no-repeat scroll left top;
+	background-size: cover;
+}
+
+.thunderstormweather {
+	background: #CCAAEE url(../fx/weather-thunderstorm.png) no-repeat scroll left top;
+	background-size: cover;
+}
+
+.acidrainweather {
+	background: #CCAAEE url(../fx/weather-acidrain.png) no-repeat scroll left top;
+	background-size: cover;
+}
+
+.nuclearfalloutweather {
+	background: #CCAAEE url(../fx/weather-nuclearfallout.png) no-repeat scroll left top;
+	background-size: cover;
+}
+
+.darknessweather {
+	background: #CCAAEE url(../fx/weather-darkness.png) no-repeat scroll left top;
+	background-size: cover;
+}
+
+.stickyterrainweather {
+	background: #CCAAEE url(../fx/weather-stickyterrain.png) no-repeat scroll left top;
 	background-size: cover;
 }
 
