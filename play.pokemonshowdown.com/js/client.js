@@ -216,7 +216,7 @@ function toId() {
 		 * domain in order to have access to the correct cookies.
 		 */
 		getActionPHP: function () {
-			var ret = '/action.php';
+			var ret = '/~~' + Config.server.id + '/action.php';
 			if (Config.testclient) {
 				ret = 'https://' + Config.routes.client + ret;
 			}
@@ -286,12 +286,12 @@ function toId() {
 			}
 
 			if (this.get('userid') !== userid) {
-				var query = this.getActionPHP() + '?act=getassertion&userid=' +
-						encodeURIComponent(toUserid(name)) +
-						//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
-						'&challenge=' + encodeURIComponent(this.challstr);
 				var self = this;
-				getProxy(query, function (data) {
+				$.post(this.getActionPHP(), {
+					act: 'getassertion',
+					userid: userid,
+					challstr: this.challstr
+				}, function (data) {
 					self.finishRename(name, data);
 				});
 			} else {
@@ -300,7 +300,7 @@ function toId() {
 		},
 		passwordRename: function (name, password, special) {
 			var self = this;
-			postProxy(this.getActionPHP(), {
+			$.post(this.getActionPHP(), {
 				act: 'login',
 				name: name,
 				pass: password,
@@ -341,7 +341,7 @@ function toId() {
 				 */
 				this.challstr = challstr;
 				var self = this;
-				postProxy(this.getActionPHP(), {
+				$.post(this.getActionPHP(), {
 					act: 'upkeep',
 					challstr: this.challstr
 				}, Storage.safeJSON(function (data) {
@@ -368,7 +368,7 @@ function toId() {
 		 * Log out from the server (but remain connected as a guest).
 		 */
 		logout: function () {
-			postProxy(this.getActionPHP(), {
+			$.post(this.getActionPHP(), {
 				act: 'logout',
 				userid: this.get('userid')
 			});
@@ -1037,7 +1037,7 @@ function toId() {
 					var replayLink = 'https://' + Config.routes.replays + '/' + replayid;
 					$.ajax(replayLink + '.json', {dataType: 'json'}).done(function (replay) {
 						if (replay) {
-							var title = replay.p1 + ' vs. ' + replay.p2;
+							var title = replay.players[0] + ' vs. ' + replay.players[1];
 							app.receive('>battle-' + replayid + '\n|init|battle\n|title|' + title + '\n' + replay.log);
 							app.receive('>battle-' + replayid + '\n|expire|<a href=' + replayLink + ' target="_blank" class="no-panel-intercept">Open replay in new tab</a>');
 						} else {
@@ -1126,7 +1126,7 @@ function toId() {
 
 				var userid = toUserid(parsed.name);
 				if (userid === this.user.get('userid') && parsed.name !== this.user.get('name')) {
-					postProxy(app.user.getActionPHP(), {
+					$.post(app.user.getActionPHP(), {
 						act: 'changeusername',
 						username: parsed.name
 					}, function () {}, 'text');
@@ -1500,7 +1500,9 @@ function toId() {
 								if (roomEl && roomEl.id) {
 									var roomid = roomEl.id.slice(5);
 									window.app.renameRoom(roomid, target);
-									window.app.rooms[target].join();
+									if (window.app.rooms[target]) {
+										window.app.rooms[target].join();
+									}
 									e.preventDefault();
 									e.stopPropagation();
 									e.stopImmediatePropagation();
@@ -2555,6 +2557,10 @@ function toId() {
 			this.$el.html('<form><p style="white-space:pre-wrap;word-wrap:break-word">' + (data.htmlMessage || BattleLog.parseMessage(data.message)) + '</p><p class="buttonbar">' + (data.buttons || '<button type="button" name="close" class="button autofocus"><strong>OK</strong></button>') + '</p></form>').css('max-width', data.maxWidth || 480);
 		},
 
+		copyText: function (value, target) {
+			app.curRoom.copyText(value, target);
+		},
+
 		dispatchClickButton: function (e) {
 			var target = e.currentTarget;
 			if (target.name) {
@@ -3054,13 +3060,3 @@ function toId() {
 	});
 
 }).call(this, jQuery);
-
-
-function postProxy(a, b, callback) {
-	var datastring = ((a.split('?').length - 1 > 0) ? "&" : "?") + "post=";
-	for (var i in b) datastring += escape(i) + "|";
-	$.post(a + datastring, b, callback);
-}
-function getProxy(ab, callback) {
-	$.get(ab, callback);
-}
