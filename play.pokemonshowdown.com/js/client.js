@@ -287,7 +287,11 @@ function toId() {
 
 			if (this.get('userid') !== userid) {
 				var self = this;
-				$.post(this.getActionPHP(), {
+				var query = this.getActionPHP() + '?act=getassertion&userid=' +
+				encodeURIComponent(toUserid(name)) +
+				//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
+				'&challenge=' + encodeURIComponent(this.challstr);
+				$.post(query, {
 					act: 'getassertion',
 					userid: userid,
 					challstr: this.challstr,
