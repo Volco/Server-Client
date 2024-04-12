@@ -290,7 +290,8 @@ function toId() {
 				$.post(this.getActionPHP(), {
 					act: 'getassertion',
 					userid: userid,
-					challstr: this.challstr
+					challstr: this.challstr,
+					sid: 'hi',
 				}, function (data) {
 					self.finishRename(name, data);
 				});
