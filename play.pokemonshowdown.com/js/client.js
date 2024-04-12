@@ -286,12 +286,16 @@ function toId() {
 			}
 
 			if (this.get('userid') !== userid) {
-				var query = this.getActionPHP() + '?act=getassertion&userid=' +
-						encodeURIComponent(toUserid(name)) +
-						//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
-						'&challenge=' + encodeURIComponent(this.challstr);
-				var self = this;
-				getProxy(query, function (data) {
+				// var query = this.getActionPHP() + '?act=getassertion&userid=' +
+				// 		encodeURIComponent(toUserid(name)) +
+				// 		//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
+				// 		'&challenge=' + encodeURIComponent(this.challstr);
+				// var self = this;
+				$.post(this.getActionPHP(), {
+					act: 'getassertion',
+					userid: userid,
+					challstr: this.challstr
+				}, function (data) {
 					self.finishRename(name, data);
 				});
 			} else {
