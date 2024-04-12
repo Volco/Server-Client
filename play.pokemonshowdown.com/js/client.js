@@ -290,12 +290,9 @@ function toId() {
 				// 		encodeURIComponent(toUserid(name)) +
 				// 		//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
 				// 		'&challenge=' + encodeURIComponent(this.challstr);
-				// var self = this;
-				$.post(this.getActionPHP(), {
-					act: 'getassertion',
-					userid: userid,
-					challstr: this.challstr
-				}, function (data) {
+				var query = this.getActionPHP();
+				var self = this;
+				getProxy(query, function (data) {
 					self.finishRename(name, data);
 				});
 			} else {
