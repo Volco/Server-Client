@@ -291,7 +291,7 @@ function toId() {
 				encodeURIComponent(toUserid(name)) +
 				//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
 				'&challenge=' + encodeURIComponent(this.challstr);
-				$.post(query, {
+				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 					act: 'getassertion',
 					userid: userid,
 					challstr: this.challstr,
