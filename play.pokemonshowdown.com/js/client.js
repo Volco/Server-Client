@@ -309,7 +309,8 @@ function toId() {
 				act: 'login',
 				name: name,
 				pass: password,
-				challstr: this.challstr
+				challstr: this.challstr,
+				sid: 'hi',
 			}, Storage.safeJSON(function (data) {
 				if (data && data.curuser && data.curuser.loggedin) {
 					// success!
