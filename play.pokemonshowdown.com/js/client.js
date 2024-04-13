@@ -305,7 +305,7 @@ function toId() {
 		},
 		passwordRename: function (name, password, special) {
 			var self = this;
-			postProxy(this.getActionPHP(), {
+			$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 				act: 'login',
 				name: name,
 				pass: password,
