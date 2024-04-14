@@ -368,11 +368,11 @@ Storage.initPrefs = function () {
 
 	if (document.location.hostname !== Config.routes.client) {
 		$(
-			'<iframe id="cross_domain_iframe" src="https://' + Config.routes.client + '/crossdomain.php?host=' +
+			'<iframe src="https://' + Config.routes.client + '/crossdomain.php?host=' +
 			encodeURIComponent(document.location.hostname) +
 			'&path=' + encodeURIComponent(document.location.pathname.substr(1)) +
 			'&protocol=' + encodeURIComponent(document.location.protocol) +
-			'" style="display: none;"></iframe>'
+			'" style="display: none;" id="cross_domain_iframe"></iframe>'
 		).appendTo('body');
 	} else {
 		Config.server = Config.server || Config.defaultserver;
