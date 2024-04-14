@@ -347,7 +347,7 @@ function toId() {
 				 */
 				this.challstr = challstr;
 				var self = this;
-				postProxy(this.getActionPHP(), {
+				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 					act: 'upkeep',
 					challstr: this.challstr
 				}, Storage.safeJSON(function (data) {
