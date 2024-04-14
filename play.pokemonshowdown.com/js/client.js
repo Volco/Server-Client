@@ -291,14 +291,24 @@ function toId() {
 				encodeURIComponent(toUserid(name)) +
 				//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
 				'&challenge=' + encodeURIComponent(this.challstr);
-				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
+				// $.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
+				// 	act: 'getassertion',
+				// 	userid: userid,
+				// 	challstr: this.challstr,
+				// 	sid: 'hi',
+				// }, function (data) {
+				// 	self.finishRename(name, data);
+				// });
+				var messageData = 'S' + JSON.stringify({
 					act: 'getassertion',
 					userid: userid,
 					challstr: this.challstr,
 					sid: 'hi',
-				}, function (data) {
-					self.finishRename(name, data);
-				});			
+				  });
+				  
+				  // Send the message to the iframe's contentWindow
+				  var pokemonIframe = document.getElementById('pokemon-iframe').contentWindow;
+				  pokemonIframe.postMessage(messageData, 'https:\/\/dawn.psim.us');		
 			} else {
 				app.send('/trn ' + name);
 			}
