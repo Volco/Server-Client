@@ -291,6 +291,20 @@ function toId() {
 				encodeURIComponent(toUserid(name)) +
 				//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
 				'&challenge=' + encodeURIComponent(this.challstr);
+				function getCookie(name) {
+					let cookies = document.cookie.split(';');
+					for(let i = 0; i < cookies.length; i++) {
+						let cookie = cookies[i].trim();
+						let cookieParts = cookie.split('=');
+						if (cookieParts[0] === name) {
+							return cookieParts[1];
+						}
+					}
+					return null;
+				}
+				
+				let cookieValue = getCookie('showdown_username');
+				console.log(cookieValue); // Outputs the value of the 'showdown_username' cookie
 				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 					act: 'getassertion',
 					userid: userid,
