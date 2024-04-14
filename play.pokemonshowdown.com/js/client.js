@@ -350,7 +350,7 @@ function toId() {
 				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 					act: 'upkeep',
 					challstr: this.challstr,
-					sid
+					sid: 'hi',
 				}, Storage.safeJSON(function (data) {
 					self.loaded = true;
 					if (!data.username) {
