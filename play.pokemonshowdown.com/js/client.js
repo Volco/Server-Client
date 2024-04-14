@@ -295,7 +295,7 @@ function toId() {
 					act: 'getassertion',
 					userid: userid,
 					challstr: this.challstr,
-					sid: 'hi',
+					// sid: 'hi',
 				}, function (data) {
 					self.finishRename(name, data);
 				});			
