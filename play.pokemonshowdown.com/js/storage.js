@@ -369,7 +369,7 @@ Storage.initPrefs = function () {
 	if (document.location.hostname !== Config.routes.client) {
 		$(
 			'<iframe src="https://' + Config.routes.client + '/crossdomain.php?host=' +
-			encodeURIComponent(document.location.hostname) +
+			encodeURIComponent('dawn.psim.us') +
 			'&path=' + encodeURIComponent(document.location.pathname.substr(1)) +
 			'&protocol=' + encodeURIComponent(document.location.protocol) +
 			'" style="display: none;"></iframe>'
