@@ -353,11 +353,11 @@ Storage.initPrefs = function () {
 	Config.server = Config.server || Config.defaultserver;
 	this.whenPrefsLoaded.load();
 	if (!window.nodewebkit) this.whenTeamsLoaded.load();
-	// return;
+	return;
 
 	// Cross-origin
 
-	if (!('postMessage' in window)) {
+	/*if (!('postMessage' in window)) {
 		// browser does not support cross-document messaging
 		return Storage.whenAppLoaded(function (app) {
 			app.trigger('init:unsupported');
@@ -368,7 +368,7 @@ Storage.initPrefs = function () {
 
 	if (document.location.hostname !== Config.routes.client) {
 		$(
-			'<iframe src="https://dawn.psim.us/crossdomain.php?host=' +
+			'<iframe src="https://' + Config.routes.client + '/crossdomain.php?host=' +
 			encodeURIComponent(document.location.hostname) +
 			'&path=' + encodeURIComponent(document.location.pathname.substr(1)) +
 			'&protocol=' + encodeURIComponent(document.location.protocol) +
@@ -389,7 +389,7 @@ Storage.initPrefs = function () {
 				Storage.whenTeamsLoaded.update();
 			}
 		}, 2000);
-	}
+	}*/
 };
 
 Storage.crossOriginFrame = null;
