@@ -291,37 +291,14 @@ function toId() {
 				encodeURIComponent(toUserid(name)) +
 				//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
 				'&challenge=' + encodeURIComponent(this.challstr);
-				// $.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
-				// 	act: 'getassertion',
-				// 	userid: userid,
-				// 	challstr: this.challstr,
-				// 	sid: 'hi',
-				// }, function (data) {
-				// 	self.finishRename(name, data);
-				// });
-				$.ajax({
-					url: 'https://play.pokemonshowdown.com/~~dawn/action.php',
-					method: 'POST',
-					data: {
-						act: 'getassertion',
-						userid: userid,
-						challstr: this.challstr,
-					},
-					headers: {
-						"Accept": "*/*",
-						"Accept-Language": "nl-BE,nl;q=0.9",
-						"Cache-Control": "no-cache",
-						"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-						"Pragma": "no-cache",
-						"X-Requested-With": "XMLHttpRequest"
-					},
-					success: function (data) {
-						self.finishRename(name, data);
-					},
-					error: function (xhr, status, error) {
-						console.error("Error in request: ", status, error);
-					}
-				});				
+				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
+					act: 'getassertion',
+					userid: userid,
+					challstr: this.challstr,
+					sid: 'hi',
+				}, function (data) {
+					self.finishRename(name, data);
+				});			
 			} else {
 				app.send('/trn ' + name);
 			}
