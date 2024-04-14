@@ -309,17 +309,10 @@ function toId() {
 					},
 					headers: {
 						"Accept": "*/*",
-						"Accept-Encoding": "gzip, deflate, br, zstd",
 						"Accept-Language": "nl-BE,nl;q=0.9",
 						"Cache-Control": "no-cache",
 						"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-						"Dnt": "1",
-						"Origin": "https://play.pokemonshowdown.com",
 						"Pragma": "no-cache",
-						"Referer": "https://play.pokemonshowdown.com/crossdomain.php?host=dawn.psim.us&path=&protocol=https%3A",
-						"Sec-Fetch-Dest": "empty",
-						"Sec-Fetch-Mode": "cors",
-						"Sec-Fetch-Site": "same-origin",
 						"X-Requested-With": "XMLHttpRequest"
 					},
 					success: function (data) {
