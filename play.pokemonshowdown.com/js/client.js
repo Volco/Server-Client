@@ -368,6 +368,7 @@ function toId() {
 						});
 					}
 					self.finishRename(data.username, data.assertion);
+					console.log('Headers:', jqXHR.getAllResponseHeaders());
 				}), 'text');
 			}
 		},
