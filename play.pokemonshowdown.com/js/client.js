@@ -308,15 +308,10 @@ function toId() {
 						challstr: this.challstr,
 					},
 					headers: {
-						":authority": "play.pokemonshowdown.com",
-						":method": "POST",
-						":path": "/~~dawn/action.php",
-						":scheme": "https",
 						"Accept": "*/*",
 						"Accept-Encoding": "gzip, deflate, br, zstd",
 						"Accept-Language": "nl-BE,nl;q=0.9",
 						"Cache-Control": "no-cache",
-						"Content-Length": "300", // Ensure this matches the actual content length sent
 						"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
 						"Dnt": "1",
 						"Origin": "https://play.pokemonshowdown.com",
