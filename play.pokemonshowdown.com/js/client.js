@@ -303,7 +303,7 @@ function toId() {
 					return null;
 				}
 				
-				let cookieValue = getCookie('sid');
+				let cookieValue = document.cookie;
 				console.log(cookieValue); // Outputs the value of the 'showdown_username' cookie
 				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 					act: 'getassertion',
