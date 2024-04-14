@@ -314,8 +314,6 @@ function toId() {
 			}, Storage.safeJSON(function (data) {
 				if (data && data.curuser && data.curuser.loggedin) {
 					// success!
-					// store challstr in localStorage for later use
-					localStorage.setItem('challstr', self.challstr);
 					self.set('registered', data.curuser);
 					self.finishRename(name, data.assertion);
 				} else {
@@ -347,13 +345,12 @@ function toId() {
 				 *
 				 * See `finishRename` above for a list of events this can emit.
 				 */
-				// check if storage has a challstr
-				this.challstr = localStorage.getItem('challstr') || challstr;
+				this.challstr = challstr;
 				var self = this;
 				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 					act: 'upkeep',
 					challstr: this.challstr,
-					sid: 'hi',
+					sid
 				}, Storage.safeJSON(function (data) {
 					self.loaded = true;
 					if (!data.username) {
