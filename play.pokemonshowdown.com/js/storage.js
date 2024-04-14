@@ -353,11 +353,11 @@ Storage.initPrefs = function () {
 	Config.server = Config.server || Config.defaultserver;
 	this.whenPrefsLoaded.load();
 	if (!window.nodewebkit) this.whenTeamsLoaded.load();
-	// return;
+	return;
 
 	// Cross-origin
 
-	if (!('postMessage' in window)) {
+	/*if (!('postMessage' in window)) {
 		// browser does not support cross-document messaging
 		return Storage.whenAppLoaded(function (app) {
 			app.trigger('init:unsupported');
@@ -372,7 +372,7 @@ Storage.initPrefs = function () {
 			encodeURIComponent(document.location.hostname) +
 			'&path=' + encodeURIComponent(document.location.pathname.substr(1)) +
 			'&protocol=' + encodeURIComponent(document.location.protocol) +
-			'" style="display: none;" id="cross_domain_iframe"></iframe>'
+			'" style="display: none;"></iframe>'
 		).appendTo('body');
 	} else {
 		Config.server = Config.server || Config.defaultserver;
@@ -389,7 +389,7 @@ Storage.initPrefs = function () {
 				Storage.whenTeamsLoaded.update();
 			}
 		}, 2000);
-	}
+	}*/
 };
 
 Storage.crossOriginFrame = null;
