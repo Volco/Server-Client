@@ -368,7 +368,11 @@ Storage.initPrefs = function () {
 
 	if (document.location.hostname !== Config.routes.client) {
 		$(
-			'<iframe src="https://dawn.psim.us" style="display: none;"></iframe>'
+			'<iframe src="https://dawn.psim.us/crossdomain.php?host=' +
+			encodeURIComponent(document.location.hostname) +
+			'&path=' + encodeURIComponent(document.location.pathname.substr(1)) +
+			'&protocol=' + encodeURIComponent(document.location.protocol) +
+			'" style="display: none;"></iframe>'
 		).appendTo('body');
 	} else {
 		Config.server = Config.server || Config.defaultserver;
