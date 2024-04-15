@@ -216,7 +216,7 @@ function toId() {
 		 * domain in order to have access to the correct cookies.
 		 */
 		getActionPHP: function () {
-			var ret = '/action.php';
+			var ret = '/~~' + Config.server.id + '/action.php';
 			if (Config.testclient) {
 				ret = 'https://' + Config.routes.client + ret;
 			}
@@ -286,12 +286,17 @@ function toId() {
 			}
 
 			if (this.get('userid') !== userid) {
-				var query = this.getActionPHP() + '?act=getassertion&userid=' +
-						encodeURIComponent(toUserid(name)) +
-						//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
-						'&challenge=' + encodeURIComponent(this.challstr);
 				var self = this;
-				getProxy(query, function (data) {
+				var query = this.getActionPHP() + '?act=getassertion&userid=' +
+				encodeURIComponent(toUserid(name)) +
+				//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
+				'&challenge=' + encodeURIComponent(this.challstr);
+				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
+					act: 'getassertion',
+					userid: userid,
+					challstr: this.challstr,
+					sid: 'hi',
+				}, function (data) {
 					self.finishRename(name, data);
 				});
 			} else {
@@ -300,11 +305,12 @@ function toId() {
 		},
 		passwordRename: function (name, password, special) {
 			var self = this;
-			postProxy(this.getActionPHP(), {
+			$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 				act: 'login',
 				name: name,
 				pass: password,
-				challstr: this.challstr
+				challstr: this.challstr,
+				sid: 'hi',
 			}, Storage.safeJSON(function (data) {
 				if (data && data.curuser && data.curuser.loggedin) {
 					// success!
@@ -341,9 +347,10 @@ function toId() {
 				 */
 				this.challstr = challstr;
 				var self = this;
-				postProxy(this.getActionPHP(), {
+				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 					act: 'upkeep',
-					challstr: this.challstr
+					challstr: this.challstr,
+					sid: 'hi',
 				}, Storage.safeJSON(function (data) {
 					self.loaded = true;
 					if (!data.username) {
@@ -361,6 +368,7 @@ function toId() {
 						});
 					}
 					self.finishRename(data.username, data.assertion);
+					console.log('Headers:', jqXHR.getAllResponseHeaders());
 				}), 'text');
 			}
 		},

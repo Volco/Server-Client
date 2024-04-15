@@ -551,7 +551,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 
 	protected formatType: 'doubles' | 'bdsp' | 'bdspdoubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' |
 	'ssdlc1' | 'ssdlc1doubles' | 'predlc' | 'predlcdoubles' | 'predlcnatdex' | 'svdlc1' | 'svdlc1doubles' |
-	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | null = null;
+	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | 'rebalanced' | null = null;
 
 	/**
 	 * Cached copy of what the results list would be with only base filters
@@ -593,7 +593,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('omnifield')) {
 			this.dex = Dex.mod('omnifield' as ID);
 		}
-		console.log(format, this.dex.gen);
+		if (format.includes('rebalanced')) {
+			this.dex = Dex.mod('gen9rebalanced' as ID);
+		}
 
 		if (format.startsWith('dlc1') && this.dex.gen === 8) {
 			if (format.includes('doubles')) {
@@ -651,6 +653,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		}
 		if (format.includes('worldscollide')) {
 			this.formatType = 'worldscollide';
+		}
+		if (format.includes('rebalanced')) {
+			this.formatType = 'rebalanced';
 		}
 		if (format.includes('letsgo')) {
 			this.formatType = 'letsgo';
@@ -774,6 +779,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'espionage') table = table['gen9espionage'];
 		if (this.formatType === 'worldscollide') table = table['gen9universal'];
 		if (this.formatType === 'omnifield') table = table['omnifield'];
+		if (this.formatType === 'rebalanced') table = table['gen9rebalanced'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -836,6 +842,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'espionage') table = table['gen9espionage'];
 			if (this.formatType === 'worldscollide') table = table['gen9universal'];
 			if (this.formatType === 'omnifield') table = table['omnifield'];
+			if (this.formatType === 'rebalanced') table = table['gen9rebalanced'];
 			let learnset = table.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
@@ -854,6 +861,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		const gen = this.dex.gen;
 		const tableKey = this.formatType === 'doubles' ? `gen${gen}doubles` :
 			this.formatType === 'sanctified' ? 'gen9sanctified' :
+			this.formatType === 'rebalanced' ? 'gen9rebalanced' :
 			this.formatType === 'espionage' ? 'gen9espionage' :
 			this.formatType === 'worldscollide' ? 'gen9universal' :
 			this.formatType === 'omnifield' ? 'omnifield' :
@@ -1023,8 +1031,12 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['omnifield'];
 		} else if (this.formatType === 'espionage') {
 			table = table['gen9espionage'];
+		} else if (this.formatType === 'rebalanced') {
+			table = table['gen9rebalanced'];
 		}
 
+		console.log('table.tiers');
+		console.log(table.tiers);
 		if (!table.tierSet) {
 			table.tierSet = table.tiers.map((r: any) => {
 				if (typeof r === 'string') return ['pokemon', r];
@@ -1034,7 +1046,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		}
 		let tierSet: SearchRow[] = table.tierSet;
 		let slices: {[k: string]: number} = table.formatSlices;
-		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers') tierSet = tierSet.slice(slices.Uber);
+		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers' || format === 'rebalancedubers') tierSet = tierSet.slice(slices.Uber);
 		else if (isVGCOrBS || (isHackmons && dex.gen === 9 && !this.formatType)) {
 			if (format.endsWith('series13') || isHackmons) {
 				// Show Mythicals
@@ -1048,11 +1060,11 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			}
 		} 
 		else if (format === 'oubl' || format === 'worldscollideoubl' || format === 'sanctifiedoubl') tierSet = tierSet.slice(slices.OUBL);
-		else if (format === 'ou' || format === 'worldscollideou' || format === 'sanctifiedou') tierSet = tierSet.slice(slices.OU);
-		else if (format === 'uu' || format === 'worldscollideuu' || format == 'sanctifieduu') tierSet = tierSet.slice(slices.UU);
-		else if (format === 'ru' || format === 'worldscollideru' || format === 'sanctifiedru') tierSet = tierSet.slice(slices.RU || slices.UU);
+		else if (format === 'ou' || format === 'worldscollideou' || format === 'sanctifiedou' || format === 'rebalancedou') tierSet = tierSet.slice(slices.OU);
+		else if (format === 'uu' || format === 'worldscollideuu' || format == 'sanctifieduu' || format == 'rebalanceduu') tierSet = tierSet.slice(slices.UU);
+		else if (format === 'ru' || format === 'worldscollideru' || format === 'sanctifiedru' || format === 'rebalancedru') tierSet = tierSet.slice(slices.RU || slices.UU);
 		else if (format === 'hu' || format === 'worldscollidehu' || format === 'sanctifiedhu') tierSet = tierSet.slice(slices.HU);
-		else if (format === 'nu' || format === 'worldscollidenu' || format === 'sanctifiednu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
+		else if (format === 'nu' || format === 'worldscollidenu' || format === 'sanctifiednu' || format === 'rebalancednu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
 		else if (format === 'au' || format === 'worldscollideau' || format === 'sanctifiedau') tierSet = tierSet.slice(slices.AU);
 		else if (format === 'pu' || format === 'worldscollidepu' || format === 'sanctifiedpu') tierSet = tierSet.slice(slices.PU || slices.NU);
 		else if (format === 'zu' || format === 'worldscollidezu' || format === 'sanctifiedzu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
@@ -1274,6 +1286,8 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 			table = table['omnifield'];
 		} else if (this.formatType === 'espionage') {
 			table = table['gen9espionage'];
+		} else if (this.formatType === 'rebalanced') {
+			table = table['gen9rebalanced'];
 		}
 		if (!table.itemSet) {
 			table.itemSet = table.items.map((r: any) => {
@@ -1597,6 +1611,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType?.startsWith('sanctified')) lsetTable = lsetTable['gen9sanctified'];
 		if (this.formatType?.startsWith('worldscollide')) lsetTable = lsetTable['gen9universal'];
 		if (this.formatType?.startsWith('espionage')) lsetTable = lsetTable['gen9espionage'];
+		if (this.formatType?.startsWith('rebalanced')) lsetTable = lsetTable['gen9rebalanced'];
 		if (this.formatType === 'omnifield') lsetTable = lsetTable['omnifield'];
 		if (this.formatType?.startsWith('bdsp')) lsetTable = lsetTable['gen8bdsp'];
 		if (this.formatType === 'letsgo') lsetTable = lsetTable['gen7letsgo'];
@@ -1615,6 +1630,10 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 						moves.push(moveid);
 					} else if (this.formatType?.startsWith('worldscollide')) {
 						move = Dex.mod('gen9universal' as ID).moves.get(moveid);
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+					} else if (this.formatType?.startsWith('rebalanced')) {
+						move = Dex.mod('gen9rebalanced' as ID).moves.get(moveid);
 						if (moves.includes(moveid)) continue;
 						moves.push(moveid);
 					} else if (this.formatType?.startsWith('omnifield')) {
