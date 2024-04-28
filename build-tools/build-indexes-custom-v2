@@ -617,6 +617,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		const GPTFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9gpt/formats-data.js').FormatsData;
+		console.log(GPTFormatsData);
 		for (const id of GPTFormatsData) {
 			const species = DawnDex.mod('gen9gpt').species.get(id);
 			if (!isGPT) continue;
