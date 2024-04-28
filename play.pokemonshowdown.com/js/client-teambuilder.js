@@ -33,7 +33,7 @@
 				if (this.curTeam.format.includes('sanctified')) {
 					this.curTeam.dex = Dex.mod('gen9sanctified');
 				}
-				if (this.curTeam.format.startsWith('gpt')) {
+				if (this.curTeam.format.startsWith('gen9gpt')) {
 					this.curTeam.dex = Dex.mod('gen9gpt');
 				}
 				// if (this.curTeam.format.includes('espionage')) {
@@ -746,7 +746,7 @@
 			if (this.curTeam.format.includes('sanctified')) {
 				this.curTeam.dex = Dex.mod('gen9sanctified');
 			}
-			if (this.curTeam.format.startsWith('gpt')) {
+			if (this.curTeam.format.startsWith('gen9gpt')) {
 				this.curTeam.dex = Dex.mod('gen9gpt');
 			}
 			// if (this.curTeam.format.includes('espionage')) {
@@ -1601,7 +1601,7 @@
 			if (this.curTeam.format.includes('sanctified')) {
 				this.curTeam.dex = Dex.mod('gen9sanctified');
 			}
-			if (this.curTeam.format.startsWith('gpt')) {
+			if (this.curTeam.format.startsWith('gen9gpt')) {
 				this.curTeam.dex = Dex.mod('gen9gpt');
 			}
 			// if (this.curTeam.format.includes('espionage')) {
@@ -2206,12 +2206,6 @@
 		updateStatForm: function (setGuessed) {
 			var buf = '';
 			var set = this.curSet;
-			if (this.curTeam.format.startsWith('gpt')) {
-				this.curTeam.dex = Dex.mod('gen9gpt');
-			} 
-			console.log('here')
-			console.log(this.curTeam.dex);
-			console.log(this.curTeam.format);
 			var species = this.curTeam.dex.species.get(this.curSet.species);
 			var baseStats = species.baseStats;
 
