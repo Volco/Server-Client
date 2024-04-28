@@ -2206,9 +2206,10 @@
 		updateStatForm: function (setGuessed) {
 			var buf = '';
 			var set = this.curSet;
+			if (this.curTeam.format.startsWith('gpt')) {
+				this.curTeam.dex = Dex.mod('gen9gpt');
+			} 
 			var species = this.curTeam.dex.species.get(this.curSet.species);
-			console.log('hello');
-			console.log(this.curTeam.dex);
 			var baseStats = species.baseStats;
 
 			buf += '<div class="resultheader"><h3>EVs</h3></div>';
