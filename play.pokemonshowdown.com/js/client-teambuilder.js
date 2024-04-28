@@ -2209,6 +2209,9 @@
 			if (this.curTeam.format.startsWith('gpt')) {
 				this.curTeam.dex = Dex.mod('gen9gpt');
 			} 
+			console.log('here')
+			console.log(this.curTeam.dex);
+			console.log(this.curTeam.format);
 			var species = this.curTeam.dex.species.get(this.curSet.species);
 			var baseStats = species.baseStats;
 
