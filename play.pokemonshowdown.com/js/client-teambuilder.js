@@ -2207,7 +2207,7 @@
 			var buf = '';
 			var set = this.curSet;
 			var species = this.curTeam.dex.species.get(this.curSet.species);
-
+			console.log(this.curTeam.dex);
 			var baseStats = species.baseStats;
 
 			buf += '<div class="resultheader"><h3>EVs</h3></div>';
