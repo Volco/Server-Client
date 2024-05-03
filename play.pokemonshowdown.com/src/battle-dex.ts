@@ -690,7 +690,7 @@ const Dex = new class implements ModdedDex {
 			if (spriteData.gen >= 4 && miscData['frontf'] && options.gender === 'F') {
 				name += '-f';
 			}
-			if (species.num < 0) {
+			if (species.num < 0 || species.id.endsWith('megag')) {
 				if (options.mod === 'digimon') {
 					animationData = BattleDigimonSprites[species.id];
 				}
