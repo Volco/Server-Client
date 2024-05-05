@@ -593,9 +593,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('omnifield')) {
 			this.dex = Dex.mod('omnifield' as ID);
 		}
-		if (format.includes('rebalanced')) {
-			this.dex = Dex.mod('gen9rebalanced' as ID);
-		}
 		if (format.startsWith('gpt')) {
 			this.dex = Dex.mod('gen9gpt' as ID);
 		}
@@ -657,9 +654,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('worldscollide')) {
 			this.formatType = 'worldscollide';
 		}
-		if (format.includes('rebalanced')) {
-			this.formatType = 'rebalanced';
-		}
 		if (format.startsWith('gpt')) {
 			this.formatType = 'gpt';
 		}
@@ -689,6 +683,12 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		}
 		if (format.includes('fields')) {
 			this.formatType = 'omnifield';
+		}
+		if (format.includes('rebalanced')) {
+			this.dex = Dex.mod('gen9rebalanced' as ID);
+		}
+		if (format.includes('rebalanced')) {
+			this.formatType = 'rebalanced';
 		}
 		if (format.endsWith('draft')) format = format.slice(0, -5) as ID;
 		this.format = format;
@@ -1046,8 +1046,6 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['gen9gpt'];
 		}
 
-		console.log('table.tiers');
-		console.log(table.tiers);
 		if (!table.tierSet) {
 			table.tierSet = table.tiers.map((r: any) => {
 				if (typeof r === 'string') return ['pokemon', r];
