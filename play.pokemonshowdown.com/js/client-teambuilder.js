@@ -36,6 +36,9 @@
 				if (this.curTeam.format.startsWith('gen9gpt')) {
 					this.curTeam.dex = Dex.mod('gen9gpt');
 				}
+				if (this.curTeam.format.startsWith('gen9rebalanced')) {
+					this.curTeam.dex = Dex.mod('gen9rebalanced');
+				}
 				// if (this.curTeam.format.includes('espionage')) {
 				// 	this.curTeam.dex = Dex.mod('gen9espionage');
 				// }
@@ -748,6 +751,9 @@
 			}
 			if (this.curTeam.format.startsWith('gen9gpt')) {
 				this.curTeam.dex = Dex.mod('gen9gpt');
+			}
+			if (this.curTeam.format.startsWith('gen9rebalanced')) {
+				this.curTeam.dex = Dex.mod('gen9rebalanced');
 			}
 			// if (this.curTeam.format.includes('espionage')) {
 			// 	this.curTeam.dex = Dex.mod('gen9espionage');
@@ -1603,6 +1609,9 @@
 			}
 			if (this.curTeam.format.startsWith('gen9gpt')) {
 				this.curTeam.dex = Dex.mod('gen9gpt');
+			}
+			if (this.curTeam.format.startsWith('gen9rebalanced')) {
+				this.curTeam.dex = Dex.mod('gen9rebalanced');
 			}
 			// if (this.curTeam.format.includes('espionage')) {
 			// 	this.curTeam.dex = Dex.mod('gen9espionage');
