@@ -686,10 +686,10 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('fields')) {
 			this.formatType = 'omnifield';
 		}
-		if (format.includes('rebalanced')) {
+		if (original_format.includes('rebalanced')) {
 			this.dex = Dex.mod('gen9rebalanced' as ID);
 		}
-		if (format.includes('rebalanced')) {
+		if (original_format.includes('rebalanced')) {
 			this.formatType = 'rebalanced';
 		}
 		console.log('now lookie here');
