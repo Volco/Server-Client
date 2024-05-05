@@ -692,9 +692,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (original_format.includes('rebalanced')) {
 			this.formatType = 'rebalanced';
 		}
-		console.log('now lookie here');
-		console.log(original_format);
-		console.log(this.formatType);
+
 		if (format.endsWith('draft')) format = format.slice(0, -5) as ID;
 		this.format = format;
 
