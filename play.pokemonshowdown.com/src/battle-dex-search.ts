@@ -890,7 +890,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			this.formatType === 'natdex' ? `gen${gen}natdex` :
 			this.formatType === 'stadium' ? `gen${gen}stadium${gen > 1 ? gen : ''}` :
 			`gen${gen}`;
-		if (table && table[tableKey]) {
+		console.log('yes hier')
+		console.log(this.formatType)
+			if (table && table[tableKey]) {
 			table = table[tableKey];
 		}
 		if (!table) return pokemon.tier;
