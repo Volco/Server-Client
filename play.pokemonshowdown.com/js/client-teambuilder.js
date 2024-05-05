@@ -3159,8 +3159,6 @@
 				set.species = 'Trevenant';
 				delete set.level;
 				var baseFormat = this.curTeam.format;
-				console.log('baseformat');
-				console.log(baseFormat);
 				if (baseFormat.substr(0, 3) === 'gen') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 4) === 'bdsp') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 8) === 'pokebank') baseFormat = baseFormat.substr(8);
@@ -3415,6 +3413,7 @@
 			if (this.curTeam && this.curTeam.format) {
 				var baseFormat = this.curTeam.format;
 				var format = window.BattleFormats && window.BattleFormats[baseFormat];
+				console.log(baseFormat);
 				if (baseFormat.substr(0, 3) === 'gen') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 4) === 'bdsp') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 8) === 'pokebank') baseFormat = baseFormat.substr(8);
