@@ -305,6 +305,8 @@
 
 		// number
 		var tier = this.engine ? this.engine.getTier(pokemon) : pokemon.num;
+		console.log('hiero');
+		console.log(tier);
 		// buf += '<span class="col numcol">' + (pokemon.num >= 0 ? pokemon.num : 'CAP') + '</span> ';
 		buf += '<span class="col numcol">' + tier + '</span> ';
 

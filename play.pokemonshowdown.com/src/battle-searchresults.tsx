@@ -43,9 +43,6 @@ class PSSearchResults extends preact.Component<{search: DexSearch}> {
 	renderPokemonRow(id: ID, matchStart: number, matchEnd: number, errorMessage?: preact.ComponentChildren) {
 		const search = this.props.search;
 		const pokemon = search.dex.species.get(id);
-		console.log('HIERO')
-		console.log(search.dex);
-		console.log(search.getTier(pokemon));
 		if (!pokemon) return <li class="result">Unrecognized pokemon</li>;
 
 		let tagStart = (pokemon.forme ? pokemon.name.length - pokemon.forme.length - 1 : 0);
