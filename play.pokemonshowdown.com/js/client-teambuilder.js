@@ -1276,7 +1276,8 @@
 			console.log(species);
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isBDSP = this.curTeam.format.includes('bdsp');
-			var isNatDex = this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex');
+			var isRebalanced = this.curTeam.format.startsWith('gen9rebalanced');
+			var isNatDex = !isRebalanced && (this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex'));
 			var buf = '<li value="' + i + '">';
 			if (!set.species) {
 				if (this.deletedSet) {
@@ -2737,7 +2738,8 @@
 			var set = this.curSet;
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isBDSP = this.curTeam.format.includes('bdsp');
-			var isNatDex = this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex');
+			var isRebalanced = this.curTeam.format.startsWith('gen9rebalanced');
+			var isNatDex = !isRebalanced && (this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex'));
 			var isHackmons = this.curTeam.format.includes('hackmons') || this.curTeam.format.endsWith('bh');
 			var species = this.curTeam.dex.species.get(set.species);
 			if (!set) return;
@@ -2843,7 +2845,8 @@
 			var species = this.curTeam.dex.species.get(set.species);
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isBDSP = this.curTeam.format.includes('bdsp');
-			var isNatDex = this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex');
+			var isRebalanced = this.curTeam.format.startsWith('gen9rebalanced');
+			var isNatDex = !isRebalanced && (this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex'));
 
 			// level
 			var level = parseInt(this.$chart.find('input[name=level]').val(), 10);
