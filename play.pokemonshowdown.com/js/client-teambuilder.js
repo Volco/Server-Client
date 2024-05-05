@@ -1273,7 +1273,6 @@
 		},
 		renderSet: function (set, i) {
 			var species = this.curTeam.dex.species.get(set.species);
-			console.log(species);
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isBDSP = this.curTeam.format.includes('bdsp');
 			var isRebalanced = this.curTeam.format.startsWith('gen9rebalanced');
@@ -3159,8 +3158,6 @@
 				set.species = 'Trevenant';
 				delete set.level;
 				var baseFormat = this.curTeam.format;
-				console.log('BASE FORMAT 1');
-				console.log(baseFormat);
 				if (baseFormat.substr(0, 3) === 'gen') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 4) === 'bdsp') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 8) === 'pokebank') baseFormat = baseFormat.substr(8);
@@ -3196,8 +3193,6 @@
 				set.species = 'Drapion';
 				delete set.level;
 				var baseFormat = this.curTeam.format;
-				console.log('BASE FORMAT 2');
-				console.log(baseFormat);
 				if (baseFormat.substr(0, 3) === 'gen') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 4) === 'bdsp') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 8) === 'pokebank') baseFormat = baseFormat.substr(8);
@@ -3417,8 +3412,6 @@
 			if (this.curTeam && this.curTeam.format) {
 				var baseFormat = this.curTeam.format;
 				var format = window.BattleFormats && window.BattleFormats[baseFormat];
-				console.log('BASE FORMAT 3');
-				console.log(baseFormat);
 				if (baseFormat.substr(0, 3) === 'gen') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 4) === 'bdsp') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 8) === 'pokebank') baseFormat = baseFormat.substr(8);

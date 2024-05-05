@@ -574,6 +574,8 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		this.baseResults = null;
 		this.baseIllegalResults = null;
 
+		const original_format = format;
+
 		if (format.slice(0, 3) === 'gen') {
 			const gen = (Number(format.charAt(3)) || 6);
 			format = (format.slice(4) || 'customgame') as ID;
@@ -691,7 +693,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			this.formatType = 'rebalanced';
 		}
 		console.log('now lookie here');
-		console.log(format);
+		console.log(original_format);
 		console.log(this.formatType);
 		if (format.endsWith('draft')) format = format.slice(0, -5) as ID;
 		this.format = format;
