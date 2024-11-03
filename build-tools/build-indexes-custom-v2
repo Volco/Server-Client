@@ -771,7 +771,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (genNum >= 5) {
 				BattleTeambuilderTable[gen].monotypeBans = monotypeBans;
 			}
-			if (isSSDLC1 || isPreDLC || isSVDLC1) {
+			if (isSSDLC1 || isPreDLC || isSVDLC1 || is35Pokes) {
 				BattleTeambuilderTable[gen].nonstandardMoves = nonstandardMoves;
 				BattleTeambuilderTable[gen].learnsets = {};
 			}
@@ -1354,6 +1354,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			const gens = learnset[moveid].map(x => Number(x[0]));
 			const minGen = Math.min(...gens);
 			BattleTeambuilderTable['omnifield'].learnsets[id][moveid] = '0123456789'.slice(minGen) + 'a';
+			BattleTeambuilderTable['35_pokes'].learnsets[id][moveid] = '0123456789'.slice(minGen) + 'a';
 		}
 	}
 
