@@ -785,7 +785,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 	}
 	protected firstLearnsetid(speciesid: ID) {
 		let table = BattleTeambuilderTable;
-		console.log(Object.keys(table))
+		console.log(this.formatType);
 		if (this.formatType?.startsWith('bdsp')) table = table['gen8bdsp'];
 		if (this.formatType === 'letsgo') table = table['gen7letsgo'];
 		if (this.formatType === 'sanctified') table = table['gen9sanctified'];
