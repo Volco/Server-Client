@@ -803,9 +803,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				formatSlices[usedTier] = tiers.length;
 			}
 			if (!tierTable[tier]) continue;
-			if (tier === "Permitted") {
-				tiers.push(['header', "Permitted"]);
-			}
 			if (tier === "(PU)") {
 				tiers.push(['header', "Below PU"]);
 			} else if (tier === "(DUU)") {
