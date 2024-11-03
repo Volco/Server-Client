@@ -642,6 +642,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!is35Pokes) continue;
 			let tier = "Illegal"
 			const entry = ThirtyFivePokesFormatsData[id];
+			console.log(entry);
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
 			}
