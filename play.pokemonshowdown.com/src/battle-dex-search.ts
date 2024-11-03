@@ -793,7 +793,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'omnifield') table = table['omnifield'];
 		if (this.formatType === 'rebalanced') table = table['gen9rebalanced'];
 		if (this.formatType === 'gpt') table = table['gen9gpt'];
-		if (this.formatType === 'nationaldex35pokes') this.formatType = 'natdex';
+		if (this.formatType === 'nationaldex35pokes') table = table['35_pokes'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -857,7 +857,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'worldscollide') table = table['gen9universal'];
 			if (this.formatType === 'omnifield') table = table['omnifield'];
 			if (this.formatType === 'rebalanced') table = table['gen9rebalanced'];
-			if (this.formatType === 'nationaldex35pokes') this.formatType = 'natdex';
+			if (this.formatType === 'nationaldex35pokes') table = table['35_pokes'];
 			if (this.formatType === 'gpt') table = table['gen9gpt'];
 			let learnset = table.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
