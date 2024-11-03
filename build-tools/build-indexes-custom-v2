@@ -633,7 +633,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		let ThirtyFivePokesFormatsData = requireNoCache(dawnPath + 'dist/data/mods/35_pokes/formats-data.js').FormatsData;
-		for (const id of ThirtyFivePokesFormatsData) {
+		for (const id of Object.keys(ThirtyFivePokesFormatsData)) {
 			const species = DawnDex.mod('35_pokes').species.get(id);
 			if (!is35Pokes) continue;
 			let tier = "Illegal"
