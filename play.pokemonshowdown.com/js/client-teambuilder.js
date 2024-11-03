@@ -39,6 +39,9 @@
 				if (this.curTeam.format.startsWith('gen9rebalanced')) {
 					this.curTeam.dex = Dex.mod('gen9rebalanced');
 				}
+				if (this.curTeam.format.startsWith('gen9nationaldex35pokes')) {
+					this.curTeam.dex = Dex.mod('35_pokes');
+				}
 				// if (this.curTeam.format.includes('espionage')) {
 				// 	this.curTeam.dex = Dex.mod('gen9espionage');
 				// }
@@ -1276,7 +1279,8 @@
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isBDSP = this.curTeam.format.includes('bdsp');
 			var isRebalanced = this.curTeam.format.startsWith('gen9rebalanced');
-			var isNatDex = !isRebalanced && (this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex'));
+			var is35Pokes = this.curTeam.format.includes('35pokes');
+			var isNatDex = !isRebalanced && !is35Pokes && (this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex'));
 			var buf = '<li value="' + i + '">';
 			if (!set.species) {
 				if (this.deletedSet) {
@@ -1612,6 +1616,9 @@
 			}
 			if (this.curTeam.format.startsWith('gen9rebalanced')) {
 				this.curTeam.dex = Dex.mod('gen9rebalanced');
+			}
+			if (this.curTeam.format.startsWith('gen9nationaldex35pokes')) {
+				this.curTeam.dex = Dex.mod('35_pokes');
 			}
 			// if (this.curTeam.format.includes('espionage')) {
 			// 	this.curTeam.dex = Dex.mod('gen9espionage');
@@ -2738,7 +2745,8 @@
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isBDSP = this.curTeam.format.includes('bdsp');
 			var isRebalanced = this.curTeam.format.startsWith('gen9rebalanced');
-			var isNatDex = !isRebalanced && (this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex'));
+			var is35Pokes = this.curTeam.format.includes('35pokes');
+			var isNatDex = !isRebalanced && !is35Pokes && (this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex'));
 			var isHackmons = this.curTeam.format.includes('hackmons') || this.curTeam.format.endsWith('bh');
 			var species = this.curTeam.dex.species.get(set.species);
 			if (!set) return;
@@ -2845,7 +2853,8 @@
 			var isLetsGo = this.curTeam.format.includes('letsgo');
 			var isBDSP = this.curTeam.format.includes('bdsp');
 			var isRebalanced = this.curTeam.format.startsWith('gen9rebalanced');
-			var isNatDex = !isRebalanced && (this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex'));
+			var is35Pokes = this.curTeam.format.includes('35pokes');
+			var isNatDex = !isRebalanced && !is35Pokes && (this.curTeam.format.includes('nationaldex') || this.curTeam.format.includes('natdex'));
 
 			// level
 			var level = parseInt(this.$chart.find('input[name=level]').val(), 10);

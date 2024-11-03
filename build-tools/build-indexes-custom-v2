@@ -370,7 +370,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	const LC = GENS.map(num => num + 0.7);
 	const STADIUM = [2.04, 1.04];
 	const NATDEX = [9.1, 8.1];
-	const OTHER = [9.9, 9.69, 9.68, 9.67, 9.66, 9.65, 9.64, 9.411, 9.41, 9.401, 9.4, 9.2, -9.4, -9.401, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.1];
+	const OTHER = [9.9, 9.69, 9.68, 9.67, 9.66, 9.65, 9.64, 9.63, 9.411, 9.41, 9.401, 9.4, 9.2, -9.4, -9.401, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.1];
 
 	// process.stdout.write("\n  ");
 	for (const genIdent of [...GENS, ...DOUBLES, ...VGC, ...NFE, ...STADIUM, ...OTHER, ...NATDEX, ...LC]) {
@@ -382,6 +382,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const isEspionage = (genIdent === 9.66);
 		const isRebalanced = (genIdent === 9.65);
 		const isGPT = (genIdent === 9.64);
+		const is35Pokes = (genIdent === 9.63);
 		const isMetBattle = ('' + genIdent).endsWith('.2');
 		const isNFE = ('' + genIdent).endsWith('.3');
 		const isLC = ('' + genIdent).endsWith('.7');
@@ -434,6 +435,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (isEspionage) continue;
 			if (isRebalanced) continue;
 			if (isGPT) continue;
+			if (is35Pokes) continue;
 			const tier = (() => {
 				if (isMetBattle) {
 					let tier = species.tier;
@@ -630,6 +632,20 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 
+		const ThirtyFivePokesFormatsData = requireNoCache(dawnPath + 'dist/data/mods/35_pokes/formats-data.js').FormatsData;
+		for (const id of ThirtyFivePokesFormatsData) {
+			const species = DawnDex.mod('35_pokes').species.get(id);
+			if (!is35Pokes) continue;
+			let tier = "Illegal"
+			const entry = ThirtyFivePokesFormatsData[id];
+			if (entry && entry.tier && typeof entry.tier === "string") {
+				tier = entry.tier;
+			}
+			overrideTier[species.id] = tier;
+			if (!tierTable[tier]) tierTable[tier] = [];
+			tierTable[tier].push(id);
+		}
+
 		nonstandardMoves.push(...Object.keys(Dex.data.Moves).filter(id => {
 			const move = Dex.mod(isSSDLC1 ? 'gen8dlc1' : isPreDLC ? 'gen9predlc' : 'gen9dlc1').moves.get(id);
 			const bMove = Dex.mod(isSSDLC1 ? 'gen8' : 'gen9').moves.get(id);
@@ -718,6 +734,13 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['gen9gpt'].tiers = tiers;
 			BattleTeambuilderTable['gen9gpt'].overrideTier = overrideTier;
 			BattleTeambuilderTable['gen9gpt'].formatSlices = formatSlices;
+		} else if (is35Pokes) {
+			BattleTeambuilderTable['35_pokes'] = {};
+			BattleTeambuilderTable['35_pokes'].learnsets = {};
+			BattleTeambuilderTable['35_pokes'].items = items;
+			BattleTeambuilderTable['35_pokes'].tiers = tiers;
+			BattleTeambuilderTable['35_pokes'].overrideTier = overrideTier;
+			BattleTeambuilderTable['35_pokes'].formatSlices = formatSlices;
 		} else if (isVGC) {
 			BattleTeambuilderTable[gen + 'vgc'] = {};
 			BattleTeambuilderTable[gen + 'vgc'].tiers = tiers;
@@ -755,6 +778,9 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		const tierOrder = (() => {
+			if (is35Pokes) {
+				return ["Permitted"]
+			}
 			if (isSanctified || isUniversal || isRebalanced || isGPT) {
 				return ["AG", "Uber", "(Uber)", "OUBL", "OU", "(OU)", "UUBL", "UU", "RUBL", "RU", 'HUBL', 'HU', "NUBL", "NU", "AUBL", "AU", "PUBL", "PU", "ZUBL", "ZU", "FUBL", "FU", "NFE", "LC"];
 			}
@@ -815,7 +841,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				continue;
 			}
 			if (item.isNonstandard && !isMetBattle) {
-				if (isNatDex || isSanctified || isOmnifield || isUniversal || isEspionage || isRebalanced || isGPT) {
+				if (isNatDex || isSanctified || isOmnifield || isUniversal || isEspionage || isRebalanced || isGPT || is35Pokes) {
 					let curItem = item;
 					let curGen = genNum;
 					while (item.isNonstandard && curGen >= 7) {
@@ -1455,7 +1481,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 
-	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt']) {
+	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt', '35_pokes']) {
 		const modDex = DawnDex.mod(mod);
 		const modData = modDex.data;
 		const parentDex = DawnDex.forGen(modDex.gen);
@@ -1739,12 +1765,14 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const EspionageFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/formats-data.js').FormatsData;
 	const RebalancedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9rebalanced/formats-data.js').FormatsData;
 	const GPTFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9gpt/formats-data.js').FormatsData;
+	const ThirtyFivePokesFormatsData = requireNoCache(dawnPath + 'dist/data/mods/35_pokes/formats-data.js').FormatsData;
 	FormatsData = Object.assign(SanctifiedFormatsData, FormatsData);
 	FormatsData = Object.assign(UniversalFormatsData, FormatsData);
 	FormatsData = Object.assign(OmnifieldFormatsData, FormatsData);
 	FormatsData = Object.assign(EspionageFormatsData, FormatsData);
 	FormatsData = Object.assign(RebalancedFormatsData, FormatsData);
 	FormatsData = Object.assign(GPTFormatsData, FormatsData);
+	FormatsData = Object.assign(ThirtyFivePokesFormatsData, FormatsData);
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/formats-data.js', buf);
 }
