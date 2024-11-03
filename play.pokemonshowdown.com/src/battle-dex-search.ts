@@ -1070,6 +1070,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		let slices: {[k: string]: number} = table.formatSlices;
 		console.log(slices);
 		if (format.includes('35pokes')) tierSet = tierSet.slice(slices.Permitted);
+		console.log('should be good here')
+		console.log(tierSet)
 		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers' || format === 'rebalancedubers' || format === 'gptubers') tierSet = tierSet.slice(slices.Uber);
 		else if (isVGCOrBS || (isHackmons && dex.gen === 9 && !this.formatType)) {
 			if (format.endsWith('series13') || isHackmons) {
