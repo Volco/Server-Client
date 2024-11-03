@@ -633,6 +633,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		const ThirtyFivePokesFormatsData = requireNoCache(dawnPath + 'dist/data/mods/35_pokes/formats-data.js').FormatsData;
+		console.log(ThirtyFivePokesFormatsData);
 		for (const id of ThirtyFivePokesFormatsData) {
 			const species = DawnDex.mod('35_pokes').species.get(id);
 			if (!is35Pokes) continue;
