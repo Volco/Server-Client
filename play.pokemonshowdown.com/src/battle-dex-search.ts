@@ -795,7 +795,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'rebalanced') table = table['gen9rebalanced'];
 		if (this.formatType === 'nationaldex35pokes') table = table['gen9nationaldex35pokes'];
 		if (this.formatType === 'gpt') table = table['gen9gpt'];
-		if (this.formatType === 'nationaldex35pokes') table = table['gen9natdex'];
+		if (this.formatType === 'nationaldex35pokes') table = table['gen8natdex'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -1651,7 +1651,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType?.startsWith('ssdlc1')) lsetTable = lsetTable['gen8dlc1'];
 		if (this.formatType?.startsWith('predlc')) lsetTable = lsetTable['gen9predlc'];
 		if (this.formatType?.startsWith('svdlc1')) lsetTable = lsetTable['gen9dlc1'];
-		if (this.formatType?.startsWith('nationaldex35pokes')) lsetTable = lsetTable['gen9natdex'];
+		if (this.formatType?.startsWith('nationaldex35pokes')) lsetTable = lsetTable['gen8natdex'];
 		while (learnsetid) {
 			let learnset = lsetTable.learnsets[learnsetid];
 			if (learnset) {
