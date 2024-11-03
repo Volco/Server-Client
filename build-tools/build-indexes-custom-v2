@@ -1354,9 +1354,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			const gens = learnset[moveid].map(x => Number(x[0]));
 			const minGen = Math.min(...gens);
 			BattleTeambuilderTable['omnifield'].learnsets[id][moveid] = '0123456789'.slice(minGen) + 'a';
-			BattleTeambuilderTable['35_pokes'].learnsets[id][moveid] = '0123456789'.slice(minGen) + 'a';
 		}
 	}
+
+	BattleTeambuilderTable['35_pokes'] = { learnsets: { ...BattleTeambuilderTable['omnifield'].learnsets } };
 
 	const EspionageLearnsets = DawnDex.mod('gen9espionage').data.Learnsets;
 	for (const id in EspionageLearnsets) {
