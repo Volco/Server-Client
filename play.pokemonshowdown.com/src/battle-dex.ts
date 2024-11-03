@@ -935,7 +935,7 @@ class ModdedDex {
 	constructor(modid: ID) {
 		this.modid = modid;
 		const gen = parseInt(modid.substr(3, 1), 10);
-		if (modid === 'omnifield') {
+		if (modid === 'omnifield' || modid === '35_pokes') {
 			this.gen = 9;
 		} else {
 			if (!modid.startsWith('gen') || !gen) throw new Error("Unsupported modid");
