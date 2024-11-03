@@ -632,8 +632,12 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 
-		const ThirtyFivePokesFormatsData = requireNoCache(dawnPath + 'dist/data/mods/35_pokes/formats-data.js').FormatsData;
-		for (const id of [ThirtyFivePokesFormatsData]) {
+		let ThirtyFivePokesFormatsData = requireNoCache(dawnPath + 'dist/data/mods/35_pokes/formats-data.js').FormatsData;
+		ThirtyFivePokesFormatsData = Object.keys(ThirtyFivePokesFormatsData).map(key => ({
+			name: key,
+			...ThirtyFivePokesFormatsData[key]
+		}));
+		for (const id of ThirtyFivePokesFormatsData) {
 			const species = DawnDex.mod('35_pokes').species.get(id);
 			if (!is35Pokes) continue;
 			let tier = "Illegal"
