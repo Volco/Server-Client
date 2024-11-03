@@ -738,7 +738,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['35_pokes'] = {};
 			BattleTeambuilderTable['35_pokes'].learnsets = {};
 			BattleTeambuilderTable['35_pokes'].items = items;
-			BattleTeambuilderTable['35_pokes'].tiers = tiers;
+			BattleTeambuilderTable['35_pokes'].tiers = ['Permitted'];
 			BattleTeambuilderTable['35_pokes'].overrideTier = overrideTier;
 			BattleTeambuilderTable['35_pokes'].formatSlices = formatSlices;
 		} else if (isVGC) {
