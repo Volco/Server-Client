@@ -738,7 +738,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['35_pokes'] = {};
 			BattleTeambuilderTable['35_pokes'].learnsets = {};
 			BattleTeambuilderTable['35_pokes'].items = items;
-			BattleTeambuilderTable['35_pokes'].tiers = ['Permitted'];
+			BattleTeambuilderTable['35_pokes'].tiers = tiers;
 			BattleTeambuilderTable['35_pokes'].overrideTier = overrideTier;
 			BattleTeambuilderTable['35_pokes'].formatSlices = formatSlices;
 		} else if (isVGC) {
@@ -797,12 +797,15 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		})();
 
 		for (const tier of tierOrder) {
-			if (tier in {OUBL: 1, OU:1, AG:1, Uber:1, UU:1, RU:1, HUBL:1, HU:1, NU:1, AUBL:1, AU:1, PU:1, ZU: 1, FUBL:1, FU:1, NFE:1, LC:1, DOU:1, DUU:1, "(DUU)":1, New:1, Legal:1, Regular:1, "Restricted Legendary":1, "CAP LC":1}) {
+			if (tier in {OUBL: 1, OU:1, AG:1, Uber:1, UU:1, RU:1, HUBL:1, HU:1, NU:1, AUBL:1, AU:1, PU:1, ZU: 1, FUBL:1, FU:1, NFE:1, LC:1, DOU:1, DUU:1, "(DUU)":1, New:1, Legal:1, Regular:1, "Restricted Legendary":1, "CAP LC":1, "Permitted":1}) {
 				let usedTier = tier;
 				if (usedTier === "(DUU)") usedTier = "DNU";
 				formatSlices[usedTier] = tiers.length;
 			}
 			if (!tierTable[tier]) continue;
+			if (tier === "Permitted") {
+				tiers.push(['header', "Permitted"]);
+			}
 			if (tier === "(PU)") {
 				tiers.push(['header', "Below PU"]);
 			} else if (tier === "(DUU)") {
