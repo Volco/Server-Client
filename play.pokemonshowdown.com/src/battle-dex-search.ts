@@ -1066,12 +1066,11 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table.tiers = null;
 		}
 		let tierSet: SearchRow[] = table.tierSet;
-		console.log(table);
 		let slices: {[k: string]: number} = table.formatSlices;
-		console.log(slices);
-		if (format.includes('35pokes')) tierSet = tierSet.slice(slices.Permitted);
-		console.log('should be good here')
-		console.log(tierSet)
+		if (format.includes('35pokes')) {
+			tierSet = tierSet.slice(slices.Permitted);
+			return tierSet;
+		}
 		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers' || format === 'rebalancedubers' || format === 'gptubers') tierSet = tierSet.slice(slices.Uber);
 		else if (isVGCOrBS || (isHackmons && dex.gen === 9 && !this.formatType)) {
 			if (format.endsWith('series13') || isHackmons) {
@@ -1150,7 +1149,6 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			});
 		}
 
-		console.log(tierSet)
 
 		return tierSet;
 	}
