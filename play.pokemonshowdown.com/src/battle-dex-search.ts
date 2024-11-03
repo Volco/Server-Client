@@ -689,9 +689,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (original_format.includes('rebalanced')) {
 			this.dex = Dex.mod('gen9rebalanced' as ID);
 		}
-		console.log('original:')
-		console.log(original_format)
-		if (original_format.startsWith('gnationaldex35pokes')) {
+		if (original_format.startsWith('gen9nationaldex35pokes')) {
 			this.formatType = 'nationaldex35pokes';
 		}
 		if (original_format.includes('rebalanced')) {
