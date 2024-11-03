@@ -818,6 +818,9 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				tiers.push(['header', tier]);
 			}
 			tiers.push(...tierTable[tier]);
+			if (is35Pokes) {
+				console.log(tiers)
+			}
 		}
 		if (!isDoubles) {
 			if (!formatSlices['OU']) formatSlices['OU'] = formatSlices['New'];
