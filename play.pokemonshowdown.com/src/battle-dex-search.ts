@@ -792,7 +792,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'worldscollide') table = table['gen9universal'];
 		if (this.formatType === 'omnifield') table = table['omnifield'];
 		if (this.formatType === 'rebalanced') table = table['gen9rebalanced'];
-		if (this.formatType === 'nationaldex35pokes') table = table['gen9nationaldex35pokes'];
 		if (this.formatType === 'gpt') table = table['gen9gpt'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
