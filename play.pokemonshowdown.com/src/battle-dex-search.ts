@@ -1676,6 +1676,10 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 						move = Dex.mod('omnifield' as ID).moves.get(moveid);
 						if (moves.includes(moveid)) continue;
 						moves.push(moveid);
+					} else if (this.formatType?.startsWith('nationaldex35pokes')) {
+						move = Dex.mod('omnifield' as ID).moves.get(moveid);
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
 					}  else if (this.formatType?.startsWith('espionage')) {
 						move = Dex.mod('gen9espionage' as ID).moves.get(moveid);
 						if (moves.includes(moveid)) continue;
