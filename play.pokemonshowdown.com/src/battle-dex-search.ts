@@ -785,7 +785,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 	}
 	protected firstLearnsetid(speciesid: ID) {
 		let table = BattleTeambuilderTable;
-		console.log(this.formatType);
 		if (this.formatType?.startsWith('bdsp')) table = table['gen8bdsp'];
 		if (this.formatType === 'letsgo') table = table['gen7letsgo'];
 		if (this.formatType === 'sanctified') table = table['gen9sanctified'];
@@ -793,9 +792,8 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'worldscollide') table = table['gen9universal'];
 		if (this.formatType === 'omnifield') table = table['omnifield'];
 		if (this.formatType === 'rebalanced') table = table['gen9rebalanced'];
-		if (this.formatType === 'nationaldex35pokes') table = table['gen9nationaldex35pokes'];
 		if (this.formatType === 'gpt') table = table['gen9gpt'];
-		if (this.formatType === 'nationaldex35pokes') table = table['gen8natdex'];
+		if (this.formatType === 'nationaldex35pokes') this.formatType = 'natdex';
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -859,7 +857,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'worldscollide') table = table['gen9universal'];
 			if (this.formatType === 'omnifield') table = table['omnifield'];
 			if (this.formatType === 'rebalanced') table = table['gen9rebalanced'];
-			if (this.formatType === 'nationaldex35pokes') table = table['gen9nationaldex35pokes'];
+			if (this.formatType === 'nationaldex35pokes') this.formatType = 'natdex';
 			if (this.formatType === 'gpt') table = table['gen9gpt'];
 			let learnset = table.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
