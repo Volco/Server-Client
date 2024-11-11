@@ -48,6 +48,9 @@
 				if (this.curTeam.format.startsWith('gen6infinity')) {
 					this.curTeam.dex = Dex.mod('gen6infinity');
 				}
+				if (this.curTeam.format.startsWith('gen7daybreak')) {
+					this.curTeam.dex = Dex.mod('gen7daybreak');
+				}
 				// if (this.curTeam.format.startsWith('gen9nationaldex35pokes')) {
 				// 	this.curTeam.dex = Dex.mod('35_pokes');
 				// }
@@ -775,6 +778,9 @@
 			}
 			if (this.curTeam.format.startsWith('gen6infinity')) {
 				this.curTeam.dex = Dex.mod('gen6infinity');
+			}
+			if (this.curTeam.format.startsWith('gen7daybreak')) {
+				this.curTeam.dex = Dex.mod('gen7daybreak');
 			}
 			// if (this.curTeam.format.includes('espionage')) {
 			// 	this.curTeam.dex = Dex.mod('gen9espionage');
@@ -1643,6 +1649,9 @@
 			}
 			if (this.curTeam.format.startsWith('gen6infinity')) {
 				this.curTeam.dex = Dex.mod('gen6infinity');
+			}
+			if (this.curTeam.format.startsWith('gen7daybreak')) {
+				this.curTeam.dex = Dex.mod('gen7daybreak');
 			}
 			// if (this.curTeam.format.startsWith('gen9nationaldex35pokes')) {
 			// 	this.curTeam.dex = Dex.mod('35_pokes');

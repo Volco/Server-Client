@@ -114,6 +114,12 @@ function requireNoCache(pathSpec) {
 	index = index.concat(Object.keys(DawnDex.mod('gen6infinity').data.Items).map(x => x + ' item'));
 	index = index.concat(Object.keys(DawnDex.mod('gen6infinity').data.Abilities).map(x => x + ' ability'));
 	index = index.concat(Object.keys(DawnDex.mod('gen6infinity').data.TypeChart).map(x => toID(x) + ' type'));
+	// Gen 7 Daybreak
+	index = index.concat(Object.keys(DawnDex.mod('gen7daybreak').data.Pokedex).map(x => x + ' pokemon'));
+	index = index.concat(Object.keys(DawnDex.mod('gen7daybreak').data.Moves).map(x => x + ' move'));
+	index = index.concat(Object.keys(DawnDex.mod('gen7daybreak').data.Items).map(x => x + ' item'));
+	index = index.concat(Object.keys(DawnDex.mod('gen7daybreak').data.Abilities).map(x => x + ' ability'));
+	index = index.concat(Object.keys(DawnDex.mod('gen7daybreak').data.TypeChart).map(x => toID(x) + ' type'));
 	// Remove dupes
 	index = [...new Set(index)];
 
@@ -388,7 +394,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	const LC = GENS.map(num => num + 0.7);
 	const STADIUM = [2.04, 1.04];
 	const NATDEX = [9.1, 8.1];
-	const OTHER = [9.9, 9.69, 9.68, 9.67, 9.66, 9.65, 9.64, 9.63, 9.411, 9.41, 9.401, 9.4, 9.2, -9.4, -9.401, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.1, 6.69, 6.1, 5.1];
+	const OTHER = [9.9, 9.69, 9.68, 9.67, 9.66, 9.65, 9.64, 9.63, 9.411, 9.41, 9.401, 9.4, 9.2, -9.4, -9.401, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.69, 7.1, 6.69, 6.1, 5.1];
 
 	// process.stdout.write("\n  ");
 	for (const genIdent of [...GENS, ...DOUBLES, ...VGC, ...NFE, ...STADIUM, ...OTHER, ...NATDEX, ...LC]) {
@@ -403,6 +409,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const isRebalanced = (genIdent === 9.65);
 		const isGPT = (genIdent === 9.64);
 		const is35Pokes = (genIdent === 9.63);
+		const isDaybreak = (genIdent === 7.69);
 		const isInfinity = (genIdent === 6.69);
 		const isBlazing = (genIdent === 6.1);
 		const isXenoverse = (genIdent === 5.1);
@@ -439,6 +446,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const XenoversePokemon = Object.keys(DawnDex.mod('gen5Xenoverse').data.Pokedex);
 		const BlazingPokemon = Object.keys(DawnDex.mod('gen6blazing').data.Pokedex);
 		const IninfinityPokemon = Object.keys(DawnDex.mod('gen6infinity').data.Pokedex);
+		const DaybreakPokemon = Object.keys(DawnDex.mod('gen7daybreak').data.Pokedex);
 		pokemon.sort();
 		SanctifiedPokemon.sort();
 		UniversalPokemon.sort();
@@ -449,6 +457,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		XenoversePokemon.sort();
 		BlazingPokemon.sort();
 		IninfinityPokemon.sort();
+		DaybreakPokemon.sort();
 		const tierTable = {};
 		const overrideTier = {};
 		const ubersUUBans = {};
@@ -468,6 +477,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (isXenoverse) continue;
 			if (isBlazing) continue;
 			if (isInfinity) continue;
+			if (isDaybreak) continue;
 			const tier = (() => {
 				if (isMetBattle) {
 					let tier = species.tier;
@@ -703,6 +713,19 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
 		}
+		const DaybreakFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen7daybreak/formats-data.js').FormatsData;
+		for (const id of Object.keys(DaybreakFormatsData)) {
+			const species = DawnDex.mod('gen7daybreak').species.get(id);
+			if (!isDaybreak) continue;
+			let tier = species.tier;
+			const entry = DaybreakFormatsData[id];
+			if (entry && entry.tier && typeof entry.tier === "string") {
+				tier = entry.tier;
+			}
+			overrideTier[species.id] = tier;
+			if (!tierTable[tier]) tierTable[tier] = [];
+			tierTable[tier].push(id);
+		}
 
 		let ThirtyFivePokesFormatsData = requireNoCache(dawnPath + 'dist/data/mods/35_pokes/formats-data.js').FormatsData;
 		for (const id of Object.keys(ThirtyFivePokesFormatsData)) {
@@ -828,13 +851,19 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['gen6blazing'].overrideTier = overrideTier;
 			BattleTeambuilderTable['gen6blazing'].formatSlices = formatSlices;
 		} else if (isInfinity) {
-			console.log('infinity')
 			BattleTeambuilderTable['gen6infinity'] = {};
 			BattleTeambuilderTable['gen6infinity'].learnsets = {};
 			BattleTeambuilderTable['gen6infinity'].items = items;
 			BattleTeambuilderTable['gen6infinity'].tiers = tiers;
 			BattleTeambuilderTable['gen6infinity'].overrideTier = overrideTier;
 			BattleTeambuilderTable['gen6infinity'].formatSlices = formatSlices;
+		} else if (isDaybreak) {
+			BattleTeambuilderTable['gen7daybreak'] = {};
+			BattleTeambuilderTable['gen7daybreak'].learnsets = {};
+			BattleTeambuilderTable['gen7daybreak'].items = items;
+			BattleTeambuilderTable['gen7daybreak'].tiers = tiers;
+			BattleTeambuilderTable['gen7daybreak'].overrideTier = overrideTier;
+			BattleTeambuilderTable['gen7daybreak'].formatSlices = formatSlices;
 		}  else if (isVGC) {
 			BattleTeambuilderTable[gen + 'vgc'] = {};
 			BattleTeambuilderTable[gen + 'vgc'].tiers = tiers;
@@ -875,7 +904,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (is35Pokes) {
 				return ["Permitted"]
 			}
-			if (isSanctified || isUniversal || isRebalanced || isGPT || isXenoverse || isBlazing || isInfinity) {
+			if (isSanctified || isUniversal || isRebalanced || isGPT || isXenoverse || isBlazing || isInfinity || isDaybreak) {
 				return ["AG", "Uber", "(Uber)", "OUBL", "OU", "(OU)", "UUBL", "UU", "RUBL", "RU", 'HUBL', 'HU', "NUBL", "NU", "AUBL", "AU", "PUBL", "PU", "ZUBL", "ZU", "FUBL", "FU", "NFE", "LC"];
 			}
 			if (isVGC || isGen9BH) {
@@ -935,7 +964,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				continue;
 			}
 			if (item.isNonstandard && !isMetBattle) {
-				if (isNatDex || isSanctified || isOmnifield || isUniversal || isEspionage || isRebalanced || isGPT || is35Pokes || isXenoverse || isBlazing || isInfinity) {
+				if (isNatDex || isSanctified || isOmnifield || isUniversal || isEspionage || isRebalanced || isGPT || is35Pokes || isXenoverse || isBlazing || isInfinity || isDaybreak) {
 					let curItem = item;
 					let curGen = genNum;
 					while (item.isNonstandard && curGen >= 7) {
@@ -1146,6 +1175,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const XenoverseItemList = Object.keys(DawnDex.mod('gen5Xenoverse').data.Items);
 		const BlazingItemList = Object.keys(DawnDex.mod('gen6blazing').data.Items);
 		const IninfinityItemList = Object.keys(DawnDex.mod('gen6infinity').data.Items);
+		const DaybreakItemList = Object.keys(DawnDex.mod('gen7daybreak').data.Items);
 		EspionageItemList.sort();
 		SanctifiedItemList.sort();
 		UniversalItemList.sort();
@@ -1155,6 +1185,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		XenoverseItemList.sort();
 		BlazingItemList.sort();
 		IninfinityItemList.sort();
+		DaybreakItemList.sort();
 		for (const id of EspionageItemList) {
 			if (itemList.includes(id)) continue;
 			if (!isEspionage) continue;
@@ -1198,6 +1229,11 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of IninfinityItemList) {
 			if (itemList.includes(id)) continue;
 			if (!isInfinity) continue;
+			greatItems.push(id);
+		}
+		for (const id of DaybreakItemList) {
+			if (itemList.includes(id)) continue;
+			if (!isDaybreak) continue;
 			greatItems.push(id);
 		}
 		items.push(...greatItems);
@@ -1620,7 +1656,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 
-	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt', '35_pokes', 'gen5Xenoverse', 'gen6blazing', 'gen6infinity']) {
+	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt', '35_pokes', 'gen5Xenoverse', 'gen6blazing', 'gen6infinity', 'gen7daybreak']) {
 		const modDex = DawnDex.mod(mod);
 		const modData = modDex.data;
 		const parentDex = DawnDex.forGen(modDex.gen);
@@ -1700,6 +1736,8 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	const BlazingFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen6blazing/formats-data.js').FormatsData;
 	const InfinityDex = requireNoCache(dawnPath + 'dist/data/mods/gen6infinity/pokedex.js').Pokedex;
 	const InfinityFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen6infinity/formats-data.js').FormatsData;
+	const DaybreakDex = requireNoCache(dawnPath + 'dist/data/mods/gen7daybreak/pokedex.js').Pokedex;
+	const DaybreakFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen7daybreak/formats-data.js').FormatsData;
 	DawnDex.data.FormatsData = Object.assign(SanctifiedFormatsData, DawnDex.data.FormatsData);
 	DawnDex.data.FormatsData = Object.assign(UniversalFormatsData, DawnDex.data.FormatsData);
 	DawnDex.data.FormatsData = Object.assign(OmnifieldFormatsData, DawnDex.data.FormatsData);
@@ -1709,6 +1747,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	DawnDex.data.FormatsData = Object.assign(XenoverseFormatsData, DawnDex.data.FormatsData);
 	DawnDex.data.FormatsData = Object.assign(BlazingFormatsData, DawnDex.data.FormatsData);
 	DawnDex.data.FormatsData = Object.assign(InfinityFormatsData, DawnDex.data.FormatsData);
+	DawnDex.data.FormatsData = Object.assign(DaybreakFormatsData, DawnDex.data.FormatsData);
 	Pokedex = Object.assign(SanctifiedDex, Pokedex);
 	Pokedex = Object.assign(UniversalDex, Pokedex);
 	Pokedex = Object.assign(OmnifieldDex, Pokedex);
@@ -1718,6 +1757,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	Pokedex = Object.assign(XenoverseDex, Pokedex);
 	Pokedex = Object.assign(BlazingDex, Pokedex);
 	Pokedex = Object.assign(InfinityDex, Pokedex);
+	Pokedex = Object.assign(DaybreakDex, Pokedex);
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
 		if (DawnDex.data.FormatsData[id]) {
@@ -1752,6 +1792,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const XenoverseMoves = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/moves.js').Moves;
 	const BlazingMoves = requireNoCache(dawnPath + 'dist/data/mods/gen6blazing/moves.js').Moves;
 	const InfinityMoves = requireNoCache(dawnPath + 'dist/data/mods/gen6infinity/moves.js').Moves;
+	const DaybreakMoves = requireNoCache(dawnPath + 'dist/data/mods/gen7daybreak/moves.js').Moves;
 	Moves = Object.assign(SanctifiedMoves, Moves);
 	Moves = Object.assign(UniversalMoves, Moves);
 	Moves = Object.assign(OmnifieldMoves, Moves);
@@ -1760,6 +1801,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	Moves = Object.assign(XenoverseMoves, Moves);
 	Moves = Object.assign(BlazingMoves, Moves);
 	Moves = Object.assign(InfinityMoves, Moves);
+	Moves = Object.assign(DaybreakMoves, Moves);
 
 	for (const id in Moves) {
 		let move = Dex.moves.get(Moves[id].name);
@@ -1781,6 +1823,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 										move = DawnDex.mod('gen6blazing').moves.get(id);
 										if (!move) {
 											move = DawnDex.mod('gen6infinity').moves.get(id);
+											if (!move) {
+												move = DawnDex.mod('gen7daybreak').moves.get(id);
+											}
 										}
 									}
 								}
@@ -1816,6 +1861,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const XenoverseItems = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/items.js').Items;
 	const BlazingItems = requireNoCache(dawnPath + 'dist/data/mods/gen6blazing/items.js').Items;
 	const InfinityItems = requireNoCache(dawnPath + 'dist/data/mods/gen6infinity/items.js').Items;
+	const DaybreakItems = requireNoCache(dawnPath + 'dist/data/mods/gen7daybreak/items.js').Items;
 	Items = Object.assign(SanctifiedItems, Items);
 	Items = Object.assign(UniversalItems, Items);
 	Items = Object.assign(OmnifieldItems, Items);
@@ -1825,6 +1871,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	Items = Object.assign(XenoverseItems, Items);
 	Items = Object.assign(BlazingItems, Items);
 	Items = Object.assign(InfinityItems, Items);
+	Items = Object.assign(DaybreakItems, Items);
 	for (const id in Items) {
 		let item = DawnDex.items.get(Items[id].name);
 		if (!item) {
@@ -1845,6 +1892,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 										item = DawnDex.mod('gen6blazing').items.get(id);
 										if (!item) {
 											item = DawnDex.mod('gen6infinity').items.get(id);
+											if (!item) {
+												item = DawnDex.mod('gen7daybreak').items.get(id);
+											}
 										}
 									}
 								}
@@ -1878,6 +1928,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const XenoverseAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/abilities.js').Abilities;
 	const BlazingAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen6blazing/abilities.js').Abilities;
 	const InfinityAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen6infinity/abilities.js').Abilities;
+	const DaybreakAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen7daybreak/abilities.js').Abilities;
 	Abilities = Object.assign(SanctifiedAbilities, Abilities);
 	Abilities = Object.assign(UniversalAbilities, Abilities);
 	Abilities = Object.assign(OmnifieldAbilities, Abilities);
@@ -1886,6 +1937,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	Abilities = Object.assign(XenoverseAbilities, Abilities);
 	Abilities = Object.assign(BlazingAbilities, Abilities);
 	Abilities = Object.assign(InfinityAbilities, Abilities);
+	Abilities = Object.assign(DaybreakAbilities, Abilities);
 
 	for (const id in Abilities) {
 		let ability = DawnDex.abilities.get(Abilities[id].name);
@@ -1907,6 +1959,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 										ability = DawnDex.mod('gen6blazing').abilities.get(id);
 										if (!ability) {
 											ability = DawnDex.mod('gen6infinity').abilities.get(id);
+											if (!ability) {
+												ability = DawnDex.mod('gen7daybreak').abilities.get(id);
+											}
 										}
 									}
 								}
@@ -1971,6 +2026,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const XenoverseFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/formats-data.js').FormatsData;
 	const BlazingFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen6blazing/formats-data.js').FormatsData;
 	const InfinityFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen6infinity/formats-data.js').FormatsData;
+	const DaybreakFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen7daybreak/formats-data.js').FormatsData;
 	FormatsData = Object.assign(SanctifiedFormatsData, FormatsData);
 	FormatsData = Object.assign(UniversalFormatsData, FormatsData);
 	FormatsData = Object.assign(OmnifieldFormatsData, FormatsData);
@@ -1981,6 +2037,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	FormatsData = Object.assign(XenoverseFormatsData, FormatsData);
 	FormatsData = Object.assign(BlazingFormatsData, FormatsData);
 	FormatsData = Object.assign(InfinityFormatsData, FormatsData);
+	FormatsData = Object.assign(DaybreakFormatsData, FormatsData);
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/formats-data.js', buf);
 }
