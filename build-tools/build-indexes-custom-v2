@@ -1521,6 +1521,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	for (const id in InfinityLearnsets) {
 		const learnset = InfinityLearnsets[id].learnset;
 		if (!learnset) continue;
+		console.log(BattleTeambuilderTable['gen6infinity'])
 		BattleTeambuilderTable['gen6infinity'].learnsets[id] = {};
 		for (const moveid in learnset) {
 			const gens = learnset[moveid].map(x => Number(x[0]));
