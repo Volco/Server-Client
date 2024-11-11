@@ -97,11 +97,11 @@ function requireNoCache(pathSpec) {
 	index = index.concat(Object.keys(DawnDex.mod('gen9gpt').data.Items).map(x => x + ' item'));
 	index = index.concat(Object.keys(DawnDex.mod('gen9gpt').data.Abilities).map(x => x + ' ability'));
 	// Gen 5 Xenoverse
-	index = index.concat(Object.keys(DawnDex.mod('gen5xenoverse').data.Pokedex).map(x => x + ' pokemon'));
-	index = index.concat(Object.keys(DawnDex.mod('gen5xenoverse').data.Moves).map(x => x + ' move'));
-	index = index.concat(Object.keys(DawnDex.mod('gen5xenoverse').data.Items).map(x => x + ' item'));
-	index = index.concat(Object.keys(DawnDex.mod('gen5xenoverse').data.Abilities).map(x => x + ' ability'));
-	index = index.concat(Object.keys(DawnDex.mod('gen5xenoverse').data.TypeChart).map(x => toID(x) + ' type'));
+	index = index.concat(Object.keys(DawnDex.mod('gen5Xenoverse').data.Pokedex).map(x => x + ' pokemon'));
+	index = index.concat(Object.keys(DawnDex.mod('gen5Xenoverse').data.Moves).map(x => x + ' move'));
+	index = index.concat(Object.keys(DawnDex.mod('gen5Xenoverse').data.Items).map(x => x + ' item'));
+	index = index.concat(Object.keys(DawnDex.mod('gen5Xenoverse').data.Abilities).map(x => x + ' ability'));
+	index = index.concat(Object.keys(DawnDex.mod('gen5Xenoverse').data.TypeChart).map(x => toID(x) + ' type'));
 	// Remove dupes
 	index = [...new Set(index)];
 
@@ -420,7 +420,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const EspionagePokemon = Object.keys(DawnDex.mod('gen9espionage').data.Pokedex);
 		const RebalancedPokemon = Object.keys(DawnDex.mod('gen9rebalanced').data.Pokedex);
 		const GPTPokemon = Object.keys(DawnDex.mod('gen9gpt').data.Pokedex);
-		const XenoversePokemon = Object.keys(DawnDex.mod('gen5xenoverse').data.Pokedex);
+		const XenoversePokemon = Object.keys(DawnDex.mod('gen5Xenoverse').data.Pokedex);
 		pokemon.sort();
 		SanctifiedPokemon.sort();
 		UniversalPokemon.sort();
@@ -642,9 +642,9 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 
-		const XenoverseFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen5xenoverse/formats-data.js').FormatsData;
+		const XenoverseFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/formats-data.js').FormatsData;
 		for (const id of Object.keys(XenoverseFormatsData)) {
-			const species = DawnDex.mod('gen5xenoverse').species.get(id);
+			const species = DawnDex.mod('gen5Xenoverse').species.get(id);
 			if (!isXenoverse) continue;
 			let tier = species.tier;
 			const entry = XenoverseFormatsData[id];
@@ -766,12 +766,12 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['35_pokes'].overrideTier = overrideTier;
 			BattleTeambuilderTable['35_pokes'].formatSlices = formatSlices;
 		} else if (isXenoverse) {
-			BattleTeambuilderTable['gen5xenoverse'] = {};
-			BattleTeambuilderTable['gen5xenoverse'].learnsets = {};
-			BattleTeambuilderTable['gen5xenoverse'].items = items;
-			BattleTeambuilderTable['gen5xenoverse'].tiers = tiers;
-			BattleTeambuilderTable['gen5xenoverse'].overrideTier = overrideTier;
-			BattleTeambuilderTable['gen5xenoverse'].formatSlices = formatSlices;
+			BattleTeambuilderTable['gen5Xenoverse'] = {};
+			BattleTeambuilderTable['gen5Xenoverse'].learnsets = {};
+			BattleTeambuilderTable['gen5Xenoverse'].items = items;
+			BattleTeambuilderTable['gen5Xenoverse'].tiers = tiers;
+			BattleTeambuilderTable['gen5Xenoverse'].overrideTier = overrideTier;
+			BattleTeambuilderTable['gen5Xenoverse'].formatSlices = formatSlices;
 		} else if (isVGC) {
 			BattleTeambuilderTable[gen + 'vgc'] = {};
 			BattleTeambuilderTable[gen + 'vgc'].tiers = tiers;
@@ -1080,7 +1080,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const OmnifieldItemList = Object.keys(DawnDex.mod('omnifield').data.Items);
 		const RebalancedItemList = Object.keys(DawnDex.mod('gen9rebalanced').data.Items);
 		const GPTItemList = Object.keys(DawnDex.mod('gen9gpt').data.Items);
-		const XenoverseItemList = Object.keys(DawnDex.mod('gen5xenoverse').data.Items);
+		const XenoverseItemList = Object.keys(DawnDex.mod('gen5Xenoverse').data.Items);
 		EspionageItemList.sort();
 		SanctifiedItemList.sort();
 		UniversalItemList.sort();
@@ -1519,7 +1519,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 
-	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt', '35_pokes', 'gen5xenoverse']) {
+	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt', '35_pokes', 'gen5Xenoverse']) {
 		const modDex = DawnDex.mod(mod);
 		const modData = modDex.data;
 		const parentDex = DawnDex.forGen(modDex.gen);
@@ -1593,8 +1593,8 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	const RebalancedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9rebalanced/formats-data.js').FormatsData;
 	const GPTDex = requireNoCache(dawnPath + 'dist/data/mods/gen9gpt/pokedex.js').Pokedex;
 	const GPTFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9gpt/formats-data.js').FormatsData;
-	const XenoverseDex = requireNoCache(dawnPath + 'dist/data/mods/gen5xenoverse/pokedex.js').Pokedex;
-	const XenoverseFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen5xenoverse/formats-data.js').FormatsData;
+	const XenoverseDex = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/pokedex.js').Pokedex;
+	const XenoverseFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/formats-data.js').FormatsData;
 	DawnDex.data.FormatsData = Object.assign(SanctifiedFormatsData, DawnDex.data.FormatsData);
 	DawnDex.data.FormatsData = Object.assign(UniversalFormatsData, DawnDex.data.FormatsData);
 	DawnDex.data.FormatsData = Object.assign(OmnifieldFormatsData, DawnDex.data.FormatsData);
@@ -1640,7 +1640,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const OmnifieldMoves = requireNoCache(dawnPath + 'dist/data/mods/omnifield/moves.js').Moves;
 	const RebalancedMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9rebalanced/moves.js').Moves;
 	const GPTMoves = requireNoCache(dawnPath + 'dist/data/mods/gen9gpt/moves.js').Moves;
-	const XenoverseMoves = requireNoCache(dawnPath + 'dist/data/mods/gen5xenoverse/moves.js').Moves;
+	const XenoverseMoves = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/moves.js').Moves;
 	Moves = Object.assign(SanctifiedMoves, Moves);
 	Moves = Object.assign(UniversalMoves, Moves);
 	Moves = Object.assign(OmnifieldMoves, Moves);
@@ -1663,7 +1663,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 							if (!move) {
 								move = DawnDex.mod('gen9gpt').moves.get(id);
 								if (!move) {
-									move = DawnDex.mod('gen5xenoverse').moves.get(id);
+									move = DawnDex.mod('gen5Xenoverse').moves.get(id);
 								}
 							}
 						}
@@ -1694,7 +1694,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const EspionageItems = requireNoCache(dawnPath + 'dist/data/mods/gen9espionage/items.js').Items;
 	const RebalancedItems = requireNoCache(dawnPath + 'dist/data/mods/gen9rebalanced/items.js').Items;
 	const GPTItems = requireNoCache(dawnPath + 'dist/data/mods/gen9gpt/items.js').Items;
-	const XenoverseItems = requireNoCache(dawnPath + 'dist/data/mods/gen5xenoverse/items.js').Items;
+	const XenoverseItems = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/items.js').Items;
 	Items = Object.assign(SanctifiedItems, Items);
 	Items = Object.assign(UniversalItems, Items);
 	Items = Object.assign(OmnifieldItems, Items);
@@ -1717,7 +1717,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 							if (!item) {
 								item = DawnDex.mod('gen9gpt').items.get(id);
 								if (!item) {
-									item = DawnDex.mod('gen5xenoverse').items.get(id);
+									item = DawnDex.mod('gen5Xenoverse').items.get(id);
 								}
 							}
 						}
@@ -1746,7 +1746,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const OmnifieldAbilities = requireNoCache(dawnPath + 'dist/data/mods/omnifield/abilities.js').Abilities;
 	const RebalancedAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9rebalanced/abilities.js').Abilities;
 	const GPTAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen9gpt/abilities.js').Abilities;
-	const XenoverseAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen5xenoverse/abilities.js').Abilities;
+	const XenoverseAbilities = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/abilities.js').Abilities;
 	Abilities = Object.assign(SanctifiedAbilities, Abilities);
 	Abilities = Object.assign(UniversalAbilities, Abilities);
 	Abilities = Object.assign(OmnifieldAbilities, Abilities);
@@ -1769,7 +1769,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 							if (!ability) {
 								ability = DawnDex.mod('gen9gpt').abilities.get(id);
 								if (!ability) {
-									ability = DawnDex.mod('gen5xenoverse').abilities.get(id);
+									ability = DawnDex.mod('gen5Xenoverse').abilities.get(id);
 								}
 							}
 						}
@@ -1794,7 +1794,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	let TypeChart = requireNoCache('../caches/pokemon-showdown/dist/data/typechart.js').TypeChart;
 	const SanctifiedTypeChart = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/typechart.js').TypeChart;
 	const UniversalTypeChart = requireNoCache(dawnPath + 'dist/data/mods/gen9universal/typechart.js').TypeChart;
-	const XenoverseTypeChart = requireNoCache(dawnPath + 'dist/data/mods/gen5xenoverse/typechart.js').TypeChart;
+	const XenoverseTypeChart = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/typechart.js').TypeChart;
 	TypeChart = Object.assign(SanctifiedTypeChart, TypeChart);
 	TypeChart = Object.assign(UniversalTypeChart, TypeChart);
 	TypeChart = Object.assign(XenoverseTypeChart, TypeChart);
@@ -1825,7 +1825,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const RebalancedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9rebalanced/formats-data.js').FormatsData;
 	const GPTFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9gpt/formats-data.js').FormatsData;
 	const ThirtyFivePokesFormatsData = requireNoCache(dawnPath + 'dist/data/mods/35_pokes/formats-data.js').FormatsData;
-	const XenoverseFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen5xenoverse/formats-data.js').FormatsData;
+	const XenoverseFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/formats-data.js').FormatsData;
 	FormatsData = Object.assign(SanctifiedFormatsData, FormatsData);
 	FormatsData = Object.assign(UniversalFormatsData, FormatsData);
 	FormatsData = Object.assign(OmnifieldFormatsData, FormatsData);

@@ -39,8 +39,8 @@
 				if (this.curTeam.format.startsWith('gen9rebalanced')) {
 					this.curTeam.dex = Dex.mod('gen9rebalanced');
 				}
-				if (this.curTeam.format.startsWith('gen5xenoverse')) {
-					this.curTeam.dex = Dex.mod('gen5xenoverse');
+				if (this.curTeam.format.startsWith('gen5Xenoverse')) {
+					this.curTeam.dex = Dex.mod('gen5Xenoverse');
 				}
 				// if (this.curTeam.format.startsWith('gen9nationaldex35pokes')) {
 				// 	this.curTeam.dex = Dex.mod('35_pokes');
@@ -761,8 +761,8 @@
 			if (this.curTeam.format.startsWith('gen9rebalanced')) {
 				this.curTeam.dex = Dex.mod('gen9rebalanced');
 			}
-			if (this.curTeam.format.startsWith('gen5xenoverse')) {
-				this.curTeam.dex = Dex.mod('gen5xenoverse');
+			if (this.curTeam.format.startsWith('gen5Xenoverse')) {
+				this.curTeam.dex = Dex.mod('gen5Xenoverse');
 			}
 			// if (this.curTeam.format.includes('espionage')) {
 			// 	this.curTeam.dex = Dex.mod('gen9espionage');
@@ -1623,8 +1623,8 @@
 			if (this.curTeam.format.startsWith('gen9rebalanced')) {
 				this.curTeam.dex = Dex.mod('gen9rebalanced');
 			}
-			if (this.curTeam.format.startsWith('gen5xenoverse')) {
-				this.curTeam.dex = Dex.mod('gen5xenoverse');
+			if (this.curTeam.format.startsWith('gen5Xenoverse')) {
+				this.curTeam.dex = Dex.mod('gen5Xenoverse');
 			}
 			// if (this.curTeam.format.startsWith('gen9nationaldex35pokes')) {
 			// 	this.curTeam.dex = Dex.mod('35_pokes');

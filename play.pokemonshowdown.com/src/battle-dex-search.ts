@@ -599,7 +599,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			this.dex = Dex.mod('gen9gpt' as ID);
 		}
 		if (format.includes('xenoverse')) {
-			this.dex = Dex.mod('gen5xenoverse' as ID);
+			this.dex = Dex.mod('gen5Xenoverse' as ID);
 		}
 
 		if (format.startsWith('dlc1') && this.dex.gen === 8) {
@@ -889,7 +889,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			this.formatType === 'espionage' ? 'gen9espionage' :
 			this.formatType === 'worldscollide' ? 'gen9universal' :
 			this.formatType === 'omnifield' ? 'omnifield' :
-			this.formatType === 'xenoverse' ? 'gen5xenoverse' :
+			this.formatType === 'xenoverse' ? 'gen5Xenoverse' :
 			this.formatType === 'letsgo' ? 'gen7letsgo' :
 			this.formatType === 'bdsp' ? 'gen8bdsp' :
 			this.formatType === 'bdspdoubles' ? 'gen8bdspdoubles' :
@@ -1064,7 +1064,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		} else if (this.formatType === 'nationaldex35pokes') {
 			table = table['35_pokes'];
 		} else if (this.formatType === 'xenoverse') {
-			table = table['gen5xenoverse'];
+			table = table['gen5Xenoverse'];
 		}
 
 		if (!table.tierSet) {
@@ -1328,7 +1328,7 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 		} else if (this.formatType === 'nationaldex35pokes') {
 			table = table['35_pokes'];
 		} else if (this.formatType === 'xenoverse') {
-			table = table['gen5xenoverse'];
+			table = table['gen5Xenoverse'];
 		}
 		if (!table.itemSet) {
 			table.itemSet = table.items.map((r: any) => {
@@ -1701,7 +1701,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 						if (moves.includes(moveid)) continue;
 						moves.push(moveid);
 					}  else if (this.formatType?.includes('xenoverse')) {
-						move = Dex.mod('gen5xenoverse' as ID).moves.get(moveid);
+						move = Dex.mod('gen5Xenoverse' as ID).moves.get(moveid);
 						if (moves.includes(moveid)) continue;
 						moves.push(moveid);
 					} else {
