@@ -819,6 +819,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['gen5Xenoverse'].overrideTier = overrideTier;
 			BattleTeambuilderTable['gen5Xenoverse'].formatSlices = formatSlices;
 		} else if (isBlazing) {
+			console.log('blazing');
 			BattleTeambuilderTable['gen6blazing'] = {};
 			BattleTeambuilderTable['gen6blazing'].learnsets = {};
 			BattleTeambuilderTable['gen6blazing'].items = items;
@@ -826,6 +827,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['gen6blazing'].overrideTier = overrideTier;
 			BattleTeambuilderTable['gen6blazing'].formatSlices = formatSlices;
 		} else if (isInfinity) {
+			console.log('infinity');
 			BattleTeambuilderTable['gen6infinity'] = {};
 			BattleTeambuilderTable['gen6infinity'].learnsets = {};
 			BattleTeambuilderTable['gen6infinity'].items = items;
@@ -1521,7 +1523,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	for (const id in InfinityLearnsets) {
 		const learnset = InfinityLearnsets[id].learnset;
 		if (!learnset) continue;
-		console.log(BattleTeambuilderTable['gen6infinity'])
 		BattleTeambuilderTable['gen6infinity'].learnsets[id] = {};
 		for (const moveid in learnset) {
 			const gens = learnset[moveid].map(x => Number(x[0]));
