@@ -1611,7 +1611,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const moveid in learnset) {
 			const gens = learnset[moveid].map(x => Number(x[0]));
 			const minGen = Math.min(...gens);
-			BattleTeambuilderTable['gen8untamed'].learnsets[id][moveid] = '0123456'.slice(minGen) + 'a';
+			BattleTeambuilderTable['gen8untamed'].learnsets[id][moveid] = '012345678'.slice(minGen) + 'a';
 		}
 	}
 
