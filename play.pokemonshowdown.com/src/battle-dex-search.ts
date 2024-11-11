@@ -551,7 +551,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 
 	protected formatType: 'doubles' | 'bdsp' | 'bdspdoubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' |
 	'ssdlc1' | 'ssdlc1doubles' | 'predlc' | 'predlcdoubles' | 'predlcnatdex' | 'svdlc1' | 'svdlc1doubles' |
-	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | 'rebalanced' | 'gpt' | 'nationaldex35pokes' | 'xenoverse' | 'blazing' | null = null;
+	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | 'rebalanced' | 'gpt' | 'nationaldex35pokes' | 'xenoverse' | 'blazing' | 'infinity' | null = null;
 
 	/**
 	 * Cached copy of what the results list would be with only base filters
@@ -603,6 +603,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		}
 		if (format.includes('blazing')) {
 			this.dex = Dex.mod('gen6blazing' as ID);
+		}
+		if (format.includes('infinity')) {
+			this.dex = Dex.mod('gen6infinity' as ID);
 		}
 
 		if (format.startsWith('dlc1') && this.dex.gen === 8) {
@@ -674,6 +677,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		}
 		if (format.includes('blazing')) {
 			this.formatType = 'blazing';
+		}
+		if (format.includes('infinity')) {
+			this.formatType = 'infinity';
 		}
 		if (format.includes('nationaldex') || format.startsWith('nd') || format.includes('natdex')) {
 			format = (format.startsWith('nd') ? format.slice(2) :
@@ -807,6 +813,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'gpt') table = table['gen9gpt'];
 		if (this.formatType === 'nationaldex35pokes') table = table['omnifield'];
 		if (this.formatType === 'blazing') table = table['gen6blazing'];
+		if (this.formatType === 'infinity') table = table['gen6infinity'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -873,6 +880,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'nationaldex35pokes') table = table['omnifield'];
 			if (this.formatType === 'gpt') table = table['gen9gpt'];
 			if (this.formatType === 'blazing') table = table['gen6blazing'];
+			if (this.formatType === 'infinity') table = table['gen6infinity'];
 			let learnset = table.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
@@ -898,6 +906,8 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			this.formatType === 'worldscollide' ? 'gen9universal' :
 			this.formatType === 'omnifield' ? 'omnifield' :
 			this.formatType === 'xenoverse' ? 'gen5Xenoverse' :
+			this.formatType === 'blazing' ? 'gen6blazing' :
+			this.formatType === 'infinity' ? 'gen6infinity' :
 			this.formatType === 'letsgo' ? 'gen7letsgo' :
 			this.formatType === 'bdsp' ? 'gen8bdsp' :
 			this.formatType === 'bdspdoubles' ? 'gen8bdspdoubles' :
@@ -1075,6 +1085,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['gen5Xenoverse'];
 		} else if (this.formatType === 'blazing') {
 			table = table['gen6blazing'];
+		} else if (this.formatType === 'infinity') {
+			table = table['gen6infinity'];
 		}
 
 		if (!table.tierSet) {
@@ -1090,7 +1102,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			tierSet = tierSet.slice(slices.Permitted);
 			return tierSet;
 		}
-		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers' || format === 'rebalancedubers' || format === 'gptubers' || format === 'xenoverseubers' || format === 'blazingubers') tierSet = tierSet.slice(slices.Uber);
+		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers' || format === 'rebalancedubers' || format === 'gptubers' || format === 'xenoverseubers' || format === 'blazingubers' || format === 'infinityubers') tierSet = tierSet.slice(slices.Uber);
 		else if (isVGCOrBS || (isHackmons && dex.gen === 9 && !this.formatType)) {
 			if (format.endsWith('series13') || isHackmons) {
 				// Show Mythicals
@@ -1103,16 +1115,16 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 				tierSet = tierSet.slice(slices.Regular);
 			}
 		} 
-		else if (format === 'oubl' || format === 'worldscollideoubl' || format === 'sanctifiedoubl' || format === 'rebalancedoubl' || format === 'gptoubl' || format === 'xenoverseoubl' || format === 'blazingoubl') tierSet = tierSet.slice(slices.OUBL);
-		else if (format === 'ou' || format === 'worldscollideou' || format === 'sanctifiedou' || format === 'rebalancedou' || format === 'gptou' || format === 'xenoverseou' || format === 'blazingou') tierSet = tierSet.slice(slices.OU);
-		else if (format === 'uu' || format === 'worldscollideuu' || format == 'sanctifieduu' || format == 'rebalanceduu' || format === 'gptuu' || format === 'xenoverseuu' || format === 'blazinguu') tierSet = tierSet.slice(slices.UU);
-		else if (format === 'ru' || format === 'worldscollideru' || format === 'sanctifiedru' || format === 'rebalancedru' || format === 'gptru' || format === 'xenoverseru' || format === 'blazingru') tierSet = tierSet.slice(slices.RU || slices.UU);
-		else if (format === 'hu' || format === 'worldscollidehu' || format === 'sanctifiedhu' || format === 'xenoversehu' || format === 'blazinghu') tierSet = tierSet.slice(slices.HU);
-		else if (format === 'nu' || format === 'worldscollidenu' || format === 'sanctifiednu' || format === 'rebalancednu' || format === 'xenoversenu' || format === 'blazingnu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
-		else if (format === 'au' || format === 'worldscollideau' || format === 'sanctifiedau' || format === 'rebalancedau' || format === 'xenoverseau' || format === 'blazingau') tierSet = tierSet.slice(slices.AU);
-		else if (format === 'pu' || format === 'worldscollidepu' || format === 'sanctifiedpu' || format === 'xenoversepu' || format === 'blazingpu') tierSet = tierSet.slice(slices.PU || slices.NU);
-		else if (format === 'zu' || format === 'worldscollidezu' || format === 'sanctifiedzu' || format === 'xenoversezu' || format === 'blazingzu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
-		else if (format === 'fu' || format === 'worldscollidefu' || format === 'sanctifiedfu' || format === 'xenoversefu' || format === 'blazingfu') tierSet = tierSet.slice(slices.FU);
+		else if (format === 'oubl' || format === 'worldscollideoubl' || format === 'sanctifiedoubl' || format === 'rebalancedoubl' || format === 'gptoubl' || format === 'xenoverseoubl' || format === 'blazingoubl' || format === 'infinityoubl') tierSet = tierSet.slice(slices.OUBL);
+		else if (format === 'ou' || format === 'worldscollideou' || format === 'sanctifiedou' || format === 'rebalancedou' || format === 'gptou' || format === 'xenoverseou' || format === 'blazingou' || format === 'infinityou') tierSet = tierSet.slice(slices.OU);
+		else if (format === 'uu' || format === 'worldscollideuu' || format == 'sanctifieduu' || format == 'rebalanceduu' || format === 'gptuu' || format === 'xenoverseuu' || format === 'blazinguu' || format === 'infinityuu') tierSet = tierSet.slice(slices.UU);
+		else if (format === 'ru' || format === 'worldscollideru' || format === 'sanctifiedru' || format === 'rebalancedru' || format === 'gptru' || format === 'xenoverseru' || format === 'blazingru' || format === 'infinityru') tierSet = tierSet.slice(slices.RU || slices.UU);
+		else if (format === 'hu' || format === 'worldscollidehu' || format === 'sanctifiedhu' || format === 'xenoversehu' || format === 'blazinghu' || format === 'infinityhu') tierSet = tierSet.slice(slices.HU);
+		else if (format === 'nu' || format === 'worldscollidenu' || format === 'sanctifiednu' || format === 'rebalancednu' || format === 'xenoversenu' || format === 'blazingnu' || format === 'infinitynu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
+		else if (format === 'au' || format === 'worldscollideau' || format === 'sanctifiedau' || format === 'rebalancedau' || format === 'xenoverseau' || format === 'blazingau' || format === 'infinityau') tierSet = tierSet.slice(slices.AU);
+		else if (format === 'pu' || format === 'worldscollidepu' || format === 'sanctifiedpu' || format === 'xenoversepu' || format === 'blazingpu' || format === 'infinitypu') tierSet = tierSet.slice(slices.PU || slices.NU);
+		else if (format === 'zu' || format === 'worldscollidezu' || format === 'sanctifiedzu' || format === 'xenoversezu' || format === 'blazingzu' || format === 'infinityzu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
+		else if (format === 'fu' || format === 'worldscollidefu' || format === 'sanctifiedfu' || format === 'xenoversefu' || format === 'blazingfu' || format === 'infinityfu') tierSet = tierSet.slice(slices.FU);
 		else if (format === 'lc' || format === 'lcuu' || format.startsWith('lc') || (format !== 'caplc' && format.endsWith('lc'))) tierSet = tierSet.slice(slices.LC);
 		else if (format === 'cap' || format.endsWith('cap')) {
 			tierSet = tierSet.slice(0, slices.AG || slices.Uber).concat(tierSet.slice(slices.OU));
@@ -1341,6 +1353,8 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 			table = table['gen5Xenoverse'];
 		} else if (this.formatType === 'blazing') {
 			table = table['gen6blazing'];
+		} else if (this.formatType === 'infinity') {
+			table = table['gen6infinity'];
 		}
 		if (!table.itemSet) {
 			table.itemSet = table.items.map((r: any) => {
@@ -1668,6 +1682,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType?.startsWith('gpt')) lsetTable = lsetTable['gen9gpt'];
 		if (this.formatType === 'omnifield') lsetTable = lsetTable['omnifield'];
 		if (this.formatType === 'blazing') lsetTable = lsetTable['gen6blazing'];
+		if (this.formatType === 'infinity') lsetTable = lsetTable['gen6infinity'];
 		if (this.formatType?.startsWith('bdsp')) lsetTable = lsetTable['gen8bdsp'];
 		if (this.formatType === 'letsgo') lsetTable = lsetTable['gen7letsgo'];
 		if (this.formatType?.startsWith('ssdlc1')) lsetTable = lsetTable['gen8dlc1'];
@@ -1719,6 +1734,10 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 						moves.push(moveid);
 					}  else if (this.formatType?.includes('blazing')) {
 						move = Dex.mod('gen6blazing' as ID).moves.get(moveid);
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+					}  else if (this.formatType?.includes('infinity')) {
+						move = Dex.mod('gen6infinity' as ID).moves.get(moveid);
 						if (moves.includes(moveid)) continue;
 						moves.push(moveid);
 					}  else {
