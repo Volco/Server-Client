@@ -1807,7 +1807,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	Pokedex = Object.assign(XenoverseDex, Pokedex);
 	Pokedex = Object.assign(BlazingDex, Pokedex);
 	Pokedex = Object.assign(InfinityDex, Pokedex);
-	Pokedex = Object.assign(DaybreakDex, Pokedex);µ
+	Pokedex = Object.assign(DaybreakDex, Pokedex);
 	Pokedex = Object.assign(UntamedDex, Pokedex);
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
