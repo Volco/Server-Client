@@ -681,6 +681,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
 		}
+		
+		console.log('got here');
 
 		const XenoverseFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/formats-data.js').FormatsData;
 		for (const id of Object.keys(XenoverseFormatsData)) {
@@ -695,6 +697,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
 		}
+		
+		console.log('got here 2');
 		const BlazingFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen6blazing/formats-data.js').FormatsData;
 		for (const id of Object.keys(BlazingFormatsData)) {
 			const species = DawnDex.mod('gen6blazing').species.get(id);
@@ -708,6 +712,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
 		}
+		
+		console.log('got here 3');
 		const InfinityFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen6infinity/formats-data.js').FormatsData;
 		for (const id of Object.keys(InfinityFormatsData)) {
 			const species = DawnDex.mod('gen6infinity').species.get(id);
@@ -721,6 +727,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
 		}
+		
+		console.log('got here 4');
 		const DaybreakFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen7daybreak/formats-data.js').FormatsData;
 		for (const id of Object.keys(DaybreakFormatsData)) {
 			const species = DawnDex.mod('gen7daybreak').species.get(id);
@@ -734,6 +742,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
 		}
+		
+		console.log('got here 5');
 		const UntamedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen8untamed/formats-data.js').FormatsData;
 		for (const id of Object.keys(UntamedFormatsData)) {
 			const species = DawnDex.mod('gen8untamed').species.get(id);
@@ -747,6 +757,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
 		}
+		
+		console.log('got here 6');
 
 		let ThirtyFivePokesFormatsData = requireNoCache(dawnPath + 'dist/data/mods/35_pokes/formats-data.js').FormatsData;
 		for (const id of Object.keys(ThirtyFivePokesFormatsData)) {
@@ -761,7 +773,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
 		}
-		console.log('got here')
+
 		nonstandardMoves.push(...Object.keys(Dex.data.Moves).filter(id => {
 			const move = Dex.mod(isSSDLC1 ? 'gen8dlc1' : isPreDLC ? 'gen9predlc' : 'gen9dlc1').moves.get(id);
 			const bMove = Dex.mod(isSSDLC1 ? 'gen8' : 'gen9').moves.get(id);
