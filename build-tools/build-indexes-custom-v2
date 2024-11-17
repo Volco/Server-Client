@@ -740,9 +740,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		
 		const UntamedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen8untamed/formats-data.js').FormatsData;
 		for (const id of Object.keys(UntamedFormatsData)) {
-			console.log(id);
 			const species = DawnDex.mod('gen8untamed').species.get(id);
 			if (!isUntamed) continue;
+			console.log('id');
+			console.log(id);
 			let tier = 'Illegal';
 			const entry = UntamedFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
