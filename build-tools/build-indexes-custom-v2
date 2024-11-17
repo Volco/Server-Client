@@ -686,7 +686,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of Object.keys(XenoverseFormatsData)) {
 			const species = DawnDex.mod('gen5Xenoverse').species.get(id);
 			if (!isXenoverse) continue;
-			let tier = species.tier;
+			let tier = 'Illegal';
 			const entry = XenoverseFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
@@ -699,7 +699,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of Object.keys(BlazingFormatsData)) {
 			const species = DawnDex.mod('gen6blazing').species.get(id);
 			if (!isBlazing) continue;
-			let tier = species.tier;
+			let tier = 'Illegal';
 			const entry = BlazingFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
@@ -712,7 +712,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of Object.keys(InfinityFormatsData)) {
 			const species = DawnDex.mod('gen6infinity').species.get(id);
 			if (!isInfinity) continue;
-			let tier = species.tier;
+			let tier = 'Illegal';
 			const entry = InfinityFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
@@ -725,7 +725,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of Object.keys(DaybreakFormatsData)) {
 			const species = DawnDex.mod('gen7daybreak').species.get(id);
 			if (!isDaybreak) continue;
-			let tier = species.tier;
+			let tier = 'Illegal';
 			const entry = DaybreakFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
@@ -738,7 +738,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of Object.keys(UntamedFormatsData)) {
 			const species = DawnDex.mod('gen8untamed').species.get(id);
 			if (!isUntamed) continue;
-			let tier = species.tier;
+			let tier = 'Illegal';
 			const entry = UntamedFormatsData[id];
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
