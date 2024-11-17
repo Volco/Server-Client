@@ -682,8 +682,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 		
-		console.log('got here');
-
 		const XenoverseFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen5Xenoverse/formats-data.js').FormatsData;
 		for (const id of Object.keys(XenoverseFormatsData)) {
 			const species = DawnDex.mod('gen5Xenoverse').species.get(id);
@@ -698,7 +696,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 		
-		console.log('got here 2');
 		const BlazingFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen6blazing/formats-data.js').FormatsData;
 		for (const id of Object.keys(BlazingFormatsData)) {
 			const species = DawnDex.mod('gen6blazing').species.get(id);
@@ -713,7 +710,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 		
-		console.log('got here 3');
 		const InfinityFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen6infinity/formats-data.js').FormatsData;
 		for (const id of Object.keys(InfinityFormatsData)) {
 			const species = DawnDex.mod('gen6infinity').species.get(id);
@@ -728,7 +724,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 		
-		console.log('got here 4');
 		const DaybreakFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen7daybreak/formats-data.js').FormatsData;
 		for (const id of Object.keys(DaybreakFormatsData)) {
 			const species = DawnDex.mod('gen7daybreak').species.get(id);
@@ -743,9 +738,9 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 		
-		console.log('got here 5');
 		const UntamedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen8untamed/formats-data.js').FormatsData;
 		for (const id of Object.keys(UntamedFormatsData)) {
+			console.log(id);
 			const species = DawnDex.mod('gen8untamed').species.get(id);
 			if (!isUntamed) continue;
 			let tier = 'Illegal';
@@ -758,8 +753,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 		
-		console.log('got here 6');
-
 		let ThirtyFivePokesFormatsData = requireNoCache(dawnPath + 'dist/data/mods/35_pokes/formats-data.js').FormatsData;
 		for (const id of Object.keys(ThirtyFivePokesFormatsData)) {
 			const species = DawnDex.mod('35_pokes').species.get(id);
