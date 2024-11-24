@@ -1033,7 +1033,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['bh'];
 		} else if (
 			table['gen' + dex.gen + 'doubles'] && dex.gen > 4 &&
-			this.formatType !== 'letsgo' && this.formatType !== 'bdspdoubles' &&
+			&& this.formatType !== 'untamed' && this.formatType !== 'letsgo' && this.formatType !== 'bdspdoubles' &&
 			this.formatType !== 'ssdlc1doubles' && this.formatType !== 'predlcdoubles' &&
 			this.formatType !== 'svdlc1doubles' &&
 			(
@@ -1042,7 +1042,6 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 				format === 'partnersincrime'
 			)
 		) {
-			console.log('please no')
 			table = table['gen' + dex.gen + 'doubles'];
 			isDoublesOrBS = true;
 		} else if (dex.gen < 9 && !this.formatType) {
