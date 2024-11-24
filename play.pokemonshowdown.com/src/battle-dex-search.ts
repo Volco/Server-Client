@@ -1106,6 +1106,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['gen7daybreak'];
 		} else if (this.formatType === 'untamed') {
 			table = table['gen8untamed'];
+			console.log('table');
+			console.log(table);
 		}
 
 		if (!table.tierSet) {
