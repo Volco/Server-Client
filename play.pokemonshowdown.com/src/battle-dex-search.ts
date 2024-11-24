@@ -1042,6 +1042,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 				format === 'partnersincrime'
 			)
 		) {
+			console.log('please no')
 			table = table['gen' + dex.gen + 'doubles'];
 			isDoublesOrBS = true;
 		} else if (dex.gen < 9 && !this.formatType) {
