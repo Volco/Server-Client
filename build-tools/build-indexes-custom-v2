@@ -740,7 +740,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		
 		const UntamedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen8untamed/formats-data.js').FormatsData;
 		for (const id of Object.keys(UntamedFormatsData)) {
-			console.log(id);
 			const species = DawnDex.mod('gen8untamed').species.get(id);
 			if (!isUntamed) continue;
 			let tier = 'Illegal';
@@ -1717,6 +1716,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		if (!BattleTeambuilderTable[mod]) BattleTeambuilderTable[mod] = {};
 		BattleTeambuilderTable[mod].overrideSpeciesData = overrideSpeciesData;
 		for (const id in modData.Pokedex) {
+			console.log('id');
+			console.log(id);
 			const modEntry = modDex.species.get(id);
 			const parentEntry = parentDex.species.get(id);
 			for (const key of overrideSpeciesKeys) {
