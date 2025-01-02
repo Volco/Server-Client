@@ -1133,7 +1133,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			} else {
 				tierSet = tierSet.slice(slices.Regular);
 			}
-		} 
+		}
 		else if (format === 'oubl' || format === 'worldscollideoubl' || format === 'sanctifiedoubl' || format === 'rebalancedoubl' || format === 'gptoubl' || format === 'xenoverseoubl' || format === 'blazingoubl' || format === 'infinityoubl' || format === 'daybreakoubl' || format === 'untamedoubl') tierSet = tierSet.slice(slices.OUBL);
 		else if (format === 'ou' || format === 'worldscollideou' || format === 'sanctifiedou' || format === 'rebalancedou' || format === 'gptou' || format === 'xenoverseou' || format === 'blazingou' || format === 'infinityou' || format === 'daybreakou' || format === 'untamedou' || format == 'untameddoublesou') tierSet = tierSet.slice(slices.OU);
 		else if (format === 'uu' || format === 'worldscollideuu' || format == 'sanctifieduu' || format == 'rebalanceduu' || format === 'gptuu' || format === 'xenoverseuu' || format === 'blazinguu' || format === 'infinityuu' || format === 'daybreakuu' || format === 'untameduu') tierSet = tierSet.slice(slices.UU);
@@ -1518,9 +1518,9 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 			return species.weightkg >= (species.evos ? 75 : 130);
 
 		case 'aerialace':
-			return ['technician', 'toughclaws'].includes(abilityid) && !moves.includes('bravebird');
+			return ['breakneck', 'technician', 'toughclaws'].includes(abilityid) && !moves.includes('bravebird');
 		case 'ancientpower':
-			return ['serenegrace', 'technician'].includes(abilityid) || !moves.includes('powergem');
+			return ['breakneck', 'serenegrace', 'technician'].includes(abilityid) || !moves.includes('powergem');
 		case 'aquajet':
 			return !moves.includes('jetpunch');
 		case 'aurawheel':
@@ -1531,7 +1531,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 			return moves.includes('aquajet') || moves.includes('jetpunch') || moves.includes('extremespeed') ||
 				['iceface', 'unburden'].includes(abilityid);
 		case 'bulletseed':
-			return ['skilllink', 'technician'].includes(abilityid);
+			return ['breakneck', 'skilllink', 'technician'].includes(abilityid);
 		case 'chillingwater':
 			return !moves.includes('scald');
 		case 'counter':
@@ -1636,7 +1636,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		case 'teleport':
 			return dex.gen > 7;
 		case 'terrainpulse': case 'waterpulse':
-			return ['megalauncher', 'technician'].includes(abilityid) && !moves.includes('originpulse');
+			return ['breakneck', 'megalauncher', 'technician'].includes(abilityid) && !moves.includes('originpulse');
 		case 'toxicspikes':
 			return abilityid !== 'toxicdebris';
 		case 'trickroom':
@@ -1669,10 +1669,10 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		return !BattleMoveSearch.BAD_STRONG_MOVES.includes(id);
 	}
 	static readonly GOOD_STATUS_MOVES = [
-		'acidarmor', 'agility', 'aromatherapy', 'auroraveil', 'autotomize', 'banefulbunker', 'batonpass', 'bellydrum', 'bulkup', 'calmmind', 'chillyreception', 'clangoroussoul', 'coil', 'cottonguard', 'courtchange', 'curse', 'defog', 'destinybond', 'detect', 'disable', 'dragondance', 'encore', 'extremeevoboost', 'filletaway', 'geomancy', 'glare', 'haze', 'healbell', 'healingwish', 'healorder', 'heartswap', 'honeclaws', 'kingsshield', 'leechseed', 'lightscreen', 'lovelykiss', 'lunardance', 'magiccoat', 'maxguard', 'memento', 'milkdrink', 'moonlight', 'morningsun', 'nastyplot', 'naturesmadness', 'noretreat', 'obstruct', 'painsplit', 'partingshot', 'perishsong', 'protect', 'quiverdance', 'recover', 'reflect', 'reflecttype', 'rest', 'revivalblessing', 'roar', 'rockpolish', 'roost', 'shedtail', 'shellsmash', 'shiftgear', 'shoreup', 'silktrap', 'slackoff', 'sleeppowder', 'sleeptalk', 'softboiled', 'spikes', 'spikyshield', 'spore', 'stealthrock', 'stickyweb', 'strengthsap', 'substitute', 'switcheroo', 'swordsdance', 'synthesis', 'tailglow', 'tailwind', 'taunt', 'thunderwave', 'tidyup', 'toxic', 'transform', 'trick', 'victorydance', 'whirlwind', 'willowisp', 'wish', 'yawn',
+		'acidarmor', 'agility', 'aromatherapy', 'auroraveil', 'autotomize', 'banefulbunker', 'batonpass', 'bellydrum', 'bulkup', 'calmmind', 'chillyreception', 'clangoroussoul', 'coil', 'cottonguard', 'courtchange', 'curse', 'defog', 'destinybond', 'detect', 'disable', 'dragondance', 'encore', 'extremeevoboost', 'filletaway', 'geomancy', 'glare', 'haze', 'healbell', 'healingwish', 'healorder', 'heartswap', 'honeclaws', 'kingsshield', 'leechseed', 'lightscreen', 'lovelykiss', 'lunardance', 'magiccoat', 'maxguard', 'memento', 'milkdrink', 'moonlight', 'morningsun', 'nastyplot', 'naturesmadness', 'noretreat', 'obstruct', 'painsplit', 'partingshot', 'perishsong', 'protect', 'quiverdance', 'recover', 'reflect', 'reflecttype', 'rest', 'revivalblessing', 'roar', 'rockpolish', 'roost', 'shedtail', 'shellsmash', 'shiftgear', 'shoreup', 'silktrap', 'slackoff', 'sleeppowder', 'sleeptalk', 'softboiled', 'spikes', 'spikyshield', 'spore', 'stealthrock', 'stickyweb', 'strengthsap', 'substitute', 'switcheroo', 'swordsdance', 'synthesis', 'tailglow', 'tailwind', 'taunt', 'thunderwave', 'tidyup', 'toxic', 'transform', 'trick', 'victorydance', 'whirlwind', 'willowisp', 'wish', 'yawn', /* Spiral Sanctum begins */ 'wipe', 'exfoliate', 'mischiefmagic',
 	] as ID[] as readonly ID[];
 	static readonly GOOD_WEAK_MOVES = [
-		'accelerock', 'acrobatics', 'aquacutter', 'avalanche', 'barbbarrage', 'bonemerang', 'bouncybubble', 'bulletpunch', 'buzzybuzz', 'ceaselessedge', 'circlethrow', 'clearsmog', 'doubleironbash', 'dragondarts', 'dragontail', 'drainingkiss', 'endeavor', 'facade', 'firefang', 'flipturn', 'flowertrick', 'freezedry', 'frustration', 'geargrind', 'grassknot', 'gyroball', 'icefang', 'iceshard', 'iciclespear', 'infernalparade', 'knockoff', 'lastrespects', 'lowkick', 'machpunch', 'mortalspin', 'mysticalpower', 'naturesmadness', 'nightshade', 'nuzzle', 'pikapapow', 'populationbomb', 'psychocut', 'psyshieldbash', 'pursuit', 'quickattack', 'ragefist', 'rapidspin', 'return', 'rockblast', 'ruination', 'saltcure', 'scorchingsands', 'seismictoss', 'shadowclaw', 'shadowsneak', 'sizzlyslide', 'stoneaxe', 'storedpower', 'stormthrow', 'suckerpunch', 'superfang', 'surgingstrikes', 'tailslap', 'trailblaze', 'tripleaxel', 'tripledive', 'twinbeam', 'uturn', 'veeveevolley', 'voltswitch', 'watershuriken', 'weatherball',
+		'accelerock', 'acrobatics', 'aquacutter', 'avalanche', 'barbbarrage', 'bonemerang', 'bouncybubble', 'bulletpunch', 'buzzybuzz', 'ceaselessedge', 'circlethrow', 'clearsmog', 'doubleironbash', 'dragondarts', 'dragontail', 'drainingkiss', 'endeavor', 'facade', 'firefang', 'flipturn', 'flowertrick', 'freezedry', 'frustration', 'geargrind', 'grassknot', 'gyroball', 'icefang', 'iceshard', 'iciclespear', 'infernalparade', 'knockoff', 'lastrespects', 'lowkick', 'machpunch', 'mortalspin', 'mysticalpower', 'naturesmadness', 'nightshade', 'nuzzle', 'pikapapow', 'populationbomb', 'psychocut', 'psyshieldbash', 'pursuit', 'quickattack', 'ragefist', 'rapidspin', 'return', 'rockblast', 'ruination', 'saltcure', 'scorchingsands', 'seismictoss', 'shadowclaw', 'shadowsneak', 'sizzlyslide', 'stoneaxe', 'storedpower', 'stormthrow', 'suckerpunch', 'superfang', 'surgingstrikes', 'tailslap', 'trailblaze', 'tripleaxel', 'tripledive', 'twinbeam', 'uturn', 'veeveevolley', 'voltswitch', 'watershuriken', 'weatherball', /* Spiral Sanctum begins */'polymerization', 'aquaimpact', 'cauterize', 'boltbreaker', 'kunaibarrage', 'feralswipe', 'rubberbullet',
 	] as ID[] as readonly ID[];
 	static readonly BAD_STRONG_MOVES = [
 		'belch', 'burnup', 'crushclaw', 'dragonrush', 'dreameater', 'eggbomb', 'firepledge', 'flyingpress', 'grasspledge', 'hyperbeam', 'hyperfang', 'hyperspacehole', 'jawlock', 'landswrath', 'megakick', 'megapunch', 'mistyexplosion', 'muddywater', 'nightdaze', 'pollenpuff', 'rockclimb', 'selfdestruct', 'shelltrap', 'skyuppercut', 'slam', 'strength', 'submission', 'synchronoise', 'takedown', 'thrash', 'uproar', 'waterpledge',
