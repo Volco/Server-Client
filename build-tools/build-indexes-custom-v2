@@ -601,7 +601,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 
 		const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
 		for (const id of SanctifiedPokemon) {
-			if (id === 'capsakid' || id === 'goldeen' || id === 'scorbunny' || id == 'scolipede' || id === 'scizormega' || id === 'scizor') continue;
+			if (id === 'capsakid' || id === 'goldeen' || id === 'scorbunny' || id == 'scolipede' || id === 'sceptile' || id === 'scizor') continue;
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
 			console.log('id');
 			console.log(id);
