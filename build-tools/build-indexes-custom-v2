@@ -603,6 +603,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		for (const id of SanctifiedPokemon) {
 			if (id === 'capsakid' || id === 'goldeen') continue;
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
+			console.log('id');
+			console.log(id);
 			if (!isSanctified) continue;
 			let tier = 'Illegal';
 			const entry = SanctifiedFormatsData[id];
