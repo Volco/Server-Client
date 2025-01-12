@@ -470,6 +470,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const ubersUUBans = {};
 		const monotypeBans = {};
 		const nonstandardMoves = [];
+		let invalidSanctifiedSpecies = [];
 		for (const id of pokemon) {
 			const species = Dex.mod(gen).species.get(id);
 			const baseSpecies = Dex.mod(gen).species.get(species.baseSpecies);
@@ -600,7 +601,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
-		let invalidSanctifiedSpecies = [];
 		for (const id of SanctifiedPokemon) {
 			let species = null;
 			try {
