@@ -470,6 +470,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const ubersUUBans = {};
 		const monotypeBans = {};
 		const nonstandardMoves = [];
+		let invalidSanctifiedSpecies = [];
 		for (const id of pokemon) {
 			const species = Dex.mod(gen).species.get(id);
 			const baseSpecies = Dex.mod(gen).species.get(species.baseSpecies);
@@ -601,7 +602,15 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 
 		const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
 		for (const id of SanctifiedPokemon) {
-			const species = DawnDex.mod('gen9sanctified').species.get(id);
+			let species = null;
+			try {
+				species = DawnDex.mod('gen9sanctified').species.get(id);
+			} catch (e) {
+				if (invalidSanctifiedSpecies.includes(id)) continue;
+				console.log(id);
+				invalidSanctifiedSpecies.push(id);
+				continue;
+			}
 			if (!isSanctified) continue;
 			let tier = 'Illegal';
 			const entry = SanctifiedFormatsData[id];
@@ -1706,7 +1715,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	//
 	// Mods
 	//
-
+	let invalidModSpecies = [];
 	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt', '35_pokes', 'gen5Xenoverse', 'gen6blazing', 'gen6infinity', 'gen7daybreak', 'gen8untamed']) {
 		const modDex = DawnDex.mod(mod);
 		const modData = modDex.data;
@@ -1716,7 +1725,18 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		if (!BattleTeambuilderTable[mod]) BattleTeambuilderTable[mod] = {};
 		BattleTeambuilderTable[mod].overrideSpeciesData = overrideSpeciesData;
 		for (const id in modData.Pokedex) {
-			const modEntry = modDex.species.get(id);
+			let modEntry = null;
+			try {
+				modEntry = modDex.species.get(id);
+			} catch(e) {
+				if (invalidModSpecies.includes(mod + ':' + id)) continue;
+				console.log('mod:')
+				console.log(mod);
+				console.log('id:');
+				console.log(id);
+				invalidModSpecies.push(mod + ':' + id);
+				continue;
+			}
 			const parentEntry = parentDex.species.get(id);
 			for (const key of overrideSpeciesKeys) {
 				if (JSON.stringify(modEntry[key]) !== JSON.stringify(parentEntry[key])) {
