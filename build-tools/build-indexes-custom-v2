@@ -601,6 +601,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 
 		const SanctifiedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9sanctified/formats-data.js').FormatsData;
 		for (const id of SanctifiedPokemon) {
+			console.log('id');
+			console.log(id);
 			const species = DawnDex.mod('gen9sanctified').species.get(id);
 			if (!isSanctified) continue;
 			let tier = 'Illegal';
