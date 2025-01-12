@@ -605,6 +605,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			try {
 				species = DawnDex.mod('gen9sanctified').species.get(id);
 			} catch (e) {
+				console.log(id);
 				continue;
 			}
 			if (!isSanctified) continue;
