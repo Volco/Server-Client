@@ -326,6 +326,11 @@ exports.BattleTextAFD = {
 		end: "  The weirdness disappeared from the battlefield!",
 		block: "  [POKEMON] surrounds itself with psychic terrain!",
 	},
+	volcanicterrain: {
+		start: "A nearby volcano erupted covering the battlefield!",
+		end: "The volcanic substance has cooled off and is no longer affecting the battlefield!",
+		damage: "[POKEMON] is damaged by the volcanic substance!",
+	},
 
 	// field effects
 	gravity: {
