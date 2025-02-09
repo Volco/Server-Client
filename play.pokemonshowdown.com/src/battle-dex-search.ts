@@ -1132,6 +1132,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			tierSet = tierSet.slice(slices.Permitted);
 			return tierSet;
 		}
+		console.log('formatType:');
+		console.log(this.formatType);
 		console.log('tierset:');
 		console.log(tierSet);
 		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers' || format === 'rebalancedubers' || format === 'gptubers' || format === 'xenoverseubers' || format === 'blazingubers' || format === 'infinityubers' || format === 'daybreakubers' || format === 'untamedubers') tierSet = tierSet.slice(slices.Uber);
