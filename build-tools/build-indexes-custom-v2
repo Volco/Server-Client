@@ -782,6 +782,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!isSpizzles) continue;
 			let tier = 'Illegal';
 			const entry = SpizzlesFormatsData[id];
+			console.log('buzz buzz:');
+			console.log(entry);
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
 			}
