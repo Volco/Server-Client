@@ -1724,7 +1724,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType === 'blazing') lsetTable = lsetTable['gen6blazing'];
 		if (this.formatType === 'infinity') lsetTable = lsetTable['gen6infinity'];
 		if (this.formatType === 'untamed') lsetTable = lsetTable['gen8untamed'];
-		if (this.formatType === 'spizzles') lsetTable = lsetTable['gen5spizzles'];
+		if (this.formatType === 'spizzles') lsetTable = lsetTable['gen5'];
 		if (this.formatType?.startsWith('bdsp')) lsetTable = lsetTable['gen8bdsp'];
 		if (this.formatType === 'letsgo') lsetTable = lsetTable['gen7letsgo'];
 		if (this.formatType?.startsWith('ssdlc1')) lsetTable = lsetTable['gen8dlc1'];
