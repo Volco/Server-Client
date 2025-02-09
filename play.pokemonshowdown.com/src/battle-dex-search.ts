@@ -833,7 +833,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'blazing') table = table['gen6blazing'];
 		if (this.formatType === 'infinity') table = table['gen6infinity'];
 		if (this.formatType === 'untamed') table = table['gen8untamed'];
-		if (this.formatType === 'spizzles') table = table['gen5spizzles'];
+		if (this.formatType === 'spizzles') table = table['gen5'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -901,7 +901,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'gpt') table = table['gen9gpt'];
 			if (this.formatType === 'blazing') table = table['gen6blazing'];
 			if (this.formatType === 'infinity') table = table['gen6infinity'];
-			if (this.formatType === 'spizzles') table = table['gen5spizzles'];
+			if (this.formatType === 'spizzles') table = table['gen5'];
 			let learnset = table.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
@@ -1132,6 +1132,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			tierSet = tierSet.slice(slices.Permitted);
 			return tierSet;
 		}
+		console.log('tierset:');
+		console.log(tierSet);
 		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers' || format === 'rebalancedubers' || format === 'gptubers' || format === 'xenoverseubers' || format === 'blazingubers' || format === 'infinityubers' || format === 'daybreakubers' || format === 'untamedubers') tierSet = tierSet.slice(slices.Uber);
 		else if (isVGCOrBS || (isHackmons && dex.gen === 9 && !this.formatType)) {
 			if (format.endsWith('series13') || isHackmons) {
