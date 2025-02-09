@@ -793,6 +793,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			for (let tier in tierTable) {
 				for (let id of tierTable[tier]) {
 					if (SpizzlesFormatsData[id]) {
+						console.log('id (entry found):');
+						console.log(id);
 						continue;
 					} else {
 						tierTable[tier].splice(tierTable[tier].indexOf(id), 1);
