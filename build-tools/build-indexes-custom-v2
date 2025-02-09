@@ -790,8 +790,16 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 		if (isSpizzles) {
-			console.log('tiertable');
-			console.log(tierTable);
+			for (tier in tierTable) {
+				for (let id in tierTable[tier]) {
+					if (SpizzlesFormatsData[id] && SpizzlesFormatsData[id].tier && SpizzlesFormatsData[id].tier === tier) {
+						continue;
+					} else {
+						tierTable[tier].splice(tierTable[tier].indexOf(id), 1);
+						tierTable['Illegal'].push(id);
+					}
+				}
+			}
 		}
 
 		nonstandardMoves.push(...Object.keys(Dex.data.Moves).filter(id => {
