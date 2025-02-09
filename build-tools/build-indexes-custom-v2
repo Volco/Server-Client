@@ -988,6 +988,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				if (usedTier === "(DUU)") usedTier = "DNU";
 				formatSlices[usedTier] = tiers.length;
 			}
+			if (isSpizzles) {
+				console.log('meow meow:');
+				console.log(tierTable[tier]);
+			} 
 			if (!tierTable[tier]) continue;
 			if (tier === "(PU)") {
 				tiers.push(['header', "Below PU"]);
