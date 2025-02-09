@@ -920,6 +920,13 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['gen8untamed'].tiers = tiers;
 			BattleTeambuilderTable['gen8untamed'].overrideTier = overrideTier;
 			BattleTeambuilderTable['gen8untamed'].formatSlices = formatSlices;
+		} else if (isSpizzles) {
+			BattleTeambuilderTable['gen5spizzles'] = {};
+			BattleTeambuilderTable['gen5spizzles'].learnsets = {};
+			BattleTeambuilderTable['gen5spizzles'].items = items;
+			BattleTeambuilderTable['gen5spizzles'].tiers = tiers;
+			BattleTeambuilderTable['gen5spizzles'].overrideTier = overrideTier;
+			BattleTeambuilderTable['gen5spizzles'].formatSlices = formatSlices;
 		}  else if (isVGC) {
 			BattleTeambuilderTable[gen + 'vgc'] = {};
 			BattleTeambuilderTable[gen + 'vgc'].tiers = tiers;
