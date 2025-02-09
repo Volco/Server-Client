@@ -788,6 +788,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			overrideTier[species.id] = tier;
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
+			console.log('woof woof:');
+			console.log(tierTable);
 		}
 
 		nonstandardMoves.push(...Object.keys(Dex.data.Moves).filter(id => {
