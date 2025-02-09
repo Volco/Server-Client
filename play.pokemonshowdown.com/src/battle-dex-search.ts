@@ -833,7 +833,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'blazing') table = table['gen6blazing'];
 		if (this.formatType === 'infinity') table = table['gen6infinity'];
 		if (this.formatType === 'untamed') table = table['gen8untamed'];
-		if (this.formatType === 'spizzles') table = table['gen5'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -901,7 +900,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'gpt') table = table['gen9gpt'];
 			if (this.formatType === 'blazing') table = table['gen6blazing'];
 			if (this.formatType === 'infinity') table = table['gen6infinity'];
-			if (this.formatType === 'spizzles') table = table['gen5'];
 			let learnset = table.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
@@ -1118,7 +1116,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		} else if (this.formatType === 'spizzles') {
 			table = table['gen5spizzles'];
 		}
-
+		console.log('table.tierSet:');
+		console.log(table.tierSet);
 		if (!table.tierSet) {
 			table.tierSet = table.tiers.map((r: any) => {
 				if (typeof r === 'string') return ['pokemon', r];
@@ -1724,7 +1723,6 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType === 'blazing') lsetTable = lsetTable['gen6blazing'];
 		if (this.formatType === 'infinity') lsetTable = lsetTable['gen6infinity'];
 		if (this.formatType === 'untamed') lsetTable = lsetTable['gen8untamed'];
-		if (this.formatType === 'spizzles') lsetTable = lsetTable['gen5'];
 		if (this.formatType?.startsWith('bdsp')) lsetTable = lsetTable['gen8bdsp'];
 		if (this.formatType === 'letsgo') lsetTable = lsetTable['gen7letsgo'];
 		if (this.formatType?.startsWith('ssdlc1')) lsetTable = lsetTable['gen8dlc1'];
@@ -1784,10 +1782,6 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 						moves.push(moveid);
 					}  else if (this.formatType?.includes('untamed')) {
 						move = Dex.mod('gen8untamed' as ID).moves.get(moveid);
-						if (moves.includes(moveid)) continue;
-						moves.push(moveid);
-					} else if (this.formatType?.includes('spizzles')) {
-						move = Dex.mod('gen5spizzles' as ID).moves.get(moveid);
 						if (moves.includes(moveid)) continue;
 						moves.push(moveid);
 					} else {
