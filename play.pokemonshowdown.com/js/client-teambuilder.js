@@ -54,6 +54,9 @@
 				if (this.curTeam.format.startsWith('gen8untamed')) {
 					this.curTeam.dex = Dex.mod('gen8untamed');
 				}
+				if (this.curTeam.format.startsWith('gen5spizzles')) {
+					this.curTeam.dex = Dex.mod('gen5spizzles');
+				}
 				// if (this.curTeam.format.startsWith('gen9nationaldex35pokes')) {
 				// 	this.curTeam.dex = Dex.mod('35_pokes');
 				// }
@@ -787,6 +790,9 @@
 			}
 			if (this.curTeam.format.startsWith('gen8untamed')) {
 				this.curTeam.dex = Dex.mod('gen8untamed');
+			}
+			if (this.curTeam.format.startsWith('gen5spizzles')) {
+				this.curTeam.dex = Dex.mod('gen5spizzles');
 			}
 			// if (this.curTeam.format.includes('espionage')) {
 			// 	this.curTeam.dex = Dex.mod('gen9espionage');
@@ -1661,6 +1667,9 @@
 			}
 			if (this.curTeam.format.startsWith('gen8untamed')) {
 				this.curTeam.dex = Dex.mod('gen8untamed');
+			}
+			if (this.curTeam.format.startsWith('gen5spizzles')) {
+				this.curTeam.dex = Dex.mod('gen5spizzles');
 			}
 			// if (this.curTeam.format.startsWith('gen9nationaldex35pokes')) {
 			// 	this.curTeam.dex = Dex.mod('35_pokes');

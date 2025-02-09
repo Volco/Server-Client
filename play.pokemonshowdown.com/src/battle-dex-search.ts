@@ -551,7 +551,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 
 	protected formatType: 'doubles' | 'bdsp' | 'bdspdoubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' |
 	'ssdlc1' | 'ssdlc1doubles' | 'predlc' | 'predlcdoubles' | 'predlcnatdex' | 'svdlc1' | 'svdlc1doubles' |
-	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | 'rebalanced' | 'gpt' | 'nationaldex35pokes' | 'xenoverse' | 'blazing' | 'infinity' | 'daybreak' | 'untamed' | null = null;
+	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | 'rebalanced' | 'gpt' | 'nationaldex35pokes' | 'xenoverse' | 'blazing' | 'infinity' | 'daybreak' | 'untamed' | 'spizzles' | null = null;
 
 	/**
 	 * Cached copy of what the results list would be with only base filters
@@ -612,6 +612,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		}
 		if (format.includes('untamed')) {
 			this.dex = Dex.mod('gen8untamed' as ID);
+		}
+		if (format.includes('spizzles')) {
+			this.dex = Dex.mod('gen5spizzles' as ID);
 		}
 
 		if (format.startsWith('dlc1') && this.dex.gen === 8) {
@@ -692,6 +695,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		}
 		if (format.includes('untamed')) {
 			this.formatType = 'untamed';
+		}
+		if (format.includes('spizzles')) {
+			this.formatType = 'spizzles';
 		}
 		if (format.includes('nationaldex') || format.startsWith('nd') || format.includes('natdex')) {
 			format = (format.startsWith('nd') ? format.slice(2) :
@@ -827,6 +833,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'blazing') table = table['gen6blazing'];
 		if (this.formatType === 'infinity') table = table['gen6infinity'];
 		if (this.formatType === 'untamed') table = table['gen8untamed'];
+		if (this.formatType === 'spizzles') table = table['gen5spizzles'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -894,6 +901,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'gpt') table = table['gen9gpt'];
 			if (this.formatType === 'blazing') table = table['gen6blazing'];
 			if (this.formatType === 'infinity') table = table['gen6infinity'];
+			if (this.formatType === 'spizzles') table = table['gen5spizzles'];
 			let learnset = table.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
@@ -914,6 +922,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			this.formatType === 'sanctified' ? 'gen9sanctified' :
 			this.formatType === 'rebalanced' ? 'gen9rebalanced' :
 			this.formatType === 'nationaldex35pokes' ? '35_pokes' :
+			this.formatType === 'spizzles' ? 'gen5spizzles' :
 			this.formatType === 'gpt' ? 'gen9gpt' :
 			this.formatType === 'espionage' ? 'gen9espionage' :
 			this.formatType === 'worldscollide' ? 'gen9universal' :
@@ -1106,6 +1115,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['gen7daybreak'];
 		} else if (this.formatType === 'untamed') {
 			table = table['gen8untamed'];
+		} else if (this.formatType === 'spizzles') {
+			table = table['gen5spizzles'];
 		}
 
 		if (!table.tierSet) {
@@ -1378,6 +1389,8 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 			table = table['gen7daybreak'];
 		} else if (this.formatType === 'untamed') {
 			table = table['gen8untamed'];
+		} else if (this.formatType === 'spizzles') {
+			table = table['gen5spizzles'];
 		}
 		if (!table.itemSet) {
 			table.itemSet = table.items.map((r: any) => {
@@ -1707,6 +1720,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType === 'blazing') lsetTable = lsetTable['gen6blazing'];
 		if (this.formatType === 'infinity') lsetTable = lsetTable['gen6infinity'];
 		if (this.formatType === 'untamed') lsetTable = lsetTable['gen8untamed'];
+		if (this.formatType === 'spizzles') lsetTable = lsetTable['gen5spizzles'];
 		if (this.formatType?.startsWith('bdsp')) lsetTable = lsetTable['gen8bdsp'];
 		if (this.formatType === 'letsgo') lsetTable = lsetTable['gen7letsgo'];
 		if (this.formatType?.startsWith('ssdlc1')) lsetTable = lsetTable['gen8dlc1'];
@@ -1768,7 +1782,11 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 						move = Dex.mod('gen8untamed' as ID).moves.get(moveid);
 						if (moves.includes(moveid)) continue;
 						moves.push(moveid);
-					}  else {
+					} else if (this.formatType?.includes('spizzles')) {
+						move = Dex.mod('gen5spizzles' as ID).moves.get(moveid);
+						if (moves.includes(moveid)) continue;
+						moves.push(moveid);
+					} else {
 						const minGenCode: {[gen: number]: string} = {6: 'p', 7: 'q', 8: 'g', 9: 'a'};
 						if (regionBornLegality && !learnsetEntry.includes(minGenCode[dex.gen])) {
 							continue;
