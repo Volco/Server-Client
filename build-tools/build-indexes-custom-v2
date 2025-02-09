@@ -990,6 +990,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			}
 			if (isSpizzles) {
 				console.log('meow meow:');
+				console.log(tier);
 				console.log(tierTable[tier]);
 			} 
 			if (!tierTable[tier]) continue;
