@@ -791,7 +791,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 		if (isSpizzles) {
 			for (let tier in tierTable) {
-				for (let id in tierTable[tier]) {
+				for (let id of tierTable[tier]) {
 					if (SpizzlesFormatsData[id]) {
 						continue;
 					} else {
