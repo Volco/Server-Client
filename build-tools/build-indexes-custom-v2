@@ -790,6 +790,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			tierTable[tier].push(id);
 		}
 		if (isSpizzles) {
+			// Allowed Pokémon set for fast lookup
 			const allowedPokemon = new Set([
 			  "crobat", "golbat", "zubat", "raichu", "pikachu", "pichu", "nidoqueen",
 			  "nidorina", "nidoranf", "hypno", "drowzee", "muk", "grimer", "kabutops",
@@ -833,16 +834,16 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			  "rotom", "tropius"
 			]);
 		  
-			// Make sure the 'Illegal' tier exists
+			// Ensure the 'Illegal' tier exists
 			if (!tierTable["Illegal"]) {
 			  tierTable["Illegal"] = [];
 			}
 		  
-			// Iterate through each tier (except 'Illegal') and move any Pokémon that are not allowed.
+			// Iterate through each tier (except 'Illegal') to move any disallowed Pokémon
 			for (const tier in tierTable) {
-			  if (tier === "Illegal") continue; // Skip the Illegal tier itself
+			  if (tier === "Illegal") continue; // Skip the 'Illegal' tier
 		  
-			  // Loop backward so that removing elements doesn't affect the iteration
+			  // Loop backwards so that removing elements doesn't affect the iteration
 			  for (let i = tierTable[tier].length - 1; i >= 0; i--) {
 				const id = tierTable[tier][i];
 				if (!allowedPokemon.has(id)) {
@@ -853,7 +854,20 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				}
 			  }
 			}
+		  
+			// Remove duplicate entries within each tier
+			for (const tier in tierTable) {
+			  const seen = new Set();
+			  tierTable[tier] = tierTable[tier].filter((id) => {
+				if (seen.has(id)) {
+				  return false; // Duplicate found: skip it
+				}
+				seen.add(id);
+				return true;
+			  });
+			}
 		  }
+		  
 		  
 
 		nonstandardMoves.push(...Object.keys(Dex.data.Moves).filter(id => {
