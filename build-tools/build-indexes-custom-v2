@@ -1731,7 +1731,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 	let invalidModSpecies = [];
-	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt', '35_pokes', 'gen5Xenoverse', 'gen6blazing', 'gen6infinity', 'gen7daybreak', 'gen8untamed']) {
+	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt', '35_pokes', 'gen5Xenoverse', 'gen6blazing', 'gen6infinity', 'gen7daybreak', 'gen8untamed', 'gen5spizzles']) {
 		const modDex = DawnDex.mod(mod);
 		const modData = modDex.data;
 		const parentDex = DawnDex.forGen(modDex.gen);
