@@ -782,17 +782,16 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!isSpizzles) continue;
 			let tier = 'Illegal';
 			const entry = SpizzlesFormatsData[id];
-			console.log('buzz buzz:');
-			console.log(id)
-			console.log(entry);
 			if (entry && entry.tier && typeof entry.tier === "string") {
 				tier = entry.tier;
 			}
 			overrideTier[species.id] = tier;
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
-			// console.log('woof woof:');
-			// console.log(tierTable);
+		}
+		if (isSpizzles) {
+			console.log('tiertable');
+			console.log(tierTable);
 		}
 
 		nonstandardMoves.push(...Object.keys(Dex.data.Moves).filter(id => {
