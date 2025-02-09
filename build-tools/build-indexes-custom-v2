@@ -1864,7 +1864,6 @@ process.stdout.write("Building `data/pokedex.js`... ");
 	DawnDex.data.FormatsData = Object.assign(InfinityFormatsData, DawnDex.data.FormatsData);
 	DawnDex.data.FormatsData = Object.assign(DaybreakFormatsData, DawnDex.data.FormatsData);
 	DawnDex.data.FormatsData = Object.assign(UntamedFormatsData, DawnDex.data.FormatsData);
-	DawnDex.data.FormatsData = Object.assign(SpizzlesFormatsData, DawnDex.data.FormatsData);
 	Pokedex = Object.assign(SanctifiedDex, Pokedex);
 	Pokedex = Object.assign(UniversalDex, Pokedex);
 	Pokedex = Object.assign(OmnifieldDex, Pokedex);
