@@ -795,6 +795,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 					if (SpizzlesFormatsData[id]) {
 						continue;
 					} else {
+						console.log('illegal');
+						console.log(id);
 						tierTable[tier].splice(tierTable[tier].indexOf(id), 1);
 						tierTable['Illegal'].push(id);
 					}
