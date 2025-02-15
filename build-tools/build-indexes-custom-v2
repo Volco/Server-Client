@@ -830,8 +830,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			  "munna", "zebstrika", "blitzle", "drilbur", "garbodor", "trubbish",
 			  "duosion", "solosis", "vanillish", "vanillite", "emolga", "escavalier",
 			  "karrablast", "jellicent", "frillish", "chandelure", "lampent", "litwick",
-			  "audino", "rhyhorn", "rhydon", "rhyperior", "dunsparce", "frosmoth", "snom",
-			  "rotom", "tropius"
+			  "audino", "dunsparce", "tropius", "metagross", "beldum", "metang",
+			  "clefable", "cleffa", "clefairy", "sigilyph", "sawk", "beartic",
+			  "cubchoo", "chansey", "happiny", "phanpy", "gible", "gabite", "magikarp",
+			  "budew", "roselia", "shroomish", "breloom", "cyndaquil", "makuhita", "hariyama"
 			]);
 		  
 			// Ensure the 'Illegal' tier exists
