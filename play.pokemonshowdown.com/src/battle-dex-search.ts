@@ -862,7 +862,28 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		return '' as ID;
 	}
 	protected canLearn(speciesid: ID, moveid: ID) {
-		const move = this.dex.moves.get(moveid);
+		let move;
+		// Handle custom format moves
+		if (this.formatType === 'sanctified') {
+			move = Dex.mod('gen9sanctified' as ID).moves.get(moveid);
+		} else if (this.formatType === 'espionage') {
+			move = Dex.mod('gen9espionage' as ID).moves.get(moveid);
+		} else if (this.formatType === 'worldscollide') {
+			move = Dex.mod('gen9universal' as ID).moves.get(moveid);
+		} else if (this.formatType === 'omnifield') {
+			move = Dex.mod('omnifield' as ID).moves.get(moveid);
+		} else if (this.formatType === 'rebalanced') {
+			move = Dex.mod('gen9rebalanced' as ID).moves.get(moveid);
+		} else if (this.formatType === 'gpt') {
+			move = Dex.mod('gen9gpt' as ID).moves.get(moveid);
+		} else if (this.formatType === 'blazing') {
+			move = Dex.mod('gen6blazing' as ID).moves.get(moveid);
+		} else if (this.formatType === 'infinity') {
+			move = Dex.mod('gen6infinity' as ID).moves.get(moveid);
+		} else {
+			move = this.dex.moves.get(moveid);
+		}
+
 		if (this.formatType === 'natdex' && move.isNonstandard && move.isNonstandard !== 'Past') {
 			return false;
 		}
@@ -886,6 +907,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 				genChar = 'p';
 			}
 		}
+
 		let learnsetid = this.firstLearnsetid(speciesid);
 		while (learnsetid) {
 			let table = BattleTeambuilderTable;
@@ -900,11 +922,20 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'gpt') table = table['gen9gpt'];
 			if (this.formatType === 'blazing') table = table['gen6blazing'];
 			if (this.formatType === 'infinity') table = table['gen6infinity'];
+			if (this.formatType === 'untamed') table = table['gen8untamed'];
+
 			let learnset = table.learnsets[learnsetid];
-			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
-				learnset[moveid].includes(genChar) ||
+			// For custom formats, skip generation checks
+			if (this.formatType && ['sanctified', 'espionage', 'worldscollide', 'omnifield', 
+				'rebalanced', 'gpt', 'blazing', 'infinity', 'untamed'].includes(this.formatType)) {
+				if (learnset && (moveid in learnset)) return true;
+			} else {
+				if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? 
+					learnset[moveid].includes(genChar) :
+					learnset[moveid].includes(genChar) ||
 					(learnset[moveid].includes(`${gen + 1}`) && move.gen === gen))) {
-				return true;
+					return true;
+				}
 			}
 			learnsetid = this.nextLearnsetid(learnsetid, speciesid);
 		}
