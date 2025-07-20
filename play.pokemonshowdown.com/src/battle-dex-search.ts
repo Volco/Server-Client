@@ -979,6 +979,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			this.formatType === 'svdlc1natdex' ? 'gen9dlc1natdex' :
 			this.formatType === 'natdex' ? `gen${gen}natdex` :
 			this.formatType === 'stadium' ? `gen${gen}stadium${gen > 1 ? gen : ''}` :
+			this.formatType === 'vgc2025regiuu' ? 'gen9vgc2025regiuu' :
 			`gen${gen}`;
 
 			if (table && table[tableKey]) {
@@ -1149,7 +1150,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['gen8untamed'];
 		} else if (this.formatType === 'spizzles') {
 			table = table['gen5spizzles'];
-
+		} else if (this.formatType === 'vgc2025regiuu') {
+			table = table['gen9vgc2025regiuu'];
 		}
 		console.log('table.tierSet:');
 		console.log(table.tierSet);
