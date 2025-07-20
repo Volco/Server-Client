@@ -1173,10 +1173,6 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			tierSet = tierSet.slice(slices.Permitted);
 			return tierSet;
 		}
-		console.log('formatType:');
-		console.log(this.formatType);
-		console.log('tierset:');
-		console.log(tierSet);
 		if (format === 'ubers' || format === 'uber' || format === 'ubersuu' || format === 'worldscollideubers' || format === 'sanctifiedubers' || format === 'rebalancedubers' || format === 'gptubers' || format === 'xenoverseubers' || format === 'blazingubers' || format === 'infinityubers' || format === 'daybreakubers' || format === 'untamedubers') tierSet = tierSet.slice(slices.Uber);
 		else if (isVGCOrBS || (isHackmons && dex.gen === 9 && !this.formatType)) {
 			if (format.endsWith('series13') || isHackmons) {
@@ -1192,7 +1188,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		}
 		else if (format === 'oubl' || format === 'worldscollideoubl' || format === 'sanctifiedoubl' || format === 'rebalancedoubl' || format === 'gptoubl' || format === 'xenoverseoubl' || format === 'blazingoubl' || format === 'infinityoubl' || format === 'daybreakoubl' || format === 'untamedoubl') tierSet = tierSet.slice(slices.OUBL);
 		else if (format === 'ou' || format === 'worldscollideou' || format === 'sanctifiedou' || format === 'rebalancedou' || format === 'gptou' || format === 'xenoverseou' || format === 'blazingou' || format === 'infinityou' || format === 'daybreakou' || format === 'untamedou' || format == 'untameddoublesou') tierSet = tierSet.slice(slices.OU);
-		else if (format === 'uu' || format === 'worldscollideuu' || format == 'sanctifieduu' || format == 'rebalanceduu' || format === 'gptuu' || format === 'xenoverseuu' || format === 'blazinguu' || format === 'infinityuu' || format === 'daybreakuu' || format === 'untameduu' || format === 'vgc2025regiuuuu') tierSet = tierSet.slice(slices.UU);
+		else if (format === 'uu' || format === 'worldscollideuu' || format == 'sanctifieduu' || format == 'rebalanceduu' || format === 'gptuu' || format === 'xenoverseuu' || format === 'blazinguu' || format === 'infinityuu' || format === 'daybreakuu' || format === 'untameduu' || format === 'vgc2025regiuu') tierSet = tierSet.slice(slices.UU);
 		else if (format === 'ru' || format === 'worldscollideru' || format === 'sanctifiedru' || format === 'rebalancedru' || format === 'gptru' || format === 'xenoverseru' || format === 'blazingru' || format === 'infinityru' || format === 'daybreakru' || format === 'untamedru') tierSet = tierSet.slice(slices.RU || slices.UU);
 		else if (format === 'hu' || format === 'worldscollidehu' || format === 'sanctifiedhu' || format === 'xenoversehu' || format === 'blazinghu' || format === 'infinityhu' || format === 'daybreakhu' || format === 'untamedhu') tierSet = tierSet.slice(slices.HU);
 		else if (format === 'nu' || format === 'worldscollidenu' || format === 'sanctifiednu' || format === 'rebalancednu' || format === 'xenoversenu' || format === 'blazingnu' || format === 'infinitynu' || format === 'daybreaknu' || format === 'untamednu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
