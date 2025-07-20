@@ -124,7 +124,7 @@ function requireNoCache(pathSpec) {
 	index = index.concat(Object.keys(DawnDex.mod('gen8untamed').data.Pokedex).map(x => x + ' pokemon'));
 	index = index.concat(Object.keys(DawnDex.mod('gen8untamed').data.Moves).map(x => x + ' move'));
 	index = index.concat(Object.keys(DawnDex.mod('gen8untamed').data.Items).map(x => x + ' item'));
-	index = index.concat(Object.keys(DawnDex.mod('gen8untamed').data.Abilities).map(x => x + ' ability'));
+	index = index.concat(Object.keys(DawnDex.mod('gen8untamed').data.Abilities).map(x => x + ' ability'));image.png
 	index = index.concat(Object.keys(DawnDex.mod('gen8untamed').data.TypeChart).map(x => toID(x) + ' type'));
 	// Remove dupes
 	index = [...new Set(index)];
@@ -484,7 +484,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (isRebalanced) continue;
 			if (isGPT) continue;
 			if (is35Pokes) continue;
-			if (isVGC2025RegIUU) continue;
+
 			if (isXenoverse) continue;
 			if (isBlazing) continue;
 			if (isInfinity) continue;
@@ -550,6 +550,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 					if (species.tier === 'NFE') return 'NFE';
 					if (species.tier === 'LC') return 'LC';
 					return 'Regular';
+				}
+				if (isVGC2025RegIUU) {
+					// Default all Pokemon to UU tier, will be overridden later for Pokemon in format-data.js
+					return 'UU';
 				}
 				if (isGen9BH) {
 					if ((species.natDexTier === 'Illegal' || species.forme.includes('Totem')) &&
@@ -1864,10 +1868,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				modEntry = modDex.species.get(id);
 			} catch(e) {
 				if (invalidModSpecies.includes(mod + ':' + id)) continue;
-				console.log('mod:')
-				console.log(mod);
-				console.log('id:');
-				console.log(id);
 				invalidModSpecies.push(mod + ':' + id);
 				continue;
 			}
