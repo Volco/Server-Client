@@ -551,7 +551,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 
 	protected formatType: 'doubles' | 'bdsp' | 'bdspdoubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' |
 	'ssdlc1' | 'ssdlc1doubles' | 'predlc' | 'predlcdoubles' | 'predlcnatdex' | 'svdlc1' | 'svdlc1doubles' |
-	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | 'rebalanced' | 'gpt' | 'nationaldex35pokes' | 'xenoverse' | 'blazing' | 'infinity' | 'daybreak' | 'untamed' | 'spizzles' | null = null;
+	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | 'rebalanced' | 'gpt' | 'nationaldex35pokes' | 'xenoverse' | 'blazing' | 'infinity' | 'daybreak' | 'untamed' | 'spizzles' | 'vgc2025regiuu' | null = null;
 
 	/**
 	 * Cached copy of what the results list would be with only base filters
@@ -699,7 +699,9 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('spizzles')) {
 			this.formatType = 'spizzles';
 		}
-
+		if (format.includes('vgc2025regiuu')) {
+			this.formatType = 'vgc2025regiuu';
+		}
 		if (format.includes('nationaldex') || format.startsWith('nd') || format.includes('natdex')) {
 			format = (format.startsWith('nd') ? format.slice(2) :
 				format.includes('natdex') ? format.slice(6) : format.slice(11)) as ID;
@@ -1203,7 +1205,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		else if (format === 'doublesnu') tierSet = tierSet.slice(slices.DNU || slices.DUU);
 		else if (this.formatType?.startsWith('bdsp') || this.formatType === 'letsgo' || this.formatType === 'stadium') {
 			tierSet = tierSet.slice(slices.Uber);
-		} else if (format === 'vgc2025regiuu') {
+		} else if (this.formatType === 'vgc2025regiuu') {
 			tierSet = tierSet.slice(slices.UU);
 		} else if (!isDoublesOrBS) {
 			tierSet = [
