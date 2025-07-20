@@ -551,7 +551,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 
 	protected formatType: 'doubles' | 'bdsp' | 'bdspdoubles' | 'letsgo' | 'metronome' | 'natdex' | 'nfe' |
 	'ssdlc1' | 'ssdlc1doubles' | 'predlc' | 'predlcdoubles' | 'predlcnatdex' | 'svdlc1' | 'svdlc1doubles' |
-	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | 'rebalanced' | 'gpt' | 'nationaldex35pokes' | 'xenoverse' | 'blazing' | 'infinity' | 'daybreak' | 'untamed' | 'spizzles' | 'vgc2025regiuu' | null = null;
+	'svdlc1natdex' | 'stadium' | 'lc' | 'sanctified' | 'worldscollide' | 'omnifield' | 'espionage' | 'rebalanced' | 'gpt' | 'nationaldex35pokes' | 'xenoverse' | 'blazing' | 'infinity' | 'daybreak' | 'untamed' | 'spizzles' | null = null;
 
 	/**
 	 * Cached copy of what the results list would be with only base filters
@@ -616,9 +616,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('spizzles')) {
 			this.dex = Dex.mod('gen5spizzles' as ID);
 		}
-		if (format.includes('vgc2025regiuu')) {
-			this.dex = Dex.mod('gen9vgc2025regiuu' as ID);
-		}
+
 		if (format.startsWith('dlc1') && this.dex.gen === 8) {
 			if (format.includes('doubles')) {
 				this.formatType = 'ssdlc1doubles';
@@ -701,9 +699,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (format.includes('spizzles')) {
 			this.formatType = 'spizzles';
 		}
-		if (format.includes('vgc2025regiuu')) {
-			this.formatType = 'vgc2025regiuu';
-		}
+
 		if (format.includes('nationaldex') || format.startsWith('nd') || format.includes('natdex')) {
 			format = (format.startsWith('nd') ? format.slice(2) :
 				format.includes('natdex') ? format.slice(6) : format.slice(11)) as ID;
@@ -838,7 +834,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'blazing') table = table['gen6blazing'];
 		if (this.formatType === 'infinity') table = table['gen6infinity'];
 		if (this.formatType === 'untamed') table = table['gen8untamed'];
-		if (this.formatType === 'vgc2025regiuu') table = table['gen9vgc2025regiuu'];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -886,8 +881,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			move = Dex.mod('gen6blazing' as ID).moves.get(moveid);
 		} else if (this.formatType === 'infinity') {
 			move = Dex.mod('gen6infinity' as ID).moves.get(moveid);
-		} else if (this.formatType === 'vgc2025regiuu') {
-			move = Dex.mod('gen9vgc2025regiuu' as ID).moves.get(moveid);
+
 		} else {
 			move = this.dex.moves.get(moveid);
 		}
@@ -931,11 +925,10 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'blazing') table = table['gen6blazing'];
 			if (this.formatType === 'infinity') table = table['gen6infinity'];
 			if (this.formatType === 'untamed') table = table['gen8untamed'];
-			if (this.formatType === 'vgc2025regiuu') table = table['gen9vgc2025regiuu'];
 			let learnset = table.learnsets[learnsetid];
 			// For custom formats, skip generation checks
 			if (this.formatType && ['sanctified', 'espionage', 'worldscollide', 'omnifield', 
-				'rebalanced', 'gpt', 'blazing', 'infinity', 'untamed', 'vgc2025regiuu'].includes(this.formatType)) {
+				'rebalanced', 'gpt', 'blazing', 'infinity', 'untamed'].includes(this.formatType)) {
 				if (learnset && (moveid in learnset)) return true;
 			} else {
 				if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? 
@@ -984,7 +977,6 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			this.formatType === 'svdlc1natdex' ? 'gen9dlc1natdex' :
 			this.formatType === 'natdex' ? `gen${gen}natdex` :
 			this.formatType === 'stadium' ? `gen${gen}stadium${gen > 1 ? gen : ''}` :
-			this.formatType === 'vgc2025regiuu' ? 'gen9vgc2025regiuu' :
 			`gen${gen}`;
 
 			if (table && table[tableKey]) {
@@ -1155,8 +1147,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			table = table['gen8untamed'];
 		} else if (this.formatType === 'spizzles') {
 			table = table['gen5spizzles'];
-		} else if (this.formatType === 'vgc2025regiuu') {
-			table = table['gen9vgc2025regiuu'];
+
 		}
 		console.log('table.tierSet:');
 		console.log(table.tierSet);
@@ -1212,8 +1203,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		else if (format === 'doublesnu') tierSet = tierSet.slice(slices.DNU || slices.DUU);
 		else if (this.formatType?.startsWith('bdsp') || this.formatType === 'letsgo' || this.formatType === 'stadium') {
 			tierSet = tierSet.slice(slices.Uber);
-		} else if (format === 'vgc2025regiuu') {
-			tierSet = tierSet.slice(slices.UU);
+
 		} else if (!isDoublesOrBS) {
 			tierSet = [
 				...tierSet.slice(slices.OU, slices.UU),
