@@ -400,7 +400,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	const LC = GENS.map(num => num + 0.7);
 	const STADIUM = [2.04, 1.04];
 	const NATDEX = [9.1, 8.1];
-	const OTHER = [9.9, 9.69, 9.68, 9.67, 9.66, 9.65, 9.64, 9.63, 9.411, 9.41, 9.401, 9.4, 9.2, -9.4, -9.401, 8.69, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.69, 7.1, 6.69, 6.1, 5.69, 5.1];
+	const OTHER = [9.9, 9.69, 9.68, 9.67, 9.66, 9.65, 9.64, 9.63, 9.62, 9.411, 9.41, 9.401, 9.4, 9.2, -9.4, -9.401, 8.69, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.69, 7.1, 6.69, 6.1, 5.69, 5.1];
 
 	// process.stdout.write("\n  ");
 	for (const genIdent of [...GENS, ...DOUBLES, ...VGC, ...NFE, ...STADIUM, ...OTHER, ...NATDEX, ...LC]) {
@@ -413,6 +413,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const isRebalanced = (genIdent === 9.65);
 		const isGPT = (genIdent === 9.64);
 		const is35Pokes = (genIdent === 9.63);
+		const isVGC2025RegIUU = (genIdent === 9.62);
 		const isUntamed = (genIdent === 8.69);
 		const isDaybreak = (genIdent === 7.69);
 		const isInfinity = (genIdent === 6.69);
@@ -483,6 +484,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (isRebalanced) continue;
 			if (isGPT) continue;
 			if (is35Pokes) continue;
+			if (isVGC2025RegIUU) continue;
 			if (isXenoverse) continue;
 			if (isBlazing) continue;
 			if (isInfinity) continue;
@@ -789,6 +791,20 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (!tierTable[tier]) tierTable[tier] = [];
 			tierTable[tier].push(id);
 		}
+		// for the [Gen 9] VGC 2025 Reg I UU mod
+		const VGC2025RegIUUFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9vgc2025regiuu/formats-data.js').FormatsData;
+		for (const id of Object.keys(VGC2025RegIUUFormatsData)) {
+			const species = DawnDex.mod('gen9vgc2025regiuu').species.get(id);
+			if (!isVGC2025RegIUU) continue;
+			let tier = 'UU';
+			const entry = VGC2025RegIUUFormatsData[id];
+			if (entry && entry.tier && typeof entry.tier === "string") {
+				tier = entry.tier;
+			}
+			overrideTier[species.id] = tier;
+			if (!tierTable[tier]) tierTable[tier] = [];
+			tierTable[tier].push(id);
+		}
 		if (isSpizzles) {
 			// Allowed Pokémon set for fast lookup
 			const allowedPokemon = new Set([
@@ -974,6 +990,13 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			BattleTeambuilderTable['35_pokes'].tiers = tiers;
 			BattleTeambuilderTable['35_pokes'].overrideTier = overrideTier;
 			BattleTeambuilderTable['35_pokes'].formatSlices = formatSlices;
+		} else if (isVGC2025RegIUU) {
+			BattleTeambuilderTable['gen9vgc2025regiuu'] = {};
+			BattleTeambuilderTable['gen9vgc2025regiuu'].learnsets = {};
+			BattleTeambuilderTable['gen9vgc2025regiuu'].items = items;
+			BattleTeambuilderTable['gen9vgc2025regiuu'].tiers = tiers;
+			BattleTeambuilderTable['gen9vgc2025regiuu'].overrideTier = overrideTier;
+			BattleTeambuilderTable['gen9vgc2025regiuu'].formatSlices = formatSlices;
 		} else if (isXenoverse) {
 			BattleTeambuilderTable['gen5Xenoverse'] = {};
 			BattleTeambuilderTable['gen5Xenoverse'].learnsets = {};
@@ -1056,7 +1079,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (is35Pokes) {
 				return ["Permitted"]
 			}
-			if (isSanctified || isUniversal || isRebalanced || isGPT || isXenoverse || isBlazing || isInfinity || isDaybreak || isUntamed) {
+			if (isSanctified || isUniversal || isRebalanced || isGPT || isXenoverse || isBlazing || isInfinity || isDaybreak || isUntamed || isVGC2025RegIUU) {
 				return ["AG", "Uber", "(Uber)", "OUBL", "OU", "(OU)", "UUBL", "UU", "RUBL", "RU", 'HUBL', 'HU', "NUBL", "NU", "AUBL", "AU", "PUBL", "PU", "ZUBL", "ZU", "FUBL", "FU", "NFE", "LC"];
 			}
 			if (isVGC || isGen9BH) {
@@ -1116,7 +1139,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				continue;
 			}
 			if (item.isNonstandard && !isMetBattle) {
-				if (isNatDex || isSanctified || isOmnifield || isUniversal || isEspionage || isRebalanced || isGPT || is35Pokes || isXenoverse || isBlazing || isInfinity || isDaybreak || isUntamed) {
+				if (isNatDex || isSanctified || isOmnifield || isUniversal || isEspionage || isRebalanced || isGPT || is35Pokes || isXenoverse || isBlazing || isInfinity || isDaybreak || isUntamed || isVGC2025RegIUU) {
 					let curItem = item;
 					let curGen = genNum;
 					while (item.isNonstandard && curGen >= 7) {
@@ -1827,7 +1850,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 	let invalidModSpecies = [];
-	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt', '35_pokes', 'gen5Xenoverse', 'gen6blazing', 'gen6infinity', 'gen7daybreak', 'gen8untamed', 'gen5spizzles']) {
+	for (const mod of ['gen7letsgo', 'gen8bdsp', 'gen9sanctified', 'gen9universal', 'omnifield', 'gen9espionage', 'gen9rebalanced', 'gen9gpt', '35_pokes', 'gen5Xenoverse', 'gen6blazing', 'gen6infinity', 'gen7daybreak', 'gen8untamed', 'gen5spizzles', 'gen9vgc2025regiuu']) {
 		const modDex = DawnDex.mod(mod);
 		const modData = modDex.data;
 		const parentDex = DawnDex.forGen(modDex.gen);
@@ -2231,6 +2254,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const InfinityFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen6infinity/formats-data.js').FormatsData;
 	const DaybreakFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen7daybreak/formats-data.js').FormatsData;
 	const UntamedFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen8untamed/formats-data.js').FormatsData;
+	const VGC2025RegIUUFormatsData = requireNoCache(dawnPath + 'dist/data/mods/gen9vgc2025regiuu/formats-data.js').FormatsData;
 	FormatsData = Object.assign(SanctifiedFormatsData, FormatsData);
 	FormatsData = Object.assign(UniversalFormatsData, FormatsData);
 	FormatsData = Object.assign(OmnifieldFormatsData, FormatsData);
@@ -2243,6 +2267,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	FormatsData = Object.assign(InfinityFormatsData, FormatsData);
 	FormatsData = Object.assign(DaybreakFormatsData, FormatsData);
 	FormatsData = Object.assign(UntamedFormatsData, FormatsData);
+	FormatsData = Object.assign(VGC2025RegIUUFormatsData, FormatsData);
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/formats-data.js', buf);
 }
