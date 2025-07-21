@@ -179,22 +179,18 @@ const Dex = new class implements ModdedDex {
 	modData?: any;
 
 	pokeballs: string[] | null = null;
-	/**
+
 	resourcePrefix = (() => {
 		let prefix = '';
 		if (window.document?.location?.protocol !== 'http:') prefix = 'https:';
 		return `${prefix}//${window.Config ? Config.routes.client : 'play.pokemonshowdown.com'}/`;
 	})();
-	*/
-	resourcePrefix = 'https://raw.githubusercontent.com/Dawn-Pokemon-Showdown/Sprites/master/'
-	/**
+
 	fxPrefix = (() => {
 		const protocol = (window.document?.location?.protocol !== 'http:') ? 'https:' : '';
 		return `${protocol}//${window.Config ? Config.routes.client : 'play.pokemonshowdown.com'}/fx/`;
 	})();
-	*/
-	fxPrefix = 'https://raw.githubusercontent.com/Dawn-Pokemon-Showdown/Sprites/master/fx'
-	
+
 	loadedSpriteData = {xy: 1, bw: 0};
 	moddedDexes: {[mod: string]: ModdedDex} = {};
 	serverDexes: {[mod: string]: ModdedDex} = {};
