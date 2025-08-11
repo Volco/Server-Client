@@ -285,7 +285,7 @@ function toId() {
 
 			if (this.get('userid') !== userid) {
 				var self = this;
-				var query = this.getActionPHP() + '?act=getassertion&userid=' +
+				var query = app.user.getActionPHP() + '?act=getassertion&userid=' +
 				encodeURIComponent(toUserid(name)) +
 				//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
 				'&challenge=' + encodeURIComponent(this.challstr);

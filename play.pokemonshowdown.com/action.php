@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $server = isset($_GET['server']) ? preg_replace('/[^A-Za-z0-9_-]/', '', $_GET['server']) : 'showdown';
-$loginserver = 'http://play.pokemonshowdown.com/~~' . $server . '/action.php';
+$loginserver = 'https://play.pokemonshowdown.com/~~' . $server . '/action.php';
 
 // Collect POST body fields (supports our jQuery postProxy helper and standard form posts)
 $postKeys = [];
@@ -72,6 +72,9 @@ if ($resp === false) {
     curl_close($ch);
     exit;
 }
+
+// Debug log for troubleshooting (remove after fixing)
+error_log("DawnPS Proxy: " . $url . " -> " . strlen($resp) . " bytes, Status: " . curl_getinfo($ch, CURLINFO_HTTP_CODE));
 
 $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
