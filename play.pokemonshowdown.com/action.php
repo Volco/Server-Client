@@ -74,7 +74,10 @@ if ($resp === false) {
 }
 
 // Debug log for troubleshooting (remove after fixing)
-error_log("DawnPS Proxy: " . $url . " -> " . strlen($resp) . " bytes, Status: " . curl_getinfo($ch, CURLINFO_HTTP_CODE));
+$debugInfo = "DawnPS Proxy: " . $url . " -> " . strlen($resp) . " bytes, Status: " . curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$debugInfo .= " POST: " . json_encode($body);
+$debugInfo .= " COOKIES: " . json_encode($_COOKIE);
+error_log($debugInfo);
 
 $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
