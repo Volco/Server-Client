@@ -86,6 +86,11 @@ curl_close($ch);
 $rawHeaders = substr($resp, 0, $headerSize);
 $bodyOut = substr($resp, $headerSize);
 
+// If it's an error response, log it for debugging
+if ($status >= 400 || strpos($bodyOut, '"actionerror"') !== false) {
+    error_log("DawnPS Proxy ERROR Response: " . substr($bodyOut, 0, 500));
+}
+
 // Relay non-cookie headers
 $lines = preg_split('/\r\n|\n|\r/', $rawHeaders);
 foreach ($lines as $line) {

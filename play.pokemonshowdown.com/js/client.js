@@ -293,7 +293,6 @@ function toId() {
 					act: 'getassertion',
 					userid: userid,
 					challstr: this.challstr,
-					sid: 'hi',
 				}, function (data) {
 					self.finishRename(name, data);
 				});
@@ -308,7 +307,6 @@ function toId() {
 				name: name,
 				pass: password,
 				challstr: this.challstr,
-				sid: 'hi',
 			}, Storage.safeJSON(function (data) {
 				if (data && data.curuser && data.curuser.loggedin) {
 					// success!
@@ -348,7 +346,6 @@ function toId() {
                 $.post(app.user.getActionPHP(), {
 					act: 'upkeep',
 					challstr: this.challstr,
-					sid: 'hi',
 				}, Storage.safeJSON(function (data) {
 					self.loaded = true;
 					if (!data.username) {
