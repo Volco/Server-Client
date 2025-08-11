@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $server = isset($_GET['server']) ? preg_replace('/[^A-Za-z0-9_-]/', '', $_GET['server']) : 'showdown';
-$loginserver = 'https://play.pokemonshowdown.com/~~' . $server . '/action.php';
+$loginserver = 'http://play.pokemonshowdown.com/~~' . $server . '/action.php';
 
 // Collect POST body fields (supports our jQuery postProxy helper and standard form posts)
 $postKeys = [];
@@ -43,11 +43,15 @@ $query = http_build_query($qs);
 $url = $loginserver . ($query ? ('?' . $query) : '');
 
 curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($body));
+// Use POST only if the incoming request was POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($body));
+}
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HEADER, true);
 curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+curl_setopt($ch, CURLOPT_ENCODING, ''); // auto-decode gzip/deflate
 // Forward incoming cookies (notably `sid`) to the upstream loginserver
 $cookiePairs = [];
 foreach ($_COOKIE as $ck => $cv) {
@@ -55,9 +59,9 @@ foreach ($_COOKIE as $ck => $cv) {
     if (!preg_match('/^[A-Za-z0-9_\-]+$/', $ck)) continue;
     $cookiePairs[] = $ck . '=' . $cv;
 }
-if ($cookiePairs) {
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [ 'Cookie: ' . implode('; ', $cookiePairs) ]);
-}
+$headers = ['User-Agent: DawnPS-LoginProxy/1.0', 'Accept: */*'];
+if ($cookiePairs) { $headers[] = 'Cookie: ' . implode('; ', $cookiePairs); }
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 // Execute
 $resp = curl_exec($ch);
