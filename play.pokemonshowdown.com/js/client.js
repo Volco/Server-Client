@@ -215,13 +215,15 @@ function toId() {
 		 * to this file will always be made on the `play.pokemonshowdown.com`
 		 * domain in order to have access to the correct cookies.
 		 */
-        getActionPHP: function () {
-            // Route loginserver requests through our same-origin proxy to persist cookies
-            var ret = 'action.php?server=' + encodeURIComponent(Config.server.id);
-            return (this.getActionPHP = function () {
-                return ret;
-            })();
-        },
+		getActionPHP: function () {
+			var ret = '/~~' + Config.server.id + '/action.php';
+			if (Config.testclient) {
+				ret = 'https://' + Config.routes.client + ret;
+			}
+			return (this.getActionPHP = function () {
+				return ret;
+			})();
+		},
 		/**
 		 * Process a signed assertion returned from the login server.
 		 * Emits the following events (arguments in brackets):
@@ -289,7 +291,7 @@ function toId() {
 				encodeURIComponent(toUserid(name)) +
 				//'&challengekeyid=' + encodeURIComponent(this.challstr.charAt(0)) +
 				'&challenge=' + encodeURIComponent(this.challstr);
-                $.post(app.user.getActionPHP(), {
+				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 					act: 'getassertion',
 					userid: userid,
 					challstr: this.challstr,
@@ -302,7 +304,7 @@ function toId() {
 		},
 		passwordRename: function (name, password, special) {
 			var self = this;
-            $.post(app.user.getActionPHP(), {
+			$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 				act: 'login',
 				name: name,
 				pass: password,
@@ -343,7 +345,7 @@ function toId() {
 				 */
 				this.challstr = challstr;
 				var self = this;
-                $.post(app.user.getActionPHP(), {
+				$.post('https://play.pokemonshowdown.com/~~dawn/action.php', {
 					act: 'upkeep',
 					challstr: this.challstr,
 				}, Storage.safeJSON(function (data) {

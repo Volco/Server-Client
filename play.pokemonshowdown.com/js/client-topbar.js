@@ -1146,14 +1146,7 @@
 
 
 function postProxy(a, b, callback) {
-    // Ensure all loginserver traffic goes via same-origin action.php proxy for cookie persistence
-    var target = a;
-    var local = '/action.php?server=' + encodeURIComponent(Config.server.id);
-    // If the target is the loginserver path style /~~id/action.php, rewrite to local proxy
-    if (/\/~~[A-Za-z0-9_-]+\/action\.php/.test(a) || /^https?:\/\//.test(a)) {
-        target = local;
-    }
-    var datastring = ((target.split('?').length - 1 > 0) ? "&" : "?") + "post=";
-    for (var i in b) datastring += escape(i) + "|";
-    $.post(target + datastring, b, callback);
+	var datastring = ((a.split('?').length - 1 > 0) ? "&" : "?") + "post=";
+	for (var i in b) datastring += escape(i) + "|";
+	$.post(a + datastring, b, callback);
 }
