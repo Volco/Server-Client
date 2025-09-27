@@ -363,6 +363,8 @@ let BattleSearchCountIndex = {};
 const missingPokemonTypes = new Set();
 const reportMissingPokemonTypes = (id, details) => {
 	if (missingPokemonTypes.has(id)) return;
+	console.log('Dex');
+	console.log(Dex);
 	missingPokemonTypes.add(id);
 	let summaryPayload = details;
 	if (details && typeof details === 'object') {
@@ -388,8 +390,6 @@ const reportMissingPokemonTypes = (id, details) => {
 for (const type in Dex.data.TypeChart) {
 	BattleSearchCountIndex[type + ' pokemon'] = Object.keys(Dex.data.Pokedex).filter(id => {
 		const pokemon = Dex.data.Pokedex[id];
-		console.log('Dex');
-		console.log(Dex);
 		if (!pokemon) {
 			reportMissingPokemonTypes(id, 'entry not found');
 			return false;
