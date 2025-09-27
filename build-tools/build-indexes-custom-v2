@@ -364,7 +364,21 @@ const missingPokemonTypes = new Set();
 const reportMissingPokemonTypes = (id, details) => {
 	if (missingPokemonTypes.has(id)) return;
 	missingPokemonTypes.add(id);
-	const summary = details && typeof details === 'object' ? JSON.stringify({name: details.name, forme: details.forme, baseSpecies: details.baseSpecies, types: details.types}) : details;
+	let summaryPayload = details;
+	if (details && typeof details === 'object') {
+		summaryPayload = {name: details.name, forme: details.forme, baseSpecies: details.baseSpecies, types: details.types};
+	}
+	if (Dex?.species?.get) {
+		const species = Dex.species.get(id);
+		if (species && species.exists) {
+			if (!summaryPayload || typeof summaryPayload !== 'object') summaryPayload = {};
+			summaryPayload.dexNum = species.num;
+			summaryPayload.mod = species.mod || 'base';
+			summaryPayload.baseSpecies = summaryPayload.baseSpecies || species.baseSpecies;
+			summaryPayload.isNonstandard = species.isNonstandard || null;
+		}
+	}
+	const summary = summaryPayload && typeof summaryPayload === 'object' ? JSON.stringify(summaryPayload) : summaryPayload;
 	console.warn(`[build-indexes] Missing types data for Pokédex entry "${id}"`, summary || '');
 };
 	for (const type in Dex.data.TypeChart) {
