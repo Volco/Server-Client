@@ -359,14 +359,36 @@ function requireNoCache(pathSpec) {
 		return '';
 	});
 
-	let BattleSearchCountIndex = {};
+let BattleSearchCountIndex = {};
+const missingPokemonTypes = new Set();
+const reportMissingPokemonTypes = (id, details) => {
+	if (missingPokemonTypes.has(id)) return;
+	missingPokemonTypes.add(id);
+	const summary = details && typeof details === 'object' ? JSON.stringify({name: details.name, forme: details.forme, baseSpecies: details.baseSpecies, types: details.types}) : details;
+	console.warn(`[build-indexes] Missing types data for Pokédex entry "${id}"`, summary || '');
+};
 	for (const type in Dex.data.TypeChart) {
 		BattleSearchCountIndex[type + ' move'] = Object.keys(Dex.data.Moves).filter(id => (Dex.data.Moves[id].type === type)).length;
 	}
 
-	for (const type in Dex.data.TypeChart) {
-		BattleSearchCountIndex[type + ' pokemon'] = Object.keys(Dex.data.Pokedex).filter(id => (Dex.data.Pokedex[id].types.indexOf(type) >= 0)).length;
-	}
+for (const type in Dex.data.TypeChart) {
+	BattleSearchCountIndex[type + ' pokemon'] = Object.keys(Dex.data.Pokedex).filter(id => {
+		const pokemon = Dex.data.Pokedex[id];
+		if (!pokemon) {
+			reportMissingPokemonTypes(id, 'entry not found');
+			return false;
+		}
+		if (!Array.isArray(pokemon.types)) {
+			reportMissingPokemonTypes(id, pokemon);
+			return false;
+		}
+		return pokemon.types.indexOf(type) >= 0;
+	}).length;
+}
+
+if (missingPokemonTypes.size) {
+	throw new Error(`[build-indexes] Found ${missingPokemonTypes.size} Pokédex entries missing types data: ${Array.from(missingPokemonTypes).join(', ')}`);
+}
 
 	let buf = '// DO NOT EDIT - automatically built with build-tools/build-indexes\n\n';
 
