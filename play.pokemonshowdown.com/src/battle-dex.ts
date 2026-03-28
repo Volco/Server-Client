@@ -812,7 +812,7 @@ const Dex = new class implements ModdedDex {
 
 			return `background:transparent url(${Config.hostURL}sprites/icons/${clean_id}.png) no-repeat scroll 0 0${fainted}; background-position: center;`;
 		}
-		return `background:transparent url(${Dex.resourcePrefix}sprites/pokemonicons-sheet.png?v16) no-repeat scroll -${left}px -${top}px${fainted}`;
+		return `background:transparent url(${Dex.resourcePrefix}sprites/pokemonicons-sheet.png?v21) no-repeat scroll -${left}px -${top}px${fainted}`;
 	}
 
 	getTeambuilderSpriteData(pokemon: any, gen: number = 0): TeambuilderSpriteData {
