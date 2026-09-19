@@ -1204,6 +1204,26 @@ class BattleTooltips {
 				stats.spa = Math.floor(stats.spa * 1.3);
 			}
 		}
+		// fields speed shenanigan changes
+		if (clientPokemon?.volatiles['drag10']) {
+			speedModifiers.push(0.1);
+		}
+		if (clientPokemon?.volatiles['drag20']) {
+			speedModifiers.push(0.2);
+		}
+		if (clientPokemon?.volatiles['drag25']) {
+			speedModifiers.push(0.25);
+		}
+		if (clientPokemon?.volatiles['drag50']) {
+			speedModifiers.push(0.5);
+		}
+		if (clientPokemon?.volatiles['drag75']) {
+			speedModifiers.push(0.75);
+		}
+		if (clientPokemon?.volatiles['drag90']) {
+			speedModifiers.push(0.9);
+		}
+		// fields speed shenanigan changes
 		if (item === 'choicespecs' && !clientPokemon?.volatiles['dynamax']) {
 			stats.spa = Math.floor(stats.spa * 1.5);
 		}
