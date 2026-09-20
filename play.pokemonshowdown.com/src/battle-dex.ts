@@ -690,6 +690,8 @@ const Dex = new class implements ModdedDex {
 			if (spriteData.gen >= 4 && miscData['frontf'] && options.gender === 'F') {
 				name += '-f';
 			}
+			console.log('look here:')
+			console.log(species);
 			console.log(species.id);
 			if (species.num < 0 || species.id.endsWith('megag') || species.id.endsWith('aevian')) {
 				if (options.mod === 'digimon') {
