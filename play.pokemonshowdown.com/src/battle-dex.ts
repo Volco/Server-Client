@@ -697,7 +697,11 @@ const Dex = new class implements ModdedDex {
 				let animSuffix = allowAnim ? 'ani' : '';
 				let animExtension = allowAnim ? '.gif' : '.png';
 				animExtension = '.png';
+				name = name.replace(/-f$/, '');
 				name = name.replace(/([^-])(aevian)$/, '$1-$2');
+				if (species.id === 'unfezantaevian') {
+					name += options.gender === 'F' ? '-female' : '-male';
+				}
 				if (animationData[facing]) {
 					spriteData.w = animationData[facing].w;
 					spriteData.h = animationData[facing].h;
@@ -810,6 +814,9 @@ const Dex = new class implements ModdedDex {
 
 			// Insert a hyphen before 'aevianeast', 'aevianwest', 'aevianfiery', 'aevianicy', or 'aevianrocky'
 			clean_id = clean_id.replace(/(aevian(east|west|fiery|icy|rocky))$/, '-$1');
+			if (id === 'unfezantaevian') {
+				clean_id += pokemon?.gender === 'F' ? '-female' : '-male';
+			}
 
 			return `background:transparent url(${Config.hostURL}sprites/icons/${clean_id}.png) no-repeat scroll 0 0${fainted}; background-position: center;`;
 		}
@@ -825,6 +832,9 @@ const Dex = new class implements ModdedDex {
 		}
 		// if it doesn't exist then add it so you don't get a broken image lol it's a custom client you can easily add the image
 		if (species.num <= 0 || species.name.includes('-Sanctified') || species.id.endsWith('megag') || species.id.includes('aevian') || species.formeid == '-elastic' || species.formeid == '-clean') {
+			if (species.id === 'unfezantaevian') {
+				spriteid = (species.spriteid || 'unfezant-aevian') + (pokemon.gender === 'F' ? '-female' : '-male');
+			}
 			return {
 				spriteDir: 'sprites/custom', spriteid, x: 15, y: 15, isCustom: true,
 			};
