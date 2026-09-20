@@ -697,6 +697,8 @@ const Dex = new class implements ModdedDex {
 				let animSuffix = allowAnim ? 'ani' : '';
 				let animExtension = allowAnim ? '.gif' : '.png';
 				animExtension = '.png';
+				// Aevian formes: 'drapionaevian' -> 'drapion-aevian' (keeps a trailing '-f' intact)
+				name = name.replace(/-?(aevian(?:east|west|fiery|icy|rocky)?)(-f)?$/, '-$1$2');
 				if (animationData[facing]) {
 					spriteData.w = animationData[facing].w;
 					spriteData.h = animationData[facing].h;
