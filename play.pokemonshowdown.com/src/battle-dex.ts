@@ -690,9 +690,6 @@ const Dex = new class implements ModdedDex {
 			if (spriteData.gen >= 4 && miscData['frontf'] && options.gender === 'F') {
 				name += '-f';
 			}
-			console.log('look here:')
-			console.log(species);
-			console.log(species.id);
 			if (species.num < 0 || species.id.endsWith('megag') || species.id.endsWith('aevian')) {
 				if (options.mod === 'digimon') {
 					animationData = BattleDigimonSprites[species.id];
@@ -700,7 +697,7 @@ const Dex = new class implements ModdedDex {
 				let animSuffix = allowAnim ? 'ani' : '';
 				let animExtension = allowAnim ? '.gif' : '.png';
 				animExtension = '.png';
-				name = name.replace(/(aevian)$/, '-$1');
+				name = name.replace(/([^-])(aevian)$/, '$1-$2');
 				if (animationData[facing]) {
 					spriteData.w = animationData[facing].w;
 					spriteData.h = animationData[facing].h;
@@ -803,8 +800,8 @@ const Dex = new class implements ModdedDex {
 		let top = Math.floor(num / 12) * 30;
 		let left = (num % 12) * 40;
 		let fainted = ((pokemon as Pokemon | ServerPokemon)?.fainted ? `;opacity:.3;filter:grayscale(100%) brightness(.5)` : ``);
-		if (num === 0) {
-			let clean_id = id.replace(/(aevian)$/, '-$1');
+		if (num === 0 || id.includes('aevian')) {
+			let clean_id = id.replace(/([^-])(aevian)$/, '$1-$2');
 			// Insert a hyphen before 'megag'
 			clean_id = clean_id.replace(/(megag)(female)?$/, '-$1$2');
 			
@@ -827,7 +824,7 @@ const Dex = new class implements ModdedDex {
 			spriteid = species.spriteid || toID(pokemon.species);
 		}
 		// if it doesn't exist then add it so you don't get a broken image lol it's a custom client you can easily add the image
-		if (species.num <= 0 || species.name.includes('-Sanctified') || species.id.endsWith('megag') || species.formeid == '-elastic' || species.formeid == '-clean') {
+		if (species.num <= 0 || species.name.includes('-Sanctified') || species.id.endsWith('megag') || species.id.includes('aevian') || species.formeid == '-elastic' || species.formeid == '-clean') {
 			return {
 				spriteDir: 'sprites/custom', spriteid, x: 15, y: 15, isCustom: true,
 			};
