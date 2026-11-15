@@ -726,13 +726,14 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			this.formatType = 'omnifield';
 		}
 		if (original_format.includes('rebalanced')) {
-			this.dex = Dex.mod('gen9rebalanced' as ID);
+			this.dex = Dex.mod((original_format.includes('rebalancedclassic') ? 'gen9rebalancedclassic' : 'gen9rebalanced') as ID);
 		}
 		if (original_format.startsWith('gen9nationaldex35pokes')) {
 			this.formatType = 'nationaldex35pokes';
 		}
 		if (original_format.includes('rebalanced')) {
 			this.formatType = 'rebalanced';
+			format = format.replace('rebalancedclassic', 'rebalanced') as ID;
 		}
 
 		if (format.endsWith('draft')) format = format.slice(0, -5) as ID;
@@ -830,7 +831,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'espionage') table = table['gen9espionage'];
 		if (this.formatType === 'worldscollide') table = table['gen9universal'];
 		if (this.formatType === 'omnifield') table = table['omnifield'];
-		if (this.formatType === 'rebalanced') table = table['gen9rebalanced'];
+		if (this.formatType === 'rebalanced') table = table[this.dex.modid];
 		if (this.formatType === 'gpt') table = table['gen9gpt'];
 		if (this.formatType === 'nationaldex35pokes') table = table['omnifield'];
 		if (this.formatType === 'blazing') table = table['gen6blazing'];
@@ -876,7 +877,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		} else if (this.formatType === 'omnifield') {
 			move = Dex.mod('omnifield' as ID).moves.get(moveid);
 		} else if (this.formatType === 'rebalanced') {
-			move = Dex.mod('gen9rebalanced' as ID).moves.get(moveid);
+			move = this.dex.moves.get(moveid);
 		} else if (this.formatType === 'gpt') {
 			move = Dex.mod('gen9gpt' as ID).moves.get(moveid);
 		} else if (this.formatType === 'blazing') {
@@ -921,7 +922,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'espionage') table = table['gen9espionage'];
 			if (this.formatType === 'worldscollide') table = table['gen9universal'];
 			if (this.formatType === 'omnifield') table = table['omnifield'];
-			if (this.formatType === 'rebalanced') table = table['gen9rebalanced'];
+			if (this.formatType === 'rebalanced') table = table[this.dex.modid];
 			if (this.formatType === 'nationaldex35pokes') table = table['omnifield'];
 			if (this.formatType === 'gpt') table = table['gen9gpt'];
 			if (this.formatType === 'blazing') table = table['gen6blazing'];
@@ -952,7 +953,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		const gen = this.dex.gen;
 		const tableKey = this.formatType === 'doubles' ? `gen${gen}doubles` :
 			this.formatType === 'sanctified' ? 'gen9sanctified' :
-			this.formatType === 'rebalanced' ? 'gen9rebalanced' :
+			this.formatType === 'rebalanced' ? this.dex.modid :
 			this.formatType === 'nationaldex35pokes' ? '35_pokes' :
 			this.formatType === 'spizzles' ? 'gen5spizzles' :
 			this.formatType === 'gpt' ? 'gen9gpt' :
@@ -1133,7 +1134,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		} else if (this.formatType === 'espionage') {
 			table = table['gen9espionage'];
 		} else if (this.formatType === 'rebalanced') {
-			table = table['gen9rebalanced'];
+			table = table[this.dex.modid];
 		} else if (this.formatType === 'gpt') {
 			table = table['gen9gpt'];
 		} else if (this.formatType === 'nationaldex35pokes') {
@@ -1189,8 +1190,8 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		else if (format === 'nu' || format === 'worldscollidenu' || format === 'sanctifiednu' || format === 'rebalancednu' || format === 'xenoversenu' || format === 'blazingnu' || format === 'infinitynu' || format === 'daybreaknu' || format === 'untamednu') tierSet = tierSet.slice(slices.NU || slices.RU || slices.UU);
 		else if (format === 'au' || format === 'worldscollideau' || format === 'sanctifiedau' || format === 'rebalancedau' || format === 'xenoverseau' || format === 'blazingau' || format === 'infinityau' || format === 'daybreakau' || format === 'untamedau') tierSet = tierSet.slice(slices.AU);
 		else if (format === 'pu' || format === 'worldscollidepu' || format === 'sanctifiedpu' || format === 'xenoversepu' || format === 'blazingpu' || format === 'infinitypu' || format === 'daybreakpu' || format === 'untamedpu' || format === 'rebalancedpu') tierSet = tierSet.slice(slices.PU || slices.NU);
-		else if (format === 'zu' || format === 'worldscollidezu' || format === 'sanctifiedzu' || format === 'xenoversezu' || format === 'blazingzu' || format === 'infinityzu' || format === 'daybreakzu' || format === 'untamedzu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
-		else if (format === 'fu' || format === 'worldscollidefu' || format === 'sanctifiedfu' || format === 'xenoversefu' || format === 'blazingfu' || format === 'infinityfu' || format === 'daybreakfu' || format === 'untamedfu') tierSet = tierSet.slice(slices.FU);
+		else if (format === 'zu' || format === 'worldscollidezu' || format === 'sanctifiedzu' || format === 'xenoversezu' || format === 'blazingzu' || format === 'infinityzu' || format === 'daybreakzu' || format === 'untamedzu' || format === 'rebalancedzu') tierSet = tierSet.slice(slices.ZU || slices.PU || slices.NU);
+		else if (format === 'fu' || format === 'worldscollidefu' || format === 'sanctifiedfu' || format === 'xenoversefu' || format === 'blazingfu' || format === 'infinityfu' || format === 'daybreakfu' || format === 'untamedfu' || format === 'rebalancedfu') tierSet = tierSet.slice(slices.FU);
 		else if (format === 'lc' || format === 'lcuu' || format.startsWith('lc') || (format !== 'caplc' && format.endsWith('lc'))) tierSet = tierSet.slice(slices.LC);
 		else if (format === 'cap' || format.endsWith('cap')) {
 			tierSet = tierSet.slice(0, slices.AG || slices.Uber).concat(tierSet.slice(slices.OU));
@@ -1412,7 +1413,7 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 		} else if (this.formatType === 'espionage') {
 			table = table['gen9espionage'];
 		} else if (this.formatType === 'rebalanced') {
-			table = table['gen9rebalanced'];
+			table = table[this.dex.modid];
 		} else if (this.formatType === 'gpt') {
 			table = table['gen9gpt'];
 		} else if (this.formatType === 'nationaldex35pokes') {
@@ -1752,7 +1753,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType?.startsWith('sanctified')) lsetTable = lsetTable['gen9sanctified'];
 		if (this.formatType?.startsWith('worldscollide')) lsetTable = lsetTable['gen9universal'];
 		if (this.formatType?.startsWith('espionage')) lsetTable = lsetTable['gen9espionage'];
-		if (this.formatType?.startsWith('rebalanced')) lsetTable = lsetTable['gen9rebalanced'];
+		if (this.formatType?.startsWith('rebalanced')) lsetTable = lsetTable[this.dex.modid];
 		if (this.formatType?.startsWith('gpt')) lsetTable = lsetTable['gen9gpt'];
 		if (this.formatType === 'omnifield') lsetTable = lsetTable['omnifield'];
 		if (this.formatType === 'blazing') lsetTable = lsetTable['gen6blazing'];
@@ -1784,7 +1785,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 						if (moves.includes(moveid)) continue;
 						moves.push(moveid);
 					} else if (this.formatType?.startsWith('rebalanced')) {
-						move = Dex.mod('gen9rebalanced' as ID).moves.get(moveid);
+						move = this.dex.moves.get(moveid);
 						if (moves.includes(moveid)) continue;
 						moves.push(moveid);
 					} else if (this.formatType?.startsWith('gpt')) {
