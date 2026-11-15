@@ -690,7 +690,7 @@ const Dex = new class implements ModdedDex {
 			if (spriteData.gen >= 4 && miscData['frontf'] && options.gender === 'F') {
 				name += '-f';
 			}
-			if (species.num < 0 || /mega[gr]$/.test(species.id) || species.id.includes('aevian')) {
+			if (species.num < 0 || (species.id.endsWith('megag') || species.id.endsWith('megar')) || species.id.includes('aevian')) {
 				if (options.mod === 'digimon') {
 					animationData = BattleDigimonSprites[species.id];
 				}
@@ -808,10 +808,10 @@ const Dex = new class implements ModdedDex {
 		if (num === 0 || id.includes('aevian')) {
 			let clean_id = id.replace(/([^-])(aevian)$/, '$1-$2');
 			// Insert a hyphen before 'megag' / 'megar' (Fields Mega-G forms were renamed to Mega-R)
-			clean_id = clean_id.replace(/(mega[gr])(female)?$/, '-$1$2');
+			clean_id = clean_id.replace(/(megag|megar)(female)?$/, '-$1$2');
 			
 			// Insert a hyphen between 'megag'/'megar' and 'female' if they are consecutive
-			clean_id = clean_id.replace(/(mega[gr])-(female)$/, '$1-$2');
+			clean_id = clean_id.replace(/(megag|megar)-(female)$/, '$1-$2');
 
 			// Insert a hyphen before 'aevianeast', 'aevianwest', 'aevianfiery', 'aevianicy', or 'aevianrocky'
 			clean_id = clean_id.replace(/(aevian(east|west|fiery|icy|rocky))$/, '-$1');
@@ -834,7 +834,7 @@ const Dex = new class implements ModdedDex {
 			spriteid = species.spriteid || toID(pokemon.species);
 		}
 		// if it doesn't exist then add it so you don't get a broken image lol it's a custom client you can easily add the image
-		if (species.num <= 0 || species.name.includes('-Sanctified') || /mega[gr]$/.test(species.id) || species.id.includes('aevian') || species.formeid == '-elastic' || species.formeid == '-clean') {
+		if (species.num <= 0 || species.name.includes('-Sanctified') || (species.id.endsWith('megag') || species.id.endsWith('megar')) || species.id.includes('aevian') || species.formeid == '-elastic' || species.formeid == '-clean') {
 			if (species.id === 'unfezantaevianf') {
 				spriteid = 'unfezant-aevian-female';
 			} else if (species.id === 'unfezantaevian') {
