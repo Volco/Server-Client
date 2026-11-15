@@ -2397,6 +2397,39 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	for (const id in textData.Abilities) assignData(id, textData.Abilities[id]);
 	for (const id in textData.Items) assignData(id, textData.Items[id]);
 
+	// Dawn's battle-text-parser.ts still uses the pre-2026 text format: `[TOKEN]` placeholders,
+	// separate `...Singular` keys and stat names inside BattleText. Upstream PS (#12259) moved to
+	// `{TOKEN}` placeholders, `{INFLECT:...}` plurals and separate name tables, so convert back here.
+	const toLegacy = str => str
+		.replace(/\{TRAINER[12]\}/g, '[TRAINER]')
+		.replace(/\{PERCENTAGE\}%/g, '[PERCENTAGE]')
+		.replace(/\{([A-Z][A-Z0-9]*)\}/g, '[$1]');
+	const inflect = (str, plural) => str.replace(/\{INFLECT:([A-Z0-9]+):s=([^:}]*):p=([^}]*)\}/g, (m, token, s, p) => plural ? p : s);
+	for (const id in Text) {
+		const entry = Text[id];
+		for (const key of Object.keys(entry)) {
+			const value = entry[key];
+			if (typeof value !== 'string') continue;
+			const inflected = /\{INFLECT:([A-Z0-9]+):/.exec(value);
+			if (!inflected) {
+				entry[key] = toLegacy(value);
+				continue;
+			}
+			// the parser uses `key` for the plural and `keySingular` for the singular case
+			let plural = inflect(value, true), singular = inflect(value, false);
+			if (inflected[1] === 'NUMBER') singular = singular.replace('{NUMBER}', '1'); // hitCountSingular is used as-is
+			if (inflected[1] === 'STAT') plural = plural.replace('{STAT}', textData.StatNames.stats); // plural is used without a stat
+			entry[key] = toLegacy(plural);
+			entry[key + 'Singular'] = toLegacy(singular);
+		}
+	}
+	// stat names used by BattleTextParser.stat()
+	for (const stat in textData.StatNames) {
+		const entry = Text[stat] || (Text[stat] = {});
+		entry.statName = textData.StatNames[stat];
+		if (textData.StatShortNames[stat]) entry.statShortName = textData.StatShortNames[stat];
+	}
+
 	const buf = 'exports.BattleText = ' + es3stringify(Text) + ';';
 	fs.writeFileSync('play.pokemonshowdown.com/data/text.js', buf);
 }
