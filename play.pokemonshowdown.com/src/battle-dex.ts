@@ -805,7 +805,8 @@ const Dex = new class implements ModdedDex {
 		let top = Math.floor(num / 12) * 30;
 		let left = (num % 12) * 40;
 		let fainted = ((pokemon as Pokemon | ServerPokemon)?.fainted ? `;opacity:.3;filter:grayscale(100%) brightness(.5)` : ``);
-		if (num === 0 || id.includes('aevian')) {
+		// Fields Mega-R formes have custom icons (megag is left out: Insurgence's Eevee-Mega-G would get the Fields icon)
+		if (num === 0 || id.includes('aevian') || id.endsWith('megar')) {
 			let clean_id = id.replace(/([^-])(aevian)$/, '$1-$2');
 			// Insert a hyphen before 'megag' / 'megar' (Fields Mega-G forms were renamed to Mega-R)
 			clean_id = clean_id.replace(/(megag|megar)(female)?$/, '-$1$2');
